@@ -10,3 +10,9 @@
 [submodule "libs/json-maker"]
 	path = libs/json-maker
 	url = https://github.com/rafagafe/json-maker
+[submodule "libs/multibase"]
+	path = libs/multibase
+	url = https://github.com/lockblox/multibase
+[submodule "libs/multihash"]
+	path = libs/multihash
+	url = https://github.com/lockblox/multihash

@@ -1,0 +1,404 @@
+#include "tests.h"
+
+#define TEST_ASSET_ID "c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53"
+#define TEST_OPERATION_CREATE 'C'
+#define TEST_OPERATION_TRANSFER 'T'
+#define TEST_VERSION "2.0"
+#define TEST_OWNER_BEFORE "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9"
+#define TEST_CONDITION_TYPE "ed25519-sha-256"
+#define TEST_INPUTS_CREATE "\"inputs\":[{\"fulfillment\":null,\"fulfills\":null,\"owners_before\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}]"
+#define TEST_INPUTS_TRANSFER "\"inputs\":[{\"fulfillment\":null,\"fulfills\":{\"output_index\":0,\"transaction_id\":\"c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53\"},\"owners_before\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}]"
+#define TEST_OUTPUTS "\"outputs\":[{\"amount\":\"1\",\"condition\":{\"details\":{\"public_key\":\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\",\"type\":\"ed25519-sha-256\"},\"uri\":\"ni:///sha-256;WVm8YmcTjv05Osmho-Hc7o6N2Hg0YvgsKdaidCaRb0Q?fpt=ed25519-sha-256&cost=131072\"},\"public_keys\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}]"
+#define TEST_DETAILS_PUBLIC_KEY "6k17YAe4mJsqwPNgGj9tE1aMYLhpeqgJJivqaHeTTU5a"
+
+static const char* C_tx_json_0 =
+  "{\"asset\":{\"data\":{\"bicycle\":{\"manufacturer\":\"bkfab\",\"serial_number\":\"abcd1234\"}}},\"id\":null,\"inputs\":[{\"fulfillment\":null,\"fulfills\":null,\"owners_before\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}],\"metadata\":{\"planet\":\"earth\"},\"operation\":\"CREATE\",\"outputs\":[{\"amount\":\"1\",\"condition\":{\"details\":{\"public_key\":\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\",\"type\":\"ed25519-sha-256\"},\"uri\":\"ni:///sha-256;WVm8YmcTjv05Osmho-Hc7o6N2Hg0YvgsKdaidCaRb0Q?fpt=ed25519-sha-256&cost=131072\"},\"public_keys\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}],\"version\":\"2.0\"}";
+
+static const char* C_tx_json =
+  "{\"asset\":{\"data\":{\"bicycle\":{\"manufacturer\":\"bkfab\",\"serial_number\":\"abcd1234\"}}},\"id\":\"c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53\",\"inputs\":[{\"fulfillment\":\"pGSAIFF_tz4ZAIVevbwN2MkUqGDA61cu-NZmETju56pw2KFGgUCmgJRLPtDZ-lDNorv6mS7lViZ5TkNI4lW_CSc0Ox3W3Gf4Bu7_kVV4t0QF7vUvArdrk49HEVvjGngWDIBZTC4N\",\"fulfills\":null,\"owners_before\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}],\"metadata\":{\"planet\":\"earth\"},\"operation\":\"CREATE\",\"outputs\":[{\"amount\":\"1\",\"condition\":{\"details\":{\"public_key\":\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\",\"type\":\"ed25519-sha-256\"},\"uri\":\"ni:///sha-256;WVm8YmcTjv05Osmho-Hc7o6N2Hg0YvgsKdaidCaRb0Q?fpt=ed25519-sha-256&cost=131072\"},\"public_keys\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}],\"version\":\"2.0\"}";
+static const char* T_tx_json =
+  "{\"asset\":{\"id\":\"c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53\"},\"id\":\"5123d5c81b2af437b7ef86c74a151ac586e63d7d8070ec48775343af2ae454c7\",\"inputs\":[{\"fulfillment\":\"pGSAIFF_tz4ZAIVevbwN2MkUqGDA61cu-NZmETju56pw2KFGgUDQL6TudNolIANPFj6A47CiswYHYXsHE2wUrWKHkA2IsuVOjK0ajZXQOqWTWFEcXgF2F8cqqTjOiDeAUGPP_xQE\",\"fulfills\":{\"output_index\":0,\"transaction_id\":\"c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53\"},\"owners_before\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}],\"metadata\":{\"planet\":\"earth\"},\"operation\":\"TRANSFER\",\"outputs\":[{\"amount\":\"1\",\"condition\":{\"details\":{\"public_key\":\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\",\"type\":\"ed25519-sha-256\"},\"uri\":\"ni:///sha-256;WVm8YmcTjv05Osmho-Hc7o6N2Hg0YvgsKdaidCaRb0Q?fpt=ed25519-sha-256&cost=131072\"},\"public_keys\":[\"6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9\"]}],\"version\":\"2.0\"}";
+
+
+static const char test_create_asset[] = "{\"asset\":{\"data\":{\"bicycle\":{\"manufacturer\":\"bkfab\",\"serial_number\":\"abcd1234\"}}}}";
+static const char test_transfer_asset[] = "{\"asset\":{\"id\":\"c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53\"}}";
+static const char test_metadata[] = "{\"metadata\":{\"planet\":\"earth\"}}";
+
+
+char privkey[] = {'\x80', '\x8c', '\xeb', '\x78', '\x8f', '\x3e', '\x2b', '\xe7', '\x67', '\x7a', '\xd6', '\x5f', '\x96', '\x93', '\xb2', '\x3a', '\x64', '\xd7', '\x00', '\xb3', '\x4b', '\xcc', '\xad', '\xdd', '\x03', '\xf2', '\x2d', '\x3e', '\x32', '\x35', '\xf1', '\x1d'};
+char pubkey[]  = {'\x51', '\x7f', '\xb7', '\x3e', '\x19', '\x00', '\x85', '\x5e', '\xbd', '\xbc', '\x0d', '\xd8', '\xc9', '\x14', '\xa8', '\x60', '\xc0', '\xeb', '\x57', '\x2e', '\xf8', '\xd6', '\x66', '\x11', '\x38', '\xee', '\xe7', '\xaa', '\x70', '\xd8', '\xa1', '\x46'};
+char base58_pubkey[] = "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9";
+
+void prepare_inputs(char operation, PLANETMINT_INPUT *inputs, uint8_t *num_inputs) {
+  memset(inputs, 0, sizeof(PLANETMINT_INPUT));
+
+  // Fill input struct
+  memcpy(inputs[0].owners_before[0], TEST_OWNER_BEFORE, strlen(TEST_OWNER_BEFORE));
+  if(operation == 'T') {
+    inputs[0].fulfills.output_index = 0;
+    strcpy(inputs[0].fulfills.transaction_id, "c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53");
+  } else if(operation != 'C') {
+    return;
+  }
+  inputs[0].num_owners = 1;
+  *num_inputs = 1;
+}
+
+void prepare_outputs(PLANETMINT_OUTPUT *outputs, uint8_t *num_outputs) {
+  memset(outputs, 0, sizeof(PLANETMINT_OUTPUT));
+
+  // Fill output struct
+  outputs[0].amount[0] = '1';
+  memcpy(outputs[0].condition.details.type, TEST_CONDITION_TYPE, strlen(TEST_CONDITION_TYPE));
+  memcpy(outputs[0].condition.details.public_key, TEST_OWNER_BEFORE, strlen(TEST_OWNER_BEFORE));
+  memcpy(outputs[0].public_keys[0], TEST_OWNER_BEFORE, strlen(TEST_OWNER_BEFORE));
+  outputs[0].num_public_keys = 1;
+  *num_outputs = 1;
+}
+
+
+
+void test_sig(void) {
+  uint8_t hash[32] = {0}, sig[640] = {0};
+
+  // Hashing 256
+  sha3_256((const unsigned char*)C_tx_json_0, strlen(C_tx_json_0), hash);
+  uint8_t cmp_hash[] = {'\x4a','\x48','\xc5','\x7b','\xb2','\x02','\xf7','\x00','\x40','\xfe','\x84','\xf2','\x51','\x6b','\xd7','\x0c','\x1d','\x66','\x40','\x12','\xac','\x71','\x8f','\x01','\xb0','\x1a','\x26','\x37','\x69','\x26','\x18','\x03'};
+  TEST_ASSERT_EQUAL_INT8_ARRAY(cmp_hash, hash, 32);
+
+  // ED25519 signing
+  uint8_t cmp_sig[] = {'\xa6','\x80','\x94','\x4b','\x3e','\xd0','\xd9','\xfa','\x50','\xcd','\xa2','\xbb','\xfa','\x99','\x2e','\xe5','\x56','\x26','\x79','\x4e','\x43','\x48','\xe2','\x55','\xbf','\x9','\x27','\x34','\x3b','\x1d','\xd6','\xdc','\x67','\xf8','\x06','\xee','\xff','\x91','\x55','\x78','\xb7','\x44','\x5','\xee','\xf5','\x2f','\x2','\xb7','\x6b','\x93','\x8f','\x47','\x11','\x5b','\xe3','\x1a','\x78','\x16','\x0c','\x80','\x59','\x4c','\x2e','\x0d'};
+  ed25519_sign(hash, 32, (const unsigned char*) privkey, (const unsigned char*) pubkey, sig);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(cmp_sig, sig, 64);
+
+  planetmint_sign_transaction((uint8_t*)C_tx_json_0, strlen(C_tx_json_0), (uint8_t*)privkey, (uint8_t*)pubkey, sig);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(cmp_sig, sig, 64);
+}
+
+void  test_planetmint_build_json_outputs(void) {
+  PLANETMINT_OUTPUT outputs[1];
+  char outputs_json[512] = {0};
+  uint8_t num = 0;
+  prepare_outputs(outputs, &num );
+
+  // Builds output json from structure
+  planetmint_build_json_outputs(outputs, 1, outputs_json);
+  // TEST_ASSERT_EQUAL(0, memcmp(TEST_OUTPUTS, outputs_json, strlen(TEST_OUTPUTS)));
+  TEST_ASSERT_EQUAL_STRING_LEN(TEST_OUTPUTS, outputs_json, strlen(TEST_OUTPUTS));
+}
+
+void test_planetmint_build_json_inputs(void) {
+  PLANETMINT_INPUT inputs[2];
+  char inputs_json_CREATE[256] = {0};
+  char inputs_json_TRANSFER[256] = {0};
+  uint8_t num = 0;
+
+  prepare_inputs(TEST_OPERATION_CREATE, &inputs[0], &num );
+  prepare_inputs(TEST_OPERATION_TRANSFER, &inputs[1], &num );
+
+  // Builds input json from structure
+  planetmint_build_json_inputs(&inputs[0], 1, inputs_json_CREATE);
+  planetmint_build_json_inputs(&inputs[1], 1, inputs_json_TRANSFER);
+
+  TEST_ASSERT_EQUAL_STRING_LEN(TEST_INPUTS_CREATE, inputs_json_CREATE, strlen(TEST_INPUTS_CREATE) );
+  TEST_ASSERT_EQUAL_STRING_LEN(TEST_INPUTS_TRANSFER, inputs_json_TRANSFER, strlen(TEST_INPUTS_TRANSFER) );
+}
+
+void test_planetmint_create_tx() {
+  PLANETMINT_TX tx;
+  char json[3000] = {0};
+  memset(&tx, 0, sizeof(PLANETMINT_TX));
+  char *asset_clone = malloc(strlen(test_create_asset));
+  memcpy(asset_clone, test_create_asset, strlen(test_create_asset));
+  char *metadata_clone = malloc(strlen(test_metadata));
+  memcpy(metadata_clone, test_metadata, strlen(test_metadata));
+  prepare_tx(&tx, TEST_OPERATION_CREATE, asset_clone, metadata_clone, base58_pubkey );
+  free(metadata_clone);
+  free(asset_clone);
+  fulfill_tx(&tx, privkey, pubkey, json, 3000);
+  TEST_ASSERT_EQUAL_STRING_LEN(C_tx_json, json, sizeof(C_tx_json));
+}
+
+void test_planetmint_transfer_tx() {
+  PLANETMINT_TX tx;
+  char json[2000] = {0};
+  memset(&tx, 0, sizeof(PLANETMINT_TX));
+  char *asset_clone = malloc(strlen(test_transfer_asset));
+  memcpy(asset_clone, test_transfer_asset, strlen(test_transfer_asset));
+  char *metadata_clone = malloc(sizeof(test_metadata));
+  memcpy(metadata_clone, test_metadata, strlen(test_metadata));
+  prepare_tx(&tx, TEST_OPERATION_TRANSFER, asset_clone, metadata_clone, base58_pubkey ) ;
+  free(metadata_clone);
+  free(asset_clone);
+  fulfill_tx(&tx, privkey, pubkey, json, 2000);
+  TEST_ASSERT_EQUAL_STRING_LEN(T_tx_json, json, sizeof(T_tx_json));
+}
+
+void test_planetmint_partial_fullfil_create_tx() {
+  PLANETMINT_TX tx;
+  char json[3000] = {0};
+  memset(&tx, 0, sizeof(PLANETMINT_TX));
+  char *asset_clone = malloc(strlen(test_create_asset));
+  memcpy(asset_clone, test_create_asset, strlen(test_create_asset));
+  char *metadata_clone = malloc(strlen(test_metadata));
+  memcpy(metadata_clone, test_metadata, strlen(test_metadata));
+  prepare_tx(&tx, TEST_OPERATION_CREATE, asset_clone, metadata_clone, base58_pubkey );
+  free(metadata_clone);
+  free(asset_clone);
+  partial_fulfill_tx(&tx, privkey, pubkey, json, 3000, 0);
+  TEST_ASSERT_EQUAL_STRING_LEN(C_tx_json, json, sizeof(C_tx_json));
+}
+
+
+void test_b58tobin() {
+  size_t binsz = 32 ;
+  uint8_t pubkey_test[32] = {0};
+  b58tobin( pubkey_test, &binsz, base58_pubkey);
+  memcmp( pubkey, pubkey_test, 32 );
+  //TEST_ASSERT_EQUAL( 0, memcmp( pubkey , pubkey_test , 32 ) );
+  TEST_ASSERT_EQUAL_INT8_ARRAY( pubkey, pubkey_test, 32 );
+}
+
+void test_planetmint_parse_json() {
+  PLANETMINT_TX tx;
+  char json[3000] = {0};
+  memset(&tx, 0, sizeof(PLANETMINT_TX));
+  memcpy(json, C_tx_json, strlen(C_tx_json));
+  planetmint_parse_json(json, &tx);
+  TEST_ASSERT_EQUAL_STRING("c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53", tx.id);
+  TEST_ASSERT_EQUAL_STRING("pGSAIFF_tz4ZAIVevbwN2MkUqGDA61cu-NZmETju56pw2KFGgUCmgJRLPtDZ-lDNorv6mS7lViZ5TkNI4lW_CSc0Ox3W3Gf4Bu7_kVV4t0QF7vUvArdrk49HEVvjGngWDIBZTC4N", tx.inputs[0].fulfillment);
+  TEST_ASSERT_EQUAL_STRING("1", tx.outputs[0].amount);
+}
+
+void fatih_test(){
+  FILE *fp;
+  char filename[] = "test.txt";
+  
+  // Open file in write mode
+  fp = fopen(filename,"w+");
+
+  //char created_assert[256] = {0};
+  //create_asset(created_assert);
+
+  PLANETMINT_TX tx;
+  char json[3000] = {0};
+  memset(&tx, 0, sizeof(PLANETMINT_TX));
+  prepare_tx(&tx, TEST_OPERATION_CREATE, "bafkreidax26ijgb542ncyx3gadvz5l6fz6idmaltqsfv55gmcd6n6bjtum", NULL, base58_pubkey );
+  fulfill_tx(&tx, privkey, pubkey, json, 3000);
+
+  // If file opened successfully, then write the string to file
+  if ( fp )
+    fputs(json,fp);
+
+  //Close the file
+   fclose(fp);
+
+}
+
+void test_key_derivation(){
+  char * mnemonic = "hill romance angle pill differ primary task try pattern marriage someone strike fluid tomato life arch crowd pen gaze toast armed manual poverty guitar";
+
+  uint8_t seed[64] = {0};
+  uint8_t priv_key[33] = {0};
+  uint8_t pub_key[34] = {0};
+  
+  
+  mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
+  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key) );
+  printf("Private key: %s\n",priv_key);
+  printf("Public key: %s\n",pub_key);
+
+  char obj[200] = {0};
+  size_t len = 200;
+  bool result = b58enc( obj, &len, pub_key, 33);
+  printf("Public key: %s\n",obj);
+
+  TEST_ASSERT_EQUAL_MEMORY( "MxEUHGGRdM4Q94xSM8HDwUayuE4hQz3NboY29cDkk5mV", obj, 45);
+
+}
+
+void test_b58_encode_decode(){
+  char obj[200] = {0};
+  size_t len = 200;
+  bool result = b58enc( obj, &len, pubkey, 32);
+  printf("PUBKEY: %lu - %s\n", len, obj);
+  printf("PUBKEY: %s\n", base58_pubkey);
+  TEST_ASSERT_EQUAL_MEMORY( base58_pubkey, obj, 45);
+}
+
+#define FROMHEX_MAXLEN 512
+const uint8_t *fromhexstring(const char *str) {
+  static uint8_t buf[FROMHEX_MAXLEN];
+  size_t len = strlen(str) / 2;
+  if (len > FROMHEX_MAXLEN) len = FROMHEX_MAXLEN;
+  for (size_t i = 0; i < len; i++) {
+    uint8_t c = 0;
+    if (str[i * 2] >= '0' && str[i * 2] <= '9') c += (str[i * 2] - '0') << 4;
+    if ((str[i * 2] & ~0x20) >= 'A' && (str[i * 2] & ~0x20) <= 'F')
+      c += (10 + (str[i * 2] & ~0x20) - 'A') << 4;
+    if (str[i * 2 + 1] >= '0' && str[i * 2 + 1] <= '9')
+      c += (str[i * 2 + 1] - '0');
+    if ((str[i * 2 + 1] & ~0x20) >= 'A' && (str[i * 2 + 1] & ~0x20) <= 'F')
+      c += (10 + (str[i * 2 + 1] & ~0x20) - 'A');
+    buf[i] = c;
+  }
+  return buf;
+}
+
+
+void tohexstring(char *hexbuf, uint8_t *str, int strlen){
+   // char hexbuf[strlen];
+    for (int i = 0 ; i < strlen/2 ; i++) {
+        sprintf(&hexbuf[2*i], "%02X", str[i]);
+    }
+  //hexbuf[strlen-2] = '\0';
+}
+
+void test_challenge_signing(){
+  const char * challenge = "ce25c22581bb06841fabfa44bca29f55da7a466060166fdafed33be7b6affaf528c59f23fe10502ce0bf18fd933c15ce73de1144c1803919a0637541a260b584ee1eef85ad897cb9d5501f692e712fb11f0f00e9253a4dc8717b9252aa022ab545fa9b61ed521bc9c180c70e10927809f94f2f0eff00781142d14278c58256bb";
+  size_t len = strlen( challenge );
+  printf("challenge : %s\n", (char*)challenge );
+  SHA256_CTX ctx;
+  char hexbuf[68]={0};
+
+  uint8_t hash[SHA256_DIGEST_LENGTH+1] = {0};
+  sha256_Init(&ctx);
+  sha256_Update(&ctx, (const uint8_t*) challenge, len);
+  sha256_Final(&ctx, hash);
+  tohexstring( hexbuf,(uint8_t*)hash, 66 );
+  printf("hash in hex: %s\n", (char*)hexbuf );
+//cde3378f62d6c86bf63cc5945664a0573b079933ce4344224e233db8da5c5b7f
+//CDE3378F62D6C86BF63CC5945664A0573B079933CE4344224E233DB8DA5C5B7
+}
+
+void rddl_auth_test(){
+
+  char * mnemonic = "column kick medal annual elegant history penalty zoo dish garbage left real practice afraid raw priority inner change cloth clean medal input garage gentle";
+
+  uint8_t seed[64] = {0};
+  uint8_t priv_key[33] = {0};
+  uint8_t pub_key[34] = {0};
+  
+  
+  mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
+  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key) );
+  
+  printf("Public key: %s\n",pub_key);
+  size_t len = 200;
+  char obj[200] = {0};
+  bool result = b58enc( obj, &len, pub_key+1, 32);
+  printf("Public key: %s\n",obj);
+  char pubkey_buf[200] = {0};
+  tohexstring( pubkey_buf,(uint8_t*)pub_key+1, 64 );
+  printf("Public key in hex: %s\n", (char*)pubkey_buf );
+
+  len = 200;
+  char obj2[200] = {0};
+  result = b58enc( obj2, &len, priv_key, 32);
+  printf("Private key: %s\n",priv_key);
+  printf("Private key: %s\n",obj2);
+  char privkey_buf[200] = {0};
+  tohexstring( privkey_buf,(uint8_t*)priv_key, 64 );
+  printf("Private key in hex: %s\n", (char*)privkey_buf );
+
+
+  //TEST_ASSERT_EQUAL_MEMORY( "ZTzU4e8KaoiH5n9zTfLWnRmow8dsPheyeqgWvjGCBx5i", obj, 45);
+
+  const char * challenge = "5f965e52b20ec3ea2be4caf27e5c69b0aa62e94c69f005d157236c027c0f37b09178753aa85472ad62cd856bce33afc7b622e208710e4339608494f988a57801b244fdfe1ab5289d8e53434a355013a83066517b750a4b2b3bb82492f2aed94703c7d36258770b955adfa8549b35ba93452835adc451ff35d146335bb1e760f";
+  len = strlen( challenge );
+  printf("challenge : %s\n", (char*)challenge );
+  SHA256_CTX ctx;
+  char hexbuf[68]={0};
+
+  uint8_t hash[SHA256_DIGEST_LENGTH+1] = {0};
+  sha256_Init(&ctx);
+  sha256_Update(&ctx, (const uint8_t*) challenge, len);
+  sha256_Final(&ctx, hash);
+  tohexstring( hexbuf,(uint8_t*)hash, 64 );
+  printf("hash in hex: %s\n", (char*)hexbuf );
+  //TEST_ASSERT_EQUAL_MEMORY( "A00E49955384802BD942C7FDDB98564EA9FBD53C151D38B196BE27B947A9C3C7", hexbuf, 64);
+  //9AB4FE30636E36B8B4EE03532639312545323F493CFE79AB8B9DFE4DE7B54D5E
+  unsigned char signature[65] = {0};
+  ed25519_sign( (const unsigned char*)hash, SHA256_DIGEST_LENGTH, (const unsigned char*)priv_key,(const unsigned char*)pub_key+1, signature);
+  size_t sig_size = 200;
+  char b58sig[200] = {0};
+  b58enc( b58sig, &sig_size, signature, 64);
+  printf("sig in b58: %s\n", b58sig);
+  int result_verify = ed25519_verify(signature,hash,SHA256_DIGEST_LENGTH,pubkey);
+  printf("verify sig: %i\n", result_verify);
+  //ed25519.VerifyingKey(public_key)
+
+  // signing key python
+  // '01e2600f746c5de0fa70a8beb5f6d721d3a8442acfaf55019b8236abf1752ebb4f0e0470980bf4f16d72ede701995df51537da76d34489fbf9b166c997142714'
+  // '01e2600f746c5de0fa70a8beb5f6d721d3a8442acfaf55019b8236abf1752ebb6d'
+//char privkey[] = {'\x80', '\x8c', '\xeb', '\x78', '\x8f', '\x3e', '\x2b', '\xe7', '\x67', '\x7a', '\xd6', '\x5f', '\x96', '\x93', '\xb2', '\x3a', '\x64', '\xd7', '\x00', '\xb3', '\x4b', '\xcc', '\xad', '\xdd', '\x03', '\xf2', '\x2d', '\x3e', '\x32', '\x35', '\xf1', '\x1d'};
+//char pubkey[]  = {'\x51', '\x7f', '\xb7', '\x3e', '\x19', '\x00', '\x85', '\x5e', '\xbd', '\xbc', '\x0d', '\xd8', '\xc9', '\x14', '\xa8', '\x60', '\xc0', '\xeb', '\x57', '\x2e', '\xf8', '\xd6', '\x66', '\x11', '\x38', '\xee', '\xe7', '\xaa', '\x70', '\xd8', '\xa1', '\x46'};
+//char base58_pubkey[] = "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9";
+
+}
+
+void test_derivation(){
+  uint8_t seed[64] = {0};
+  char * mnemonic = "column kick medal annual elegant history penalty zoo dish garbage left real practice afraid raw priority inner change cloth clean medal input garage gentle";
+  mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
+
+  HDNode node;
+  uint8_t priv_key[33] = {0};
+  uint8_t pub_key[34] = {0};
+  hdnode_from_seed( seed, 64, ED25519_NAME, &node);
+    // [Chain m]
+  hdnode_fill_public_key(&node);
+
+
+  // [Chain m/0']
+  hdnode_private_ckd_prime(&node, 0);
+  hdnode_fill_public_key(&node);
+ 
+
+  // [Chain m/0'/1']
+  hdnode_private_ckd_prime(&node, 1);
+  hdnode_fill_public_key(&node);
+
+  
+  memcpy(priv_key, node.private_key, 32);
+  memcpy(pub_key, node.public_key, 33);  
+
+
+  HDNode node2;  
+  uint8_t priv_key2[33] = {0};
+  uint8_t pub_key2[34] = {0}; 
+  hdnode_from_seed( seed, 64, ED25519_NAME, &node2);
+  // [Chain m/0']
+  hdnode_private_ckd_prime(&node2, 0);
+  hdnode_private_ckd_prime(&node2, 1);
+  hdnode_fill_public_key(&node2);
+
+  
+  memcpy(priv_key2, node2.private_key, 32);
+  memcpy(pub_key2, node2.public_key, 33);  
+
+  TEST_ASSERT_EQUAL_MEMORY( priv_key2, priv_key, 32);
+  TEST_ASSERT_EQUAL_MEMORY( pub_key2, pub_key, 33);
+
+}
+
+
+int main(void) {
+  fatih_test();
+  test_b58tobin();
+  test_key_derivation();
+  test_b58_encode_decode();
+  test_challenge_signing();
+  rddl_auth_test();
+  test_derivation();
+  UNITY_BEGIN();
+  RUN_TEST(test_sig);
+  //RUN_TEST(test_planetmint_build_json_inputs);
+  //RUN_TEST(test_planetmint_build_json_outputs);
+  //RUN_TEST(test_planetmint_create_tx);
+  //RUN_TEST(test_planetmint_transfer_tx);
+  //RUN_TEST(test_planetmint_partial_fullfil_create_tx);
+  //RUN_TEST(test_b58tobin);
+  //RUN_TEST(test_planetmint_parse_json);
+  return UNITY_END();
+}

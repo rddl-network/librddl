@@ -302,7 +302,7 @@ void rddl_auth_test(){
   printf("Private key in hex: %s\n", (char*)privkey_buf );
 
 
-  //TEST_ASSERT_EQUAL_MEMORY( "ZTzU4e8KaoiH5n9zTfLWnRmow8dsPheyeqgWvjGCBx5i", obj, 45);
+  TEST_ASSERT_EQUAL_MEMORY( "3L5Pb63iWF4ifjNohoU6oFcanFRc1jLm5NXKj5ZXf7C6", obj, 45);
 
   const char * challenge = "5f965e52b20ec3ea2be4caf27e5c69b0aa62e94c69f005d157236c027c0f37b09178753aa85472ad62cd856bce33afc7b622e208710e4339608494f988a57801b244fdfe1ab5289d8e53434a355013a83066517b750a4b2b3bb82492f2aed94703c7d36258770b955adfa8549b35ba93452835adc451ff35d146335bb1e760f";
   len = strlen( challenge );
@@ -316,25 +316,18 @@ void rddl_auth_test(){
   sha256_Final(&ctx, hash);
   tohexstring( hexbuf,(uint8_t*)hash, 64 );
   printf("hash in hex: %s\n", (char*)hexbuf );
-  //TEST_ASSERT_EQUAL_MEMORY( "A00E49955384802BD942C7FDDB98564EA9FBD53C151D38B196BE27B947A9C3C7", hexbuf, 64);
-  //9AB4FE30636E36B8B4EE03532639312545323F493CFE79AB8B9DFE4DE7B54D5E
+  TEST_ASSERT_EQUAL_MEMORY( "A00E49955384802BD942C7FDDB98564EA9FBD53C151D38B196BE27B947A9C3C7", hexbuf, 64);
+  
   unsigned char signature[65] = {0};
   ed25519_sign( (const unsigned char*)hash, SHA256_DIGEST_LENGTH, (const unsigned char*)priv_key,(const unsigned char*)pub_key+1, signature);
   size_t sig_size = 200;
   char b58sig[200] = {0};
   b58enc( b58sig, &sig_size, signature, 64);
+  TEST_ASSERT_EQUAL_MEMORY( "3LPsi2k3vP3AUBF1hNp8Ji7nthVpgM9kdjuEeVLDeYCfocLZ2bJxz64z3MKxo5aMRHSPRbejUmvo5734dnDAHVZ8", b58sig, sig_size);
   printf("sig in b58: %s\n", b58sig);
   int result_verify = ed25519_verify(signature,hash,SHA256_DIGEST_LENGTH,pubkey);
+  TEST_ASSERT_EQUAL_INT( 0, result_verify);
   printf("verify sig: %i\n", result_verify);
-  //ed25519.VerifyingKey(public_key)
-
-  // signing key python
-  // '01e2600f746c5de0fa70a8beb5f6d721d3a8442acfaf55019b8236abf1752ebb4f0e0470980bf4f16d72ede701995df51537da76d34489fbf9b166c997142714'
-  // '01e2600f746c5de0fa70a8beb5f6d721d3a8442acfaf55019b8236abf1752ebb6d'
-//char privkey[] = {'\x80', '\x8c', '\xeb', '\x78', '\x8f', '\x3e', '\x2b', '\xe7', '\x67', '\x7a', '\xd6', '\x5f', '\x96', '\x93', '\xb2', '\x3a', '\x64', '\xd7', '\x00', '\xb3', '\x4b', '\xcc', '\xad', '\xdd', '\x03', '\xf2', '\x2d', '\x3e', '\x32', '\x35', '\xf1', '\x1d'};
-//char pubkey[]  = {'\x51', '\x7f', '\xb7', '\x3e', '\x19', '\x00', '\x85', '\x5e', '\xbd', '\xbc', '\x0d', '\xd8', '\xc9', '\x14', '\xa8', '\x60', '\xc0', '\xeb', '\x57', '\x2e', '\xf8', '\xd6', '\x66', '\x11', '\x38', '\xee', '\xe7', '\xaa', '\x70', '\xd8', '\xa1', '\x46'};
-//char base58_pubkey[] = "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9";
-
 }
 
 void test_derivation(){

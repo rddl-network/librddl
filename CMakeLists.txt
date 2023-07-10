@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11.4)
-project (CPPBIG)
+project (RDDLCPP)
 
 set(TARGET_GROUP main CACHE STRING "Group to build")
 

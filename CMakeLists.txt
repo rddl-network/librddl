@@ -1,5 +1,5 @@
-project (CPPBIG)
 cmake_minimum_required(VERSION 3.11.4)
+project (CPPBIG)
 
 set(TARGET_GROUP main CACHE STRING "Group to build")
 

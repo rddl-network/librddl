@@ -1,13 +1,9 @@
 #include <string>
 #include <vector>
-#include "libs/multihash/multihash/multihash.h"
-#include "libs/multihash/multihash/algorithm.h"
-#include "libs/multibase/multibase/basic_algorithm.h"
-#include "libs/multibase/multibase/encoding.h"
-#include "libs/multibase/multibase/codec.h"
+#include "libs/trezor-crypto/sha2.h"
+#include "libs/trezor-crypto/base32.h"
 
-namespace IPFS {
-    unsigned int undefined_codec = 0x00;
+namespace RDDL {
     const unsigned int sha2_256_codec = 0x12;
     const unsigned int cid_version_1 = 0x01;
 
@@ -21,21 +17,20 @@ namespace IPFS {
         ~Cid() {}
 
         // cast from bytes
-        std::string CreateFromString(const std::string& data) {
+        std::string CreateFromString(const std::string& data) const {
             std::string result = sha256(data);
 
-            static auto encoding = multibase::encoding::base_32;
-            std::string cid_hash = std::to_string(this->version_) +  std::to_string(this->codec_) + result;
-            return multibase::encode(cid_hash, encoding);
+            char base32_hash[BASE32_ENCODE_LENGTH(SHA256_DIGEST_LENGTH)];
+            base32_encode((const uint8_t *)result.c_str(), result.size(), base32_hash, BASE32_FLAG_BASE32);
+
+            std::string cid_hash = std::to_string(this->version_) +  std::to_string(this->codec_) + base32_hash;
+            return cid_hash;
         }
 
         static std::string sha256(const std::string& data) {
-            auto code = multihash::code::sha2_256;
-            auto algorithm = multihash::algorithm::create(code);
-            algorithm->update(data);
-            auto result = std::string(32, '\0');
-            algorithm->digest(result);
-            return result;
+            uint8_t hash[SHA256_DIGEST_LENGTH];
+            sha256_Raw((const uint8_t *)data.c_str(), data.size(), hash);
+            return std::string((char *)hash, SHA256_DIGEST_LENGTH);
         }
 
     private:
@@ -43,4 +38,4 @@ namespace IPFS {
         unsigned int codec_ = sha2_256_codec;
     };
 
-} // namespace IPFS
+} // namespace CID

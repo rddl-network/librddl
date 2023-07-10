@@ -6,33 +6,30 @@
 
 namespace RDDL {
 
-class Cid {
-public:
-    // constructor
-    Cid(int version, unsigned int codec)
-            : version_(version), codec_(codec) {}
+    class Cid {
+    public:
+        // constructor
+        Cid(int version, unsigned int codec)
+                : version_(version), codec_(codec) {}
 
-    // destructor
-    ~Cid() {}
+        // destructor
+        ~Cid() {}
 
-    // create from bytes
-    std::string CreateFromString(const std::string& data);
+        // create from bytes
+        std::string CreateFromString(const std::string& data) const;
 
-    // encrypt from string
-    static std::string sha256(const std::string& data);
+        // encrypt from string
+        static std::string sha256(const std::string& data);
 
-private:
-    int version_;
-    std::vector<unsigned char> hash_;
-    unsigned int codec_;
-
-    // encode CID
-    std::vector<unsigned char> Encode() const;
-};
+    private:
+        int version_;
+        std::vector<unsigned char> hash_;
+        unsigned int codec_;
+    };
 
 // SHA256 hash function
-std::string sha256(const std::string& data);
+    std::string sha256(const std::string& data);
 
-} // namespace RDDL
+} // namespace CID
 
 #endif // RDDL_CID_H

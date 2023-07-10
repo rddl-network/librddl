@@ -1,4 +1,4 @@
-file(GLOB TEST_LIB_SOURCES "*.c")
+file(GLOB TEST_LIB_SOURCES "*.c", "*.cpp")
 
 add_subdirectory(Unity)
 

@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
-#include "libs/trezor-crypto/sha2.h"
-#include "libs/trezor-crypto/base32.h"
+#include "sha2.h"
+#include "base32.h"
 
 namespace RDDL {
     const unsigned int sha2_256_codec = 0x12;
@@ -20,12 +20,14 @@ namespace RDDL {
         std::string CreateFromString(const std::string& data) const {
             std::string result = sha256(data);
 
-            char base32_hash[BASE32_ENCODE_LENGTH(SHA256_DIGEST_LENGTH)];
-            base32_encode((const uint8_t *)result.c_str(), result.size(), base32_hash, BASE32_FLAG_BASE32);
+            std::string pre_encoded_cid = std::to_string(this->version_) + std::to_string(this->codec_) + result;
 
-            std::string cid_hash = std::to_string(this->version_) +  std::to_string(this->codec_) + base32_hash;
-            return cid_hash;
+            char base32_cid[BASE32_ENCODE_LENGTH(pre_encoded_cid.size())];
+            base32_encode((const uint8_t *)pre_encoded_cid.c_str(), pre_encoded_cid.size(), base32_cid, BASE32_FLAG_BASE32);
+
+            return std::string(base32_cid);
         }
+
 
         static std::string sha256(const std::string& data) {
             uint8_t hash[SHA256_DIGEST_LENGTH];

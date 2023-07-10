@@ -184,6 +184,22 @@ void test_derivation(){
 
 }
 
+void test_mnemonic_creation(){
+
+  #define SEED_SIZE 64
+  #define SEED_SIZE_MNEMONIC_TO_SEED 32
+  uint8_t secret_seed[SEED_SIZE] = {0};
+
+  //esp_fill_random( secret_seed, SEED_SIZE_MNEMONIC_TO_SEED);
+  for( int i = 0; i< 16; i++)
+    secret_seed[i]= (uint8_t)random();
+  // Generate a 12-word mnemonic phrase from the master seed
+  const char * mnemonic_phrase = mnemonic_from_data(secret_seed, 16);
+
+  TEST_ASSERT_NOT_NULL( mnemonic_phrase);
+}
+
+
 
 int main(void) {
   UNITY_BEGIN();
@@ -193,6 +209,7 @@ int main(void) {
   RUN_TEST(test_challenge_signing);
   RUN_TEST(rddl_auth_test);
   RUN_TEST(test_derivation);
+  //RUN_TEST(test_mnemonic_creation);
 
 
   return UNITY_END();

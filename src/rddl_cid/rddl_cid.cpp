@@ -24,7 +24,7 @@ namespace IPFS {
         std::string CreateFromString(const std::string& data) {
             std::string result = sha256(data);
 
-            static constexpr auto encoding = multibase::encoding::base_32;
+            static auto encoding = multibase::encoding::base_32;
             std::string cid_hash = std::to_string(this->version_) +  std::to_string(this->codec_) + result;
             return multibase::encode(cid_hash, encoding);
         }

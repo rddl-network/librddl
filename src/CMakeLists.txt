@@ -8,7 +8,7 @@ file(GLOB BASE64 "../libs/base64/base64.c")
 file(GLOB MULTIBASE "../libs/multibase/multibase/*.cpp")
 file(GLOB MULTIHASH "../libs/multihash/multihash/*.cpp")
 
-add_library(cbig STATIC
+add_library(CPPBIG STATIC
     ${SOURCES}
     ${TREZOR_CRYPTO}
     ${TREZOR_CRYPTO_ED255}
@@ -17,9 +17,9 @@ add_library(cbig STATIC
     ${BASE64}
     ${MULTIBASE}
     ${MULTIHASH}
-)
+        rddl_cid/rddl_cid.cpp)
  
-target_include_directories(cbig PUBLIC
+target_include_directories(CPPBIG PUBLIC
     ../inc
     ../libs/trezor-crypto/
     ../

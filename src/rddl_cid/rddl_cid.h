@@ -3,21 +3,20 @@
 
 #include <string>
 #include <vector>
-#include "libs/multihash/multihash/multihash.h"
 
 namespace RDDL {
 
 class Cid {
 public:
     // constructor
-    Cid(int version, const std::vector<unsigned char>& hash, unsigned int codec)
-            : version_(version), hash_(hash), codec_(codec) {}
+    Cid(int version, unsigned int codec)
+            : version_(version), codec_(codec) {}
 
     // destructor
     ~Cid() {}
 
     // create from bytes
-    static std::string CreateFromBytes(const std::vector<uint8_t>& bytes);
+    std::string CreateFromString(const std::string& data);
 
     // encrypt from string
     static std::string sha256(const std::string& data);

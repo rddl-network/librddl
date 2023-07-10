@@ -34,3 +34,7 @@
 # Environment
 .vscode/
 build/
+.idea
+cmake-build-debug
+tests/Unity/cmake-build-debug
+Testing

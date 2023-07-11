@@ -1,35 +1,16 @@
 #ifndef RDDL_CID_H
 #define RDDL_CID_H
 
-#include <string>
-#include <vector>
+#include <stddef.h>
+#include <stdint.h>
 
-namespace RDDL {
+/* SHA-256 constants */
+#define SHA2_256_CODEC 0x12
+#define CID_VERSION_1 0x01
+#define SHA256_DIGEST_LENGTH 32
 
-    class Cid {
-    public:
-        // constructor
-        Cid(int version, unsigned int codec)
-                : version_(version), codec_(codec) {}
+/* Function prototypes */
+char* create_from_string(int version, unsigned int codec, const char* data);
+void sha256(const char* data, size_t data_size, uint8_t* hash);
 
-        // destructor
-        ~Cid() {}
-
-        // create from bytes
-        std::string CreateFromString(const std::string& data) const;
-
-        // encrypt from string
-        static std::string sha256(const std::string& data);
-
-    private:
-        int version_;
-        std::vector<unsigned char> hash_;
-        unsigned int codec_;
-    };
-
-// SHA256 hash function
-    std::string sha256(const std::string& data);
-
-} // namespace CID
-
-#endif // RDDL_CID_H
+#endif /* RDDL_CID_H */

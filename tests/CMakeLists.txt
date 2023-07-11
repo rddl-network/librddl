@@ -21,7 +21,7 @@ macro(do_test_c test_name sources)
     )
 
     target_link_libraries(${test_name}
-        RDDLCPP
+        RDDLC
         Unity
         gcov
         asan
@@ -42,7 +42,7 @@ macro(do_test_cpp test_name sources)
     )
 
     target_link_libraries(${test_name}
-        RDDLCPP
+        RDDLC
         Unity
         gcov
         asan

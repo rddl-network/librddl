@@ -10,7 +10,7 @@ char* create_from_string(int version, unsigned int codec, const char* data) {
     sha256(data, strlen(data), hash);
 
     char pre_encoded_cid[SHA256_DIGEST_LENGTH * 2 + 10] = {0}; // 10 extra spaces for version and codec, *2 for hex representation
-    sprintf(pre_encoded_cid, "%d%d", version, codec);
+    sprintf(pre_encoded_cid, "%c%c", version, codec);  // encode as single bytes
 
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         sprintf(pre_encoded_cid + strlen(pre_encoded_cid), "%02x", hash[i]); // convert to hex string
@@ -34,14 +34,20 @@ void decode(const char* base32_cid, int* version, unsigned int* codec, uint8_t* 
     char* pre_encoded_cid = (char*)malloc(buffer_size);
     
     // Decode the Base32-encoded string
-    base32_decode((const uint8_t*)base32_cid, strlen(base32_cid), (uint8_t*)pre_encoded_cid, buffer_size, BASE32_ALPHABET_RFC4648);
+    base32_decode((const char*)base32_cid, strlen(base32_cid), (uint8_t*)pre_encoded_cid, buffer_size, BASE32_ALPHABET_RFC4648);
 
     // Extract the version and codec
-    sscanf(pre_encoded_cid, "%d%d", version, codec);
+    *version = pre_encoded_cid[0];
+    *codec = pre_encoded_cid[1];
 
     // Extract the hash
-    memcpy(hash, pre_encoded_cid + 4, SHA256_DIGEST_LENGTH);
+    char* hash_str = pre_encoded_cid + 2;  // change offset to 2
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        sscanf(hash_str + i * 2, "%2hhx", &hash[i]); // convert from hex string to bytes
+    }
 
     // Free the memory allocated for pre_encoded_cid
     free(pre_encoded_cid);
 }
+
+

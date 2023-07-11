@@ -12,5 +12,6 @@
 /* Function prototypes */
 char* create_from_string(int version, unsigned int codec, const char* data);
 void sha256(const char* data, size_t data_size, uint8_t* hash);
+void decode(const char* base32_cid, int* version, unsigned int* codec, uint8_t* hash);
 
 #endif /* RDDL_CID_H */

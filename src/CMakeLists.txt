@@ -23,7 +23,7 @@ add_library(RDDLC STATIC
     set_source_files_properties(${JSON_SOURCES} PROPERTIES LANGUAGE C)
     set_source_files_properties(${JSON_PARSER_SOURCES} PROPERTIES LANGUAGE C)
     set_source_files_properties(${BASE64} PROPERTIES LANGUAGE C)
-    set_source_files_properties(${CID_SOURCES} PROPERTIES LANGUAGE CXX)
+    set_source_files_properties(${CID_SOURCES} PROPERTIES LANGUAGE C)
 
 target_include_directories(RDDLC PUBLIC
     ../inc

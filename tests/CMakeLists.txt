@@ -20,7 +20,7 @@ macro(do_test test_name sources)
     )
 
     target_link_libraries(${test_name}
-        cbig
+        RDDLCPP
         Unity
         gcov
         asan

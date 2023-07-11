@@ -1,5 +1,5 @@
 #include "tests.h"
-#include "../src/rddl_cid/rddl_cid.h"  // Change this to the path of your Cid header
+#include "rddl_cid.h"  
 
 void test_cid_create_from_string() {
     // Create an instance of your Cid class

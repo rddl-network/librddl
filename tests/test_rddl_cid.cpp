@@ -7,7 +7,7 @@ void test_cid_create_from_string() {
     RDDL::Cid cid(1, codec);  // Assuming version 1 and sha2_256 codec
 
     // Call CreateFromString
-    std::string data = "{\"rddl\": \"rddl\"}";
+    const std::string data = "{\"rddl\": \"rddl\"}";
 
     std::string result = cid.CreateFromString(data);
 

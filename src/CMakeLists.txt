@@ -1,5 +1,6 @@
 
 file(GLOB SOURCES "*.c")
+file(GLOB CID_SOURCES "rddl_cid/*.cpp")
 file(GLOB JSON_SOURCES "../libs/json-maker/json-maker.c")
 file(GLOB JSON_PARSER_SOURCES "../libs/tiny-json/tiny-json.c")
 file(GLOB TREZOR_CRYPTO_ED255 "../libs/trezor-crypto/ed25519-donna/*.c")
@@ -13,6 +14,7 @@ add_library(RDDLCPP STATIC
     ${JSON_SOURCES}
     ${JSON_PARSER_SOURCES}
     ${BASE64}
+    ${CID_SOURCES}
         )
 
     set_source_files_properties(${SOURCES} PROPERTIES LANGUAGE C)
@@ -21,6 +23,7 @@ add_library(RDDLCPP STATIC
     set_source_files_properties(${JSON_SOURCES} PROPERTIES LANGUAGE C)
     set_source_files_properties(${JSON_PARSER_SOURCES} PROPERTIES LANGUAGE C)
     set_source_files_properties(${BASE64} PROPERTIES LANGUAGE C)
+    set_source_files_properties(${CID_SOURCES} PROPERTIES LANGUAGE CXX)
 
 target_include_directories(RDDLCPP PUBLIC
     ../inc

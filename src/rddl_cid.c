@@ -23,6 +23,27 @@ char* create_from_string(int version, unsigned int codec, const char* data) {
     return base32_cid;
 }
 
+char* create_from_string_v2(const char* data) {
+    uint8_t hash[SHA256_DIGEST_LENGTH];
+    sha256(data, strlen(data), hash);
+
+    char pre_encoded_cid[SHA256_DIGEST_LENGTH * 2 + 10] = {0}; // 10 extra spaces for version and codec, *2 for hex representation
+    sprintf(pre_encoded_cid, "01%02x", 0x55);  // cidv1 and raw multicodec
+
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        sprintf(pre_encoded_cid + strlen(pre_encoded_cid), "%02x", hash[i]); // convert to hex string
+    }
+
+    size_t buffer_size = (strlen(pre_encoded_cid) + 4) / 5 * 8 + 1;
+    printf("buffer_size: %zu\n", buffer_size);
+    char* base32_cid = (char*)malloc(buffer_size);
+    base32_encode((const uint8_t*)pre_encoded_cid, strlen(pre_encoded_cid), base32_cid, buffer_size, BASE32_ALPHABET_RFC4648);
+
+    printf("base32_cid: %s\n", base32_cid);
+
+    return base32_cid;
+}
+
 void sha256(const char* data, size_t data_size, uint8_t* hash) {
     sha256_Raw((const uint8_t*)data, data_size, hash);
 }

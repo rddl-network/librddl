@@ -14,7 +14,7 @@ const char* base32_cid = "AEJGIOBYGBSGGM3BGNTDAOJTG4ZTEYZXMEZWINRYG4ZTANZSGBSDSN
 // bafkreiczdg5vwojt6t55bfadj75w5hi4fnzbmycnvv4ob6zs6mek6impea
 // bafkreid6r4khw3kfv6aoxymxuaz3bu3nczkzhb4ztrrz3z7wxd5q3hhpvu
 // bafkreia4ztmef4dvinwidib36la53fzzkslyhvnotx6rnoqwrq2hrersou
-
+// bafkrfwea3q5d6cjxgld2hvuhgbza3f5kyf5e4xqudjnjcegiixc23fp7
 
 void test_cid_create_from_string(void) {
     // Call create_from_string
@@ -34,6 +34,7 @@ void test_cid_create_from_string(void) {
 }
 
 void test_cid_create_from_string_2(void) {
+    printf("test_cid_create_from_string_2\n");
     // Call create_from_string
     char* result = create_from_string_v2(DATA);
 
@@ -43,7 +44,6 @@ void test_cid_create_from_string_2(void) {
     // Free the result after the assertion
     free(result);
 }
-
 
 
 void test_decode(void) {

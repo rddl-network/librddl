@@ -33,15 +33,19 @@ char* create_from_string_v2(const char* data) {
     pre_encoded_cid[2] = 0x12;  // sha256
     memcpy(pre_encoded_cid + 3, hash, SHA256_DIGEST_LENGTH);  // copy the hash after the version and codec
 
-    size_t buffer_size = (sizeof(pre_encoded_cid) + 4) / 5 * 8 + 1;  // calculate the buffer size for the base32-encoded string
-    char* base32_cid = (char*)malloc(buffer_size + 2);  // allocate an extra byte for the prefix
-    base32_cid[0] = 'b';  // set the prefix
-    base32_encode(pre_encoded_cid, sizeof(pre_encoded_cid), base32_cid + 1, buffer_size, BASE32_ALPHABET_RFC4648);  // start encoding from the second byte
-    base32_cid[buffer_size + 1] = '\0';  // add the null terminator
+    size_t input_length = SHA256_DIGEST_LENGTH + 3;  // calculate the length of the actual content to be encoded
+    size_t buffer_size = (input_length + 4) / 5 * 8 + 1;  // calculate the buffer size for the base32-encoded string
+
+    printf("input_length: %zu\n", input_length);
+    printf("buffer_size: %zu\n", buffer_size);
+
+    char* base32_cid = (char*)malloc(buffer_size + 2);  // Allocate 2 extra bytes: one for the 'b' prefix and one for the null terminator
+    base32_cid[0] = 'b';  // Add 'b' prefix
+    base32_encode(pre_encoded_cid, input_length, base32_cid + 1, buffer_size, BASE32_ALPHABET_RFC4648);
+    base32_cid[buffer_size] = '\0';  // Null-terminate the string
+
     return base32_cid;
 }
-
-
 
 void sha256(const char* data, size_t data_size, uint8_t* hash) {
     sha256_Raw((const uint8_t*)data, data_size, hash);

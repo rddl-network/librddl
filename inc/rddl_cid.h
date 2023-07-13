@@ -11,8 +11,8 @@
 
 /* Function prototypes */
 void string_to_lowercase(char* str);
-char* create_from_string(const char* data);
+char* create_cid_v1_from_string(const char* data);
 void sha256(const char* data, size_t data_size, uint8_t* hash);
-void decode(const char* base32_cid, int* version, unsigned int* codec, uint8_t* hash);
+uint8_t* decode_cid_v1(const char* base32_cid);
 
 #endif /* RDDL_CID_H */

@@ -12,7 +12,7 @@ void string_to_lowercase(char* str) {
     }
 }
 
-char* create_from_string(const char* data) {
+char* create_cid_v1_from_string(const char* data) {
     uint8_t hash[SHA256_DIGEST_LENGTH];
     sha256(data, strlen(data), hash);
 
@@ -38,24 +38,49 @@ void sha256(const char* data, size_t data_size, uint8_t* hash) {
 }
 
 
-void decode(const char* base32_cid, int* version, unsigned int* codec, uint8_t* hash) {
-    // Calculate the size of the buffer required to hold the decoded string.
-    size_t buffer_size = (strlen(base32_cid) + 7) / 8 * 5 + 1; // +1 for null terminator
-    char* pre_encoded_cid = (char*)malloc(buffer_size);
-    
-    // Decode the Base32-encoded string
-    base32_decode((const char*)base32_cid, strlen(base32_cid), (uint8_t*)pre_encoded_cid, buffer_size, BASE32_ALPHABET_RFC4648);
+uint8_t* decode_cid_v1(const char* base32_cid) {
+    size_t input_length = strlen(base32_cid) - 1;  // Calculate the length of the base32-encoded string without the 'b' prefix
+    size_t buffer_size = (input_length * 5 + 7) / 8;  // Calculate the buffer size for the decoded string
 
-    // Extract the version and codec
-    *version = pre_encoded_cid[0];
-    *codec = pre_encoded_cid[1];
-
-    // Extract the hash
-    char* hash_str = pre_encoded_cid + 2;  // change offset to 2
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        sscanf(hash_str + i * 2, "%2hhx", &hash[i]); // convert from hex string to bytes
+    uint8_t* decoded_cid = (uint8_t*)malloc(buffer_size);
+    if (!decoded_cid) {
+        return NULL;  // Memory allocation failed
     }
 
-    // Free the memory allocated for pre_encoded_cid
-    free(pre_encoded_cid);
+    uint8_t* end = base32_decode(base32_cid + 1, input_length, decoded_cid, buffer_size, BASE32_ALPHABET_RFC4648);
+    if (!end) {
+        free(decoded_cid);
+        return NULL;  // base32 decoding failed
+    }
+
+    uint8_t cid_version = decoded_cid[0];
+    uint8_t multicodec = decoded_cid[1];
+    uint8_t sha265_version = decoded_cid[2];
+    uint8_t digest_length = decoded_cid[3];
+
+    // Check that the CID version, multicodec, and multihash are as expected
+    if (cid_version != 0x01 || multicodec != 0x55 || sha265_version != 0x12 || digest_length != 0x20) {
+        free(decoded_cid);
+        return NULL;  // Incorrect CID version, multicodec, or multihash
+    }
+
+    // Allocate a separate buffer for the multihash
+    uint8_t* multihash = (uint8_t*)malloc(SHA256_DIGEST_LENGTH);
+    if (!multihash) {
+        free(decoded_cid);
+        return NULL;  // Memory allocation failed
+    }
+
+    // Copy the multihash from the decoded CID
+    memcpy(multihash, decoded_cid + 4, SHA256_DIGEST_LENGTH);
+
+    // Free the decoded CID buffer
+    free(decoded_cid);
+
+    // Return the multihash
+    return multihash;
 }
+
+
+
+

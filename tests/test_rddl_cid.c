@@ -14,7 +14,6 @@ const char* base32_cid = "AEJGIOBYGBSGGM3BGNTDAOJTG4ZTEYZXMEZWINRYG4ZTANZSGBSDSN
 // bafkreiczdg5vwojt6t55bfadj75w5hi4fnzbmycnvv4ob6zs6mek6impea
 // bafkreid6r4khw3kfv6aoxymxuaz3bu3nczkzhb4ztrrz3z7wxd5q3hhpvu
 // bafkreia4ztmef4dvinwidib36la53fzzkslyhvnotx6rnoqwrq2hrersou
-// bafkrfwea3q5d6cjxgld2hvuhgbza3f5kyf5e4xqudjnjcegiixc23fp7
 
 void test_cid_create_from_string(void) {
     // Call create_from_string
@@ -34,12 +33,18 @@ void test_cid_create_from_string(void) {
 }
 
 void test_cid_create_from_string_2(void) {
-    printf("test_cid_create_from_string_2\n");
+    const char* expected_base32_cid = "bafkreiglfbe7vxow2lladz7uwnmkm5qoctwb5qjjxtfd5bbmppny37cypu";
     // Call create_from_string
     char* result = create_from_string_v2(DATA);
+    // free(result);
 
+    // printf("TEST /n");
+    printf("Result: %s\n", result);
+    fflush(stdout);
     // Then perform the test assertion
-    TEST_ASSERT_EQUAL_STRING(base32_cid, result);
+    // TEST_ASSERT_EQUAL_INT(strlen(result), 59);
+    // TEST_ASSERT_EQUAL_STRING(result, expected_base32_cid);
+    TEST_ASSERT_FALSE(true); 
 
     // Free the result after the assertion
     free(result);

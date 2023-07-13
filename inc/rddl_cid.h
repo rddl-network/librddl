@@ -10,6 +10,7 @@
 #define SHA256_DIGEST_LENGTH 32
 
 /* Function prototypes */
+void string_to_lowercase(char* str);
 char* create_from_string(int version, unsigned int codec, const char* data);
 char* create_from_string_v2(const char* data);
 void sha256(const char* data, size_t data_size, uint8_t* hash);

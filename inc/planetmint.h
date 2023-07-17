@@ -9,14 +9,21 @@
 #include <string.h>
 
 #include "base58.h"
-#include "base64.h"
 #include "hmac.h"
 #include "json-maker.h"
 #include "tiny-json.h"
 #include "sha3.h"
 #include "bip32.h"
 #include "curves.h"
+
+#ifdef TASMOTA
+#include "base64_plntmnt.h"
+#include "ed25519.h"
+#else
+#include "base64.h"
 #include "ed25519-donna/ed25519.h"
+#endif
+
 
 #define ASSET_MAX_SIZE 1024
 #define METADATA_MAX_SIZE 1024

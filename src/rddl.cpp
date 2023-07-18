@@ -122,7 +122,19 @@ int validateSignature() {
   return verified;
 }
 
-bool SignDataHash(int json_data_start, int current_length, const char* data_str, char* pubkey_out, char* sig_out, char* hash_out)
+bool getKeyFromSeed( const uint8_t* seed, uint8_t* priv_key, uint8_t* pub_key, const char* curve_name){
+  // we expect curve name to be ED25519_NAME or SECP256K1_NAME
+  HDNode node;
+  hdnode_from_seed( seed, 64, curve_name, &node);
+  hdnode_private_ckd_prime(&node, 0);
+  hdnode_private_ckd_prime(&node, 1);
+  hdnode_fill_public_key(&node);
+  memcpy(priv_key, node.private_key, 32);
+  memcpy(pub_key, node.public_key, 33);
+  return true;
+}
+
+bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, char* sig_out, char* hash_out)
 {
   //uint8_t seed[64] = {0};
   uint8_t hash[32] = {0};
@@ -133,19 +145,13 @@ bool SignDataHash(int json_data_start, int current_length, const char* data_str,
   SHA256_CTX ctx;
   const ecdsa_curve *curve = &secp256k1;
 
-  hdnode_from_seed( secret_seed, SEED_SIZE, SECP256K1_NAME, &node2);
-  hdnode_fill_public_key(&node2);
-  memcpy(priv_key, node2.private_key, 32);
-  memcpy(pub_key, node2.public_key, 33);
-
-  size_t p2bsigned_length = current_length - json_data_start;
-  const char* p2Bsigned = data_str + json_data_start;
+  getKeyFromSeed( secret_seed, priv_key, pub_key, SECP256K1_NAME );
 
   // Initialize the SHA-256 hasher
 
   sha256_Init(&ctx);
   // Hash the string
-  sha256_Update(&ctx, (const uint8_t*) p2Bsigned, p2bsigned_length);
+  sha256_Update(&ctx, (const uint8_t*) data_str, data_length);
   sha256_Final(&ctx, hash);
 
   int res = ecdsa_sign_digest(curve, priv_key, hash, signature, NULL, NULL);

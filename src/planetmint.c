@@ -565,15 +565,3 @@ bool planetmint_parse_json(char* json_tx, PLANETMINT_TX *tx) {
 
   return true;
 }
-
-
-bool getKeyFromSeed( const uint8_t* seed, uint8_t* priv_key, uint8_t* pub_key){
-  HDNode node;
-  hdnode_from_seed( seed, 64, ED25519_NAME, &node);
-  hdnode_private_ckd_prime(&node, 0);
-  hdnode_private_ckd_prime(&node, 1);
-  hdnode_fill_public_key(&node);
-  memcpy(priv_key, node.private_key, 32);
-  memcpy(pub_key, node.public_key, 33);
-  return true;
-}

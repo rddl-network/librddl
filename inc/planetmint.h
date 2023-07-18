@@ -9,14 +9,23 @@
 #include <string.h>
 
 #include "base58.h"
-#include "base64.h"
 #include "hmac.h"
 #include "json-maker.h"
 #include "tiny-json.h"
 #include "sha3.h"
 #include "bip32.h"
 #include "curves.h"
+
+#ifdef TASMOTA
+#include "base64_plntmnt.h"
+#include "ed25519.h"
+#else
+#include "base64.h"
 #include "ed25519-donna/ed25519.h"
+#endif
+
+
+
 
 #define ASSET_MAX_SIZE 1024
 #define METADATA_MAX_SIZE 1024
@@ -224,8 +233,5 @@ void fulfill_tx(PLANETMINT_TX *tx, uint8_t *priv_key, uint8_t *pub_key, uint8_t 
   * @param input_index A uint8_t indicating which input to fulfill.
   */
 void partial_fulfill_tx(PLANETMINT_TX *tx, uint8_t *priv_key, uint8_t *pub_key, uint8_t *json, uint16_t maxlen, uint8_t input_index);
-
-bool getKeyFromSeed( const uint8_t* seed, uint8_t* priv_key, uint8_t* pub_key);
-
 
 #endif // _PLANETMINT_TX_H_

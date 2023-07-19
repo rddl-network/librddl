@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "rddl.h"
 
 char pubkey[]  = {'\x51', '\x7f', '\xb7', '\x3e', '\x19', '\x00', '\x85', '\x5e', '\xbd', '\xbc', '\x0d', '\xd8', '\xc9', '\x14', '\xa8', '\x60', '\xc0', '\xeb', '\x57', '\x2e', '\xf8', '\xd6', '\x66', '\x11', '\x38', '\xee', '\xe7', '\xaa', '\x70', '\xd8', '\xa1', '\x46'};
 char base58_pubkey[] = "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9";
@@ -13,7 +14,7 @@ void test_key_derivation(){
   
   
   mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
-  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key) );
+  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key, ED25519_NAME) );
   printf("Private key: %s\n",priv_key);
   printf("Public key: %s\n",pub_key);
 
@@ -90,7 +91,7 @@ void rddl_auth_test(){
   
   
   mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
-  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key) );
+  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key, ED25519_NAME) );
   
   printf("Public key: %s\n",pub_key);
   size_t len = 200;

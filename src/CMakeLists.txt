@@ -28,6 +28,7 @@ add_library(RDDLC STATIC
 target_include_directories(RDDLC PUBLIC
     ../inc
     ../libs/trezor-crypto/
+    ../libs/trezor-crypto/ed25519-donna/
     ../
     ../libs/json-maker
     ../libs/tiny-json

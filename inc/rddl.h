@@ -20,7 +20,6 @@
 #define SEED_SIZE 64
 #define SEED_SIZE_MNEMONIC_TO_SEED 16
 
-extern uint8_t secret_seed[SEED_SIZE];
 
 const uint8_t *fromHexString(const char *str);
 void toHexString(char *hexbuf, uint8_t *str, int strlen);

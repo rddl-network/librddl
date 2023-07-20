@@ -125,7 +125,7 @@ int validateSignature() {
 bool getKeyFromSeed( const uint8_t* seed, uint8_t* priv_key, uint8_t* pub_key, const char* curve_name){
   // we expect curve name to be ED25519_NAME or SECP256K1_NAME
   HDNode node;
-  hdnode_from_seed( seed, 64, curve_name, &node);
+  hdnode_from_seed( seed, SEED_SIZE, curve_name, &node);
   hdnode_private_ckd_prime(&node, 0);
   hdnode_private_ckd_prime(&node, 1);
   hdnode_fill_public_key(&node);

@@ -7,46 +7,46 @@
 
 const char* planetmint_service="http://0.0.0.0:34331";
 
-
-// legacy: https://docs.cosmos.network/v0.45/architecture/adr-028-public-key-addresses.html
-
-//pub key secp256k1
-//[]uint8 len: 35, cap: 48, [10,33,2,50,141,232,120,150,185,203,181,16,28,51,95,64,2,158,75,232,152,152,139,71,10,187,246,131,241,160,179,24,215,52,112]
-
-//*github.com/cosmos/cosmos-sdk/crypto/keyring.Record {Name: "machine", PubKey: *github.com/cosmos/cosmos-sdk/codec/types.Any {TypeUrl: "/cosmos.crypto.secp256k1.PubKey", Value: []uint8 len: 35, cap: 35, [10,33,2,50,141,232,120,150,185,203,181,16,28,51,95,64,2,158,75,232,152,152,139,71,10,187,246,131,241,160,179,24,215,52,112], XXX_NoUnkeyedLiteral: struct {} {}, XXX_unrecognized: []uint8 len: 0, cap: 0, nil, XXX_sizecache: 0, cachedValue: interface {}(*github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1.PubKey) ..., compat: *github.com/cosmos/cosmos-sdk/codec/types.anyCompat nil}, Item: github.com/cosmos/cosmos-sdk/crypto/keyring.isRecord_Item(*github.com/cosmos/cosmos-sdk/crypto/keyring.Record_Local_) *{Local: *(*"github.com/cosmos/cosmos-sdk/crypto/keyring.Record_Local")(0xc0006211a8)}}
-//[]uint8 len: 35, cap: 35, [10,33,2,50,141,232,120,150,185,203,181,16,28,51,95,64,2,158,75,232,152,152,139,71,10,187,246,131,241,160,179,24,215,52,112]
-//private key
-//[]uint8 len: 34, cap: 34, [10,32,128,112,249,202,124,175,82,178,11,149,241,218,147,44,100,141,148,52,223,57,67,112,250,53,133,185,112,220,55,149,174,168]
-
-//address
-//string: ".>\xfa\thY\xf2M0\xfa\xbc\xa5)\xc5wN\xc3\xcd\x01F"
-//github.com/cosmos/cosmos-sdk/types.AccAddress len: 20, cap: 24, [46,62,250,9,104,89,242,77,48,250,188,165,41,197,119,78,195,205,1,70]
-//address string: "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx"
-
-//address object:
-//github.com/cosmos/cosmos-sdk/types.AccAddress len: 20, cap: 24, [46,62,250,9,104,89,242,77,48,250,188,165,41,197,119,78,195,205,1,70]
-
 #define PUBKEY_SIZE 35
 #define ADDRESS_TAIL 20
 uint8_t reference_pubkey[35] = {10,33,2,50,141,232,120,150,185,203, 181,16,28,51,95,64,2,158,75,232, 152,152,139,71,10,187,246,131,241,160, 179,24,215,52,112};
+uint8_t reference_sha[32] ={31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56,157,191,178,240,110,222,141,80,27,60,48,71,151,21,141,234};
+
 uint8_t reference_addressbytes[20] = {46,62,250,9,104,89,242,77,48,250, 188,165,41,197,119,78,195,205,1,70};
 
 const char* expected_address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
+uint8_t sha_hash[32] = {31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56,157,191,178,240,110,222,141,80,27,60,48,71,151,21,141,234};
+
+
+void private2public_key()
+{
+
+}
 
 
 void test_pubkey2address_convertion()
 {
+    int offset = 2;
     uint8_t address_bytes[ADDRESS_TAIL] = {0};
-    pubkey2address( reference_pubkey+2, address_bytes );
+    pubkey2address( reference_pubkey+offset, 35-offset, address_bytes );
     int result = memcmp( reference_addressbytes, address_bytes, ADDRESS_TAIL);
-    printf("result %u", result);
-
+    TEST_ASSERT_EQUAL_MEMORY( reference_addressbytes, address_bytes, 20 );   
 }
+
+
+void test_from_address_to_address_string()
+{
+    char address_string[64]={0};
+    int res = getAddressString( reference_addressbytes, address_string);
+    TEST_ASSERT_EQUAL_MEMORY( expected_address, address_string, strlen(expected_address) );    
+}
+
 
 int main(void) {
   UNITY_BEGIN();
 
   RUN_TEST(test_pubkey2address_convertion);
+  RUN_TEST(test_from_address_to_address_string);
 
   return UNITY_END();
 }

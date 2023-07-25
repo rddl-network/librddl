@@ -97,6 +97,96 @@ void   cosmos__base__v1beta1__dec_coin__free_unpacked
   assert(message->base.descriptor == &cosmos__base__v1beta1__dec_coin__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   cosmos__base__v1beta1__int_proto__init
+                     (Cosmos__Base__V1beta1__IntProto         *message)
+{
+  static const Cosmos__Base__V1beta1__IntProto init_value = COSMOS__BASE__V1BETA1__INT_PROTO__INIT;
+  *message = init_value;
+}
+size_t cosmos__base__v1beta1__int_proto__get_packed_size
+                     (const Cosmos__Base__V1beta1__IntProto *message)
+{
+  assert(message->base.descriptor == &cosmos__base__v1beta1__int_proto__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t cosmos__base__v1beta1__int_proto__pack
+                     (const Cosmos__Base__V1beta1__IntProto *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &cosmos__base__v1beta1__int_proto__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t cosmos__base__v1beta1__int_proto__pack_to_buffer
+                     (const Cosmos__Base__V1beta1__IntProto *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &cosmos__base__v1beta1__int_proto__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Cosmos__Base__V1beta1__IntProto *
+       cosmos__base__v1beta1__int_proto__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Cosmos__Base__V1beta1__IntProto *)
+     protobuf_c_message_unpack (&cosmos__base__v1beta1__int_proto__descriptor,
+                                allocator, len, data);
+}
+void   cosmos__base__v1beta1__int_proto__free_unpacked
+                     (Cosmos__Base__V1beta1__IntProto *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &cosmos__base__v1beta1__int_proto__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   cosmos__base__v1beta1__dec_proto__init
+                     (Cosmos__Base__V1beta1__DecProto         *message)
+{
+  static const Cosmos__Base__V1beta1__DecProto init_value = COSMOS__BASE__V1BETA1__DEC_PROTO__INIT;
+  *message = init_value;
+}
+size_t cosmos__base__v1beta1__dec_proto__get_packed_size
+                     (const Cosmos__Base__V1beta1__DecProto *message)
+{
+  assert(message->base.descriptor == &cosmos__base__v1beta1__dec_proto__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t cosmos__base__v1beta1__dec_proto__pack
+                     (const Cosmos__Base__V1beta1__DecProto *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &cosmos__base__v1beta1__dec_proto__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t cosmos__base__v1beta1__dec_proto__pack_to_buffer
+                     (const Cosmos__Base__V1beta1__DecProto *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &cosmos__base__v1beta1__dec_proto__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Cosmos__Base__V1beta1__DecProto *
+       cosmos__base__v1beta1__dec_proto__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Cosmos__Base__V1beta1__DecProto *)
+     protobuf_c_message_unpack (&cosmos__base__v1beta1__dec_proto__descriptor,
+                                allocator, len, data);
+}
+void   cosmos__base__v1beta1__dec_proto__free_unpacked
+                     (Cosmos__Base__V1beta1__DecProto *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &cosmos__base__v1beta1__dec_proto__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 static const ProtobufCFieldDescriptor cosmos__base__v1beta1__coin__field_descriptors[2] =
 {
   {
@@ -197,5 +287,81 @@ const ProtobufCMessageDescriptor cosmos__base__v1beta1__dec_coin__descriptor =
   cosmos__base__v1beta1__dec_coin__field_indices_by_name,
   1,  cosmos__base__v1beta1__dec_coin__number_ranges,
   (ProtobufCMessageInit) cosmos__base__v1beta1__dec_coin__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor cosmos__base__v1beta1__int_proto__field_descriptors[1] =
+{
+  {
+    "int",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Cosmos__Base__V1beta1__IntProto, int_),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned cosmos__base__v1beta1__int_proto__field_indices_by_name[] = {
+  0,   /* field[0] = int */
+};
+static const ProtobufCIntRange cosmos__base__v1beta1__int_proto__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor cosmos__base__v1beta1__int_proto__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "cosmos.base.v1beta1.IntProto",
+  "IntProto",
+  "Cosmos__Base__V1beta1__IntProto",
+  "cosmos.base.v1beta1",
+  sizeof(Cosmos__Base__V1beta1__IntProto),
+  1,
+  cosmos__base__v1beta1__int_proto__field_descriptors,
+  cosmos__base__v1beta1__int_proto__field_indices_by_name,
+  1,  cosmos__base__v1beta1__int_proto__number_ranges,
+  (ProtobufCMessageInit) cosmos__base__v1beta1__int_proto__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor cosmos__base__v1beta1__dec_proto__field_descriptors[1] =
+{
+  {
+    "dec",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Cosmos__Base__V1beta1__DecProto, dec),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned cosmos__base__v1beta1__dec_proto__field_indices_by_name[] = {
+  0,   /* field[0] = dec */
+};
+static const ProtobufCIntRange cosmos__base__v1beta1__dec_proto__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor cosmos__base__v1beta1__dec_proto__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "cosmos.base.v1beta1.DecProto",
+  "DecProto",
+  "Cosmos__Base__V1beta1__DecProto",
+  "cosmos.base.v1beta1",
+  sizeof(Cosmos__Base__V1beta1__DecProto),
+  1,
+  cosmos__base__v1beta1__dec_proto__field_descriptors,
+  cosmos__base__v1beta1__dec_proto__field_indices_by_name,
+  1,  cosmos__base__v1beta1__dec_proto__number_ranges,
+  (ProtobufCMessageInit) cosmos__base__v1beta1__dec_proto__init,
   NULL,NULL,NULL    /* reserved[123] */
 };

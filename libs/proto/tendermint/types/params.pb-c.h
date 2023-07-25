@@ -23,7 +23,6 @@ typedef struct Tendermint__Types__EvidenceParams Tendermint__Types__EvidencePara
 typedef struct Tendermint__Types__ValidatorParams Tendermint__Types__ValidatorParams;
 typedef struct Tendermint__Types__VersionParams Tendermint__Types__VersionParams;
 typedef struct Tendermint__Types__HashedParams Tendermint__Types__HashedParams;
-typedef struct Tendermint__Types__ABCIParams Tendermint__Types__ABCIParams;
 
 
 /* --- enums --- */
@@ -42,11 +41,10 @@ struct  Tendermint__Types__ConsensusParams
   Tendermint__Types__EvidenceParams *evidence;
   Tendermint__Types__ValidatorParams *validator;
   Tendermint__Types__VersionParams *version;
-  Tendermint__Types__ABCIParams *abci;
 };
 #define TENDERMINT__TYPES__CONSENSUS_PARAMS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__consensus_params__descriptor) \
-    , NULL, NULL, NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /*
@@ -143,29 +141,6 @@ struct  Tendermint__Types__HashedParams
 #define TENDERMINT__TYPES__HASHED_PARAMS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__hashed_params__descriptor) \
     , 0, 0 }
-
-
-/*
- * ABCIParams configure functionality specific to the Application Blockchain Interface.
- */
-struct  Tendermint__Types__ABCIParams
-{
-  ProtobufCMessage base;
-  /*
-   * vote_extensions_enable_height configures the first height during which
-   * vote extensions will be enabled. During this specified height, and for all
-   * subsequent heights, precommit messages that do not contain valid extension data
-   * will be considered invalid. Prior to this height, vote extensions will not
-   * be used or accepted by validators on the network.
-   * Once enabled, vote extensions will be created by the application in ExtendVote,
-   * passed to the application for validation in VerifyVoteExtension and given
-   * to the application to use when proposing a block during PrepareProposal.
-   */
-  int64_t vote_extensions_enable_height;
-};
-#define TENDERMINT__TYPES__ABCIPARAMS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__abciparams__descriptor) \
-    , 0 }
 
 
 /* Tendermint__Types__ConsensusParams methods */
@@ -282,25 +257,6 @@ Tendermint__Types__HashedParams *
 void   tendermint__types__hashed_params__free_unpacked
                      (Tendermint__Types__HashedParams *message,
                       ProtobufCAllocator *allocator);
-/* Tendermint__Types__ABCIParams methods */
-void   tendermint__types__abciparams__init
-                     (Tendermint__Types__ABCIParams         *message);
-size_t tendermint__types__abciparams__get_packed_size
-                     (const Tendermint__Types__ABCIParams   *message);
-size_t tendermint__types__abciparams__pack
-                     (const Tendermint__Types__ABCIParams   *message,
-                      uint8_t             *out);
-size_t tendermint__types__abciparams__pack_to_buffer
-                     (const Tendermint__Types__ABCIParams   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Types__ABCIParams *
-       tendermint__types__abciparams__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__types__abciparams__free_unpacked
-                     (Tendermint__Types__ABCIParams *message,
-                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*Tendermint__Types__ConsensusParams_Closure)
@@ -321,9 +277,6 @@ typedef void (*Tendermint__Types__VersionParams_Closure)
 typedef void (*Tendermint__Types__HashedParams_Closure)
                  (const Tendermint__Types__HashedParams *message,
                   void *closure_data);
-typedef void (*Tendermint__Types__ABCIParams_Closure)
-                 (const Tendermint__Types__ABCIParams *message,
-                  void *closure_data);
 
 /* --- services --- */
 
@@ -336,7 +289,6 @@ extern const ProtobufCMessageDescriptor tendermint__types__evidence_params__desc
 extern const ProtobufCMessageDescriptor tendermint__types__validator_params__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__version_params__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__hashed_params__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__types__abciparams__descriptor;
 
 PROTOBUF_C__END_DECLS
 

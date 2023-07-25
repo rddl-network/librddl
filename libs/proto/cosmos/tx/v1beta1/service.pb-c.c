@@ -817,7 +817,7 @@ void   cosmos__tx__v1beta1__tx_decode_amino_response__free_unpacked
   assert(message->base.descriptor == &cosmos__tx__v1beta1__tx_decode_amino_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor cosmos__tx__v1beta1__get_txs_event_request__field_descriptors[6] =
+static const ProtobufCFieldDescriptor cosmos__tx__v1beta1__get_txs_event_request__field_descriptors[5] =
 {
   {
     "events",
@@ -828,7 +828,7 @@ static const ProtobufCFieldDescriptor cosmos__tx__v1beta1__get_txs_event_request
     offsetof(Cosmos__Tx__V1beta1__GetTxsEventRequest, events),
     NULL,
     &protobuf_c_empty_string,
-    0 | PROTOBUF_C_FIELD_FLAG_DEPRECATED,             /* flags */
+    0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
@@ -879,18 +879,6 @@ static const ProtobufCFieldDescriptor cosmos__tx__v1beta1__get_txs_event_request
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "query",
-    6,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Cosmos__Tx__V1beta1__GetTxsEventRequest, query),
-    NULL,
-    &protobuf_c_empty_string,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned cosmos__tx__v1beta1__get_txs_event_request__field_indices_by_name[] = {
   0,   /* field[0] = events */
@@ -898,12 +886,11 @@ static const unsigned cosmos__tx__v1beta1__get_txs_event_request__field_indices_
   2,   /* field[2] = order_by */
   3,   /* field[3] = page */
   1,   /* field[1] = pagination */
-  5,   /* field[5] = query */
 };
 static const ProtobufCIntRange cosmos__tx__v1beta1__get_txs_event_request__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 6 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor cosmos__tx__v1beta1__get_txs_event_request__descriptor =
 {
@@ -913,7 +900,7 @@ const ProtobufCMessageDescriptor cosmos__tx__v1beta1__get_txs_event_request__des
   "Cosmos__Tx__V1beta1__GetTxsEventRequest",
   "cosmos.tx.v1beta1",
   sizeof(Cosmos__Tx__V1beta1__GetTxsEventRequest),
-  6,
+  5,
   cosmos__tx__v1beta1__get_txs_event_request__field_descriptors,
   cosmos__tx__v1beta1__get_txs_event_request__field_indices_by_name,
   1,  cosmos__tx__v1beta1__get_txs_event_request__number_ranges,

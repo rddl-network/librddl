@@ -115,8 +115,8 @@ bool attestMachine(uint8_t* priv_key, uint8_t* pub_key, char* public_address)
     
     
     Cosmos__Base__V1beta1__Coin tip_coin = COSMOS__TX__V1BETA1__TIP__INIT;
-    tip_coin.amount= "1";
-    tip_coin.denom="stake";
+    //tip_coin.amount= "1";
+    //tip_coin.denom="stake";
 
     Cosmos__Base__V1beta1__Coin tip_coins[1] ={tip_coin};
     Cosmos__Tx__V1beta1__Tip tip = COSMOS__TX__V1BETA1__TIP__INIT;
@@ -150,8 +150,8 @@ bool attestMachine(uint8_t* priv_key, uint8_t* pub_key, char* public_address)
     auth.n_signer_infos=1;
     auth.signer_infos= signer_infos;
     auth.fee=&fee;
-    //auth.tip = &tip;
-    auth.tip= NULL;
+    auth.tip = &tip;
+    //auth.tip= NULL;
 
 
     Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
@@ -188,6 +188,7 @@ bool attestMachine(uint8_t* priv_key, uint8_t* pub_key, char* public_address)
     // txRaw.auth_info_bytes =
 
     tx_to_tw_raw(&tx, &txRaw);
+    
     txRaw.n_signatures = tx.n_signatures;
 
     // create Cosmos__Tx__V1beta1__SignDoc 

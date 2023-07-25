@@ -86,7 +86,7 @@ struct  Cosmos__App__V1alpha1__PackageReference
    * at revision 0 the first time they are released in a module.
    * When a new version of a module is released and items are added to existing
    * .proto files, these definitions should contain comments of the form
-   * "Since: Revision N" where N is an integer revision.
+   * "Since Revision N" where N is an integer revision.
    * When the module runtime starts up, it will check the pinned proto
    * image and panic if there are runtime protobuf definitions that are not
    * in the pinned descriptor which do not have

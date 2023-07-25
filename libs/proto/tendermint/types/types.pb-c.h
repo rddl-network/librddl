@@ -28,8 +28,6 @@ typedef struct Tendermint__Types__Data Tendermint__Types__Data;
 typedef struct Tendermint__Types__Vote Tendermint__Types__Vote;
 typedef struct Tendermint__Types__Commit Tendermint__Types__Commit;
 typedef struct Tendermint__Types__CommitSig Tendermint__Types__CommitSig;
-typedef struct Tendermint__Types__ExtendedCommit Tendermint__Types__ExtendedCommit;
-typedef struct Tendermint__Types__ExtendedCommitSig Tendermint__Types__ExtendedCommitSig;
 typedef struct Tendermint__Types__Proposal Tendermint__Types__Proposal;
 typedef struct Tendermint__Types__SignedHeader Tendermint__Types__SignedHeader;
 typedef struct Tendermint__Types__LightBlock Tendermint__Types__LightBlock;
@@ -39,6 +37,16 @@ typedef struct Tendermint__Types__TxProof Tendermint__Types__TxProof;
 
 /* --- enums --- */
 
+/*
+ * BlockIdFlag indicates which BlcokID the signature is for
+ */
+typedef enum _Tendermint__Types__BlockIDFlag {
+  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN = 0,
+  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_ABSENT = 1,
+  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_COMMIT = 2,
+  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_NIL = 3
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(TENDERMINT__TYPES__BLOCK_IDFLAG)
+} Tendermint__Types__BlockIDFlag;
 /*
  * SignedMsgType is a type of signed message in the consensus.
  */
@@ -186,7 +194,7 @@ struct  Tendermint__Types__Data
 
 
 /*
- * Vote represents a prevote or precommit vote from validators for
+ * Vote represents a prevote, precommit, or commit vote from validators for
  * consensus.
  */
 struct  Tendermint__Types__Vote
@@ -202,26 +210,11 @@ struct  Tendermint__Types__Vote
   Google__Protobuf__Timestamp *timestamp;
   ProtobufCBinaryData validator_address;
   int32_t validator_index;
-  /*
-   * Vote signature by the validator if they participated in consensus for the
-   * associated block.
-   */
   ProtobufCBinaryData signature;
-  /*
-   * Vote extension provided by the application. Only valid for precommit
-   * messages.
-   */
-  ProtobufCBinaryData extension;
-  /*
-   * Vote extension signature by the validator if they participated in
-   * consensus for the associated block.
-   * Only valid for precommit messages.
-   */
-  ProtobufCBinaryData extension_signature;
 };
 #define TENDERMINT__TYPES__VOTE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__vote__descriptor) \
-    , TENDERMINT__TYPES__SIGNED_MSG_TYPE__SIGNED_MSG_TYPE_UNKNOWN, 0, 0, NULL, NULL, {0,NULL}, 0, {0,NULL}, {0,NULL}, {0,NULL} }
+    , TENDERMINT__TYPES__SIGNED_MSG_TYPE__SIGNED_MSG_TYPE_UNKNOWN, 0, 0, NULL, NULL, {0,NULL}, 0, {0,NULL} }
 
 
 /*
@@ -255,46 +248,6 @@ struct  Tendermint__Types__CommitSig
 #define TENDERMINT__TYPES__COMMIT_SIG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__commit_sig__descriptor) \
     , TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN, {0,NULL}, NULL, {0,NULL} }
-
-
-struct  Tendermint__Types__ExtendedCommit
-{
-  ProtobufCMessage base;
-  int64_t height;
-  int32_t round;
-  Tendermint__Types__BlockID *block_id;
-  size_t n_extended_signatures;
-  Tendermint__Types__ExtendedCommitSig **extended_signatures;
-};
-#define TENDERMINT__TYPES__EXTENDED_COMMIT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__extended_commit__descriptor) \
-    , 0, 0, NULL, 0,NULL }
-
-
-/*
- * ExtendedCommitSig retains all the same fields as CommitSig but adds vote
- * extension-related fields. We use two signatures to ensure backwards compatibility.
- * That is the digest of the original signature is still the same in prior versions
- */
-struct  Tendermint__Types__ExtendedCommitSig
-{
-  ProtobufCMessage base;
-  Tendermint__Types__BlockIDFlag block_id_flag;
-  ProtobufCBinaryData validator_address;
-  Google__Protobuf__Timestamp *timestamp;
-  ProtobufCBinaryData signature;
-  /*
-   * Vote extension data
-   */
-  ProtobufCBinaryData extension;
-  /*
-   * Vote extension signature
-   */
-  ProtobufCBinaryData extension_signature;
-};
-#define TENDERMINT__TYPES__EXTENDED_COMMIT_SIG__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__types__extended_commit_sig__descriptor) \
-    , TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN, {0,NULL}, NULL, {0,NULL}, {0,NULL}, {0,NULL} }
 
 
 struct  Tendermint__Types__Proposal
@@ -515,44 +468,6 @@ Tendermint__Types__CommitSig *
 void   tendermint__types__commit_sig__free_unpacked
                      (Tendermint__Types__CommitSig *message,
                       ProtobufCAllocator *allocator);
-/* Tendermint__Types__ExtendedCommit methods */
-void   tendermint__types__extended_commit__init
-                     (Tendermint__Types__ExtendedCommit         *message);
-size_t tendermint__types__extended_commit__get_packed_size
-                     (const Tendermint__Types__ExtendedCommit   *message);
-size_t tendermint__types__extended_commit__pack
-                     (const Tendermint__Types__ExtendedCommit   *message,
-                      uint8_t             *out);
-size_t tendermint__types__extended_commit__pack_to_buffer
-                     (const Tendermint__Types__ExtendedCommit   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Types__ExtendedCommit *
-       tendermint__types__extended_commit__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__types__extended_commit__free_unpacked
-                     (Tendermint__Types__ExtendedCommit *message,
-                      ProtobufCAllocator *allocator);
-/* Tendermint__Types__ExtendedCommitSig methods */
-void   tendermint__types__extended_commit_sig__init
-                     (Tendermint__Types__ExtendedCommitSig         *message);
-size_t tendermint__types__extended_commit_sig__get_packed_size
-                     (const Tendermint__Types__ExtendedCommitSig   *message);
-size_t tendermint__types__extended_commit_sig__pack
-                     (const Tendermint__Types__ExtendedCommitSig   *message,
-                      uint8_t             *out);
-size_t tendermint__types__extended_commit_sig__pack_to_buffer
-                     (const Tendermint__Types__ExtendedCommitSig   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Types__ExtendedCommitSig *
-       tendermint__types__extended_commit_sig__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__types__extended_commit_sig__free_unpacked
-                     (Tendermint__Types__ExtendedCommitSig *message,
-                      ProtobufCAllocator *allocator);
 /* Tendermint__Types__Proposal methods */
 void   tendermint__types__proposal__init
                      (Tendermint__Types__Proposal         *message);
@@ -674,12 +589,6 @@ typedef void (*Tendermint__Types__Commit_Closure)
 typedef void (*Tendermint__Types__CommitSig_Closure)
                  (const Tendermint__Types__CommitSig *message,
                   void *closure_data);
-typedef void (*Tendermint__Types__ExtendedCommit_Closure)
-                 (const Tendermint__Types__ExtendedCommit *message,
-                  void *closure_data);
-typedef void (*Tendermint__Types__ExtendedCommitSig_Closure)
-                 (const Tendermint__Types__ExtendedCommitSig *message,
-                  void *closure_data);
 typedef void (*Tendermint__Types__Proposal_Closure)
                  (const Tendermint__Types__Proposal *message,
                   void *closure_data);
@@ -701,6 +610,7 @@ typedef void (*Tendermint__Types__TxProof_Closure)
 
 /* --- descriptors --- */
 
+extern const ProtobufCEnumDescriptor    tendermint__types__block_idflag__descriptor;
 extern const ProtobufCEnumDescriptor    tendermint__types__signed_msg_type__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__part_set_header__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__part__descriptor;
@@ -710,8 +620,6 @@ extern const ProtobufCMessageDescriptor tendermint__types__data__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__vote__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__commit__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__commit_sig__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__types__extended_commit__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__types__extended_commit_sig__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__proposal__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__signed_header__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__light_block__descriptor;

@@ -277,6 +277,51 @@ void   tendermint__abci__request_query__free_unpacked
   assert(message->base.descriptor == &tendermint__abci__request_query__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   tendermint__abci__request_begin_block__init
+                     (Tendermint__Abci__RequestBeginBlock         *message)
+{
+  static const Tendermint__Abci__RequestBeginBlock init_value = TENDERMINT__ABCI__REQUEST_BEGIN_BLOCK__INIT;
+  *message = init_value;
+}
+size_t tendermint__abci__request_begin_block__get_packed_size
+                     (const Tendermint__Abci__RequestBeginBlock *message)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_begin_block__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t tendermint__abci__request_begin_block__pack
+                     (const Tendermint__Abci__RequestBeginBlock *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_begin_block__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t tendermint__abci__request_begin_block__pack_to_buffer
+                     (const Tendermint__Abci__RequestBeginBlock *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_begin_block__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Tendermint__Abci__RequestBeginBlock *
+       tendermint__abci__request_begin_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Tendermint__Abci__RequestBeginBlock *)
+     protobuf_c_message_unpack (&tendermint__abci__request_begin_block__descriptor,
+                                allocator, len, data);
+}
+void   tendermint__abci__request_begin_block__free_unpacked
+                     (Tendermint__Abci__RequestBeginBlock *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &tendermint__abci__request_begin_block__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   tendermint__abci__request_check_tx__init
                      (Tendermint__Abci__RequestCheckTx         *message)
 {
@@ -320,6 +365,96 @@ void   tendermint__abci__request_check_tx__free_unpacked
   if(!message)
     return;
   assert(message->base.descriptor == &tendermint__abci__request_check_tx__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   tendermint__abci__request_deliver_tx__init
+                     (Tendermint__Abci__RequestDeliverTx         *message)
+{
+  static const Tendermint__Abci__RequestDeliverTx init_value = TENDERMINT__ABCI__REQUEST_DELIVER_TX__INIT;
+  *message = init_value;
+}
+size_t tendermint__abci__request_deliver_tx__get_packed_size
+                     (const Tendermint__Abci__RequestDeliverTx *message)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_deliver_tx__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t tendermint__abci__request_deliver_tx__pack
+                     (const Tendermint__Abci__RequestDeliverTx *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_deliver_tx__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t tendermint__abci__request_deliver_tx__pack_to_buffer
+                     (const Tendermint__Abci__RequestDeliverTx *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_deliver_tx__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Tendermint__Abci__RequestDeliverTx *
+       tendermint__abci__request_deliver_tx__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Tendermint__Abci__RequestDeliverTx *)
+     protobuf_c_message_unpack (&tendermint__abci__request_deliver_tx__descriptor,
+                                allocator, len, data);
+}
+void   tendermint__abci__request_deliver_tx__free_unpacked
+                     (Tendermint__Abci__RequestDeliverTx *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &tendermint__abci__request_deliver_tx__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   tendermint__abci__request_end_block__init
+                     (Tendermint__Abci__RequestEndBlock         *message)
+{
+  static const Tendermint__Abci__RequestEndBlock init_value = TENDERMINT__ABCI__REQUEST_END_BLOCK__INIT;
+  *message = init_value;
+}
+size_t tendermint__abci__request_end_block__get_packed_size
+                     (const Tendermint__Abci__RequestEndBlock *message)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_end_block__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t tendermint__abci__request_end_block__pack
+                     (const Tendermint__Abci__RequestEndBlock *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_end_block__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t tendermint__abci__request_end_block__pack_to_buffer
+                     (const Tendermint__Abci__RequestEndBlock *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &tendermint__abci__request_end_block__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Tendermint__Abci__RequestEndBlock *
+       tendermint__abci__request_end_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Tendermint__Abci__RequestEndBlock *)
+     protobuf_c_message_unpack (&tendermint__abci__request_end_block__descriptor,
+                                allocator, len, data);
+}
+void   tendermint__abci__request_end_block__free_unpacked
+                     (Tendermint__Abci__RequestEndBlock *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &tendermint__abci__request_end_block__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   tendermint__abci__request_commit__init
@@ -637,141 +772,6 @@ void   tendermint__abci__request_process_proposal__free_unpacked
   assert(message->base.descriptor == &tendermint__abci__request_process_proposal__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   tendermint__abci__request_extend_vote__init
-                     (Tendermint__Abci__RequestExtendVote         *message)
-{
-  static const Tendermint__Abci__RequestExtendVote init_value = TENDERMINT__ABCI__REQUEST_EXTEND_VOTE__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__request_extend_vote__get_packed_size
-                     (const Tendermint__Abci__RequestExtendVote *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_extend_vote__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__request_extend_vote__pack
-                     (const Tendermint__Abci__RequestExtendVote *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_extend_vote__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__request_extend_vote__pack_to_buffer
-                     (const Tendermint__Abci__RequestExtendVote *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_extend_vote__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__RequestExtendVote *
-       tendermint__abci__request_extend_vote__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__RequestExtendVote *)
-     protobuf_c_message_unpack (&tendermint__abci__request_extend_vote__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__request_extend_vote__free_unpacked
-                     (Tendermint__Abci__RequestExtendVote *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__request_extend_vote__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-void   tendermint__abci__request_verify_vote_extension__init
-                     (Tendermint__Abci__RequestVerifyVoteExtension         *message)
-{
-  static const Tendermint__Abci__RequestVerifyVoteExtension init_value = TENDERMINT__ABCI__REQUEST_VERIFY_VOTE_EXTENSION__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__request_verify_vote_extension__get_packed_size
-                     (const Tendermint__Abci__RequestVerifyVoteExtension *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_verify_vote_extension__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__request_verify_vote_extension__pack
-                     (const Tendermint__Abci__RequestVerifyVoteExtension *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_verify_vote_extension__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__request_verify_vote_extension__pack_to_buffer
-                     (const Tendermint__Abci__RequestVerifyVoteExtension *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_verify_vote_extension__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__RequestVerifyVoteExtension *
-       tendermint__abci__request_verify_vote_extension__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__RequestVerifyVoteExtension *)
-     protobuf_c_message_unpack (&tendermint__abci__request_verify_vote_extension__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__request_verify_vote_extension__free_unpacked
-                     (Tendermint__Abci__RequestVerifyVoteExtension *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__request_verify_vote_extension__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-void   tendermint__abci__request_finalize_block__init
-                     (Tendermint__Abci__RequestFinalizeBlock         *message)
-{
-  static const Tendermint__Abci__RequestFinalizeBlock init_value = TENDERMINT__ABCI__REQUEST_FINALIZE_BLOCK__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__request_finalize_block__get_packed_size
-                     (const Tendermint__Abci__RequestFinalizeBlock *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_finalize_block__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__request_finalize_block__pack
-                     (const Tendermint__Abci__RequestFinalizeBlock *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_finalize_block__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__request_finalize_block__pack_to_buffer
-                     (const Tendermint__Abci__RequestFinalizeBlock *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__request_finalize_block__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__RequestFinalizeBlock *
-       tendermint__abci__request_finalize_block__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__RequestFinalizeBlock *)
-     protobuf_c_message_unpack (&tendermint__abci__request_finalize_block__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__request_finalize_block__free_unpacked
-                     (Tendermint__Abci__RequestFinalizeBlock *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__request_finalize_block__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   tendermint__abci__response__init
                      (Tendermint__Abci__Response         *message)
 {
@@ -1087,6 +1087,51 @@ void   tendermint__abci__response_query__free_unpacked
   assert(message->base.descriptor == &tendermint__abci__response_query__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   tendermint__abci__response_begin_block__init
+                     (Tendermint__Abci__ResponseBeginBlock         *message)
+{
+  static const Tendermint__Abci__ResponseBeginBlock init_value = TENDERMINT__ABCI__RESPONSE_BEGIN_BLOCK__INIT;
+  *message = init_value;
+}
+size_t tendermint__abci__response_begin_block__get_packed_size
+                     (const Tendermint__Abci__ResponseBeginBlock *message)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_begin_block__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t tendermint__abci__response_begin_block__pack
+                     (const Tendermint__Abci__ResponseBeginBlock *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_begin_block__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t tendermint__abci__response_begin_block__pack_to_buffer
+                     (const Tendermint__Abci__ResponseBeginBlock *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_begin_block__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Tendermint__Abci__ResponseBeginBlock *
+       tendermint__abci__response_begin_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Tendermint__Abci__ResponseBeginBlock *)
+     protobuf_c_message_unpack (&tendermint__abci__response_begin_block__descriptor,
+                                allocator, len, data);
+}
+void   tendermint__abci__response_begin_block__free_unpacked
+                     (Tendermint__Abci__ResponseBeginBlock *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &tendermint__abci__response_begin_block__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   tendermint__abci__response_check_tx__init
                      (Tendermint__Abci__ResponseCheckTx         *message)
 {
@@ -1130,6 +1175,96 @@ void   tendermint__abci__response_check_tx__free_unpacked
   if(!message)
     return;
   assert(message->base.descriptor == &tendermint__abci__response_check_tx__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   tendermint__abci__response_deliver_tx__init
+                     (Tendermint__Abci__ResponseDeliverTx         *message)
+{
+  static const Tendermint__Abci__ResponseDeliverTx init_value = TENDERMINT__ABCI__RESPONSE_DELIVER_TX__INIT;
+  *message = init_value;
+}
+size_t tendermint__abci__response_deliver_tx__get_packed_size
+                     (const Tendermint__Abci__ResponseDeliverTx *message)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_deliver_tx__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t tendermint__abci__response_deliver_tx__pack
+                     (const Tendermint__Abci__ResponseDeliverTx *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_deliver_tx__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t tendermint__abci__response_deliver_tx__pack_to_buffer
+                     (const Tendermint__Abci__ResponseDeliverTx *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_deliver_tx__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Tendermint__Abci__ResponseDeliverTx *
+       tendermint__abci__response_deliver_tx__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Tendermint__Abci__ResponseDeliverTx *)
+     protobuf_c_message_unpack (&tendermint__abci__response_deliver_tx__descriptor,
+                                allocator, len, data);
+}
+void   tendermint__abci__response_deliver_tx__free_unpacked
+                     (Tendermint__Abci__ResponseDeliverTx *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &tendermint__abci__response_deliver_tx__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   tendermint__abci__response_end_block__init
+                     (Tendermint__Abci__ResponseEndBlock         *message)
+{
+  static const Tendermint__Abci__ResponseEndBlock init_value = TENDERMINT__ABCI__RESPONSE_END_BLOCK__INIT;
+  *message = init_value;
+}
+size_t tendermint__abci__response_end_block__get_packed_size
+                     (const Tendermint__Abci__ResponseEndBlock *message)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_end_block__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t tendermint__abci__response_end_block__pack
+                     (const Tendermint__Abci__ResponseEndBlock *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_end_block__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t tendermint__abci__response_end_block__pack_to_buffer
+                     (const Tendermint__Abci__ResponseEndBlock *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &tendermint__abci__response_end_block__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Tendermint__Abci__ResponseEndBlock *
+       tendermint__abci__response_end_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Tendermint__Abci__ResponseEndBlock *)
+     protobuf_c_message_unpack (&tendermint__abci__response_end_block__descriptor,
+                                allocator, len, data);
+}
+void   tendermint__abci__response_end_block__free_unpacked
+                     (Tendermint__Abci__ResponseEndBlock *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &tendermint__abci__response_end_block__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   tendermint__abci__response_commit__init
@@ -1447,141 +1582,6 @@ void   tendermint__abci__response_process_proposal__free_unpacked
   assert(message->base.descriptor == &tendermint__abci__response_process_proposal__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   tendermint__abci__response_extend_vote__init
-                     (Tendermint__Abci__ResponseExtendVote         *message)
-{
-  static const Tendermint__Abci__ResponseExtendVote init_value = TENDERMINT__ABCI__RESPONSE_EXTEND_VOTE__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__response_extend_vote__get_packed_size
-                     (const Tendermint__Abci__ResponseExtendVote *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_extend_vote__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__response_extend_vote__pack
-                     (const Tendermint__Abci__ResponseExtendVote *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_extend_vote__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__response_extend_vote__pack_to_buffer
-                     (const Tendermint__Abci__ResponseExtendVote *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_extend_vote__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__ResponseExtendVote *
-       tendermint__abci__response_extend_vote__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__ResponseExtendVote *)
-     protobuf_c_message_unpack (&tendermint__abci__response_extend_vote__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__response_extend_vote__free_unpacked
-                     (Tendermint__Abci__ResponseExtendVote *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__response_extend_vote__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-void   tendermint__abci__response_verify_vote_extension__init
-                     (Tendermint__Abci__ResponseVerifyVoteExtension         *message)
-{
-  static const Tendermint__Abci__ResponseVerifyVoteExtension init_value = TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__response_verify_vote_extension__get_packed_size
-                     (const Tendermint__Abci__ResponseVerifyVoteExtension *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_verify_vote_extension__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__response_verify_vote_extension__pack
-                     (const Tendermint__Abci__ResponseVerifyVoteExtension *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_verify_vote_extension__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__response_verify_vote_extension__pack_to_buffer
-                     (const Tendermint__Abci__ResponseVerifyVoteExtension *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_verify_vote_extension__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__ResponseVerifyVoteExtension *
-       tendermint__abci__response_verify_vote_extension__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__ResponseVerifyVoteExtension *)
-     protobuf_c_message_unpack (&tendermint__abci__response_verify_vote_extension__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__response_verify_vote_extension__free_unpacked
-                     (Tendermint__Abci__ResponseVerifyVoteExtension *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__response_verify_vote_extension__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-void   tendermint__abci__response_finalize_block__init
-                     (Tendermint__Abci__ResponseFinalizeBlock         *message)
-{
-  static const Tendermint__Abci__ResponseFinalizeBlock init_value = TENDERMINT__ABCI__RESPONSE_FINALIZE_BLOCK__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__response_finalize_block__get_packed_size
-                     (const Tendermint__Abci__ResponseFinalizeBlock *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_finalize_block__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__response_finalize_block__pack
-                     (const Tendermint__Abci__ResponseFinalizeBlock *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_finalize_block__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__response_finalize_block__pack_to_buffer
-                     (const Tendermint__Abci__ResponseFinalizeBlock *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__response_finalize_block__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__ResponseFinalizeBlock *
-       tendermint__abci__response_finalize_block__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__ResponseFinalizeBlock *)
-     protobuf_c_message_unpack (&tendermint__abci__response_finalize_block__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__response_finalize_block__free_unpacked
-                     (Tendermint__Abci__ResponseFinalizeBlock *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__response_finalize_block__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   tendermint__abci__commit_info__init
                      (Tendermint__Abci__CommitInfo         *message)
 {
@@ -1760,51 +1760,6 @@ void   tendermint__abci__event_attribute__free_unpacked
   if(!message)
     return;
   assert(message->base.descriptor == &tendermint__abci__event_attribute__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-void   tendermint__abci__exec_tx_result__init
-                     (Tendermint__Abci__ExecTxResult         *message)
-{
-  static const Tendermint__Abci__ExecTxResult init_value = TENDERMINT__ABCI__EXEC_TX_RESULT__INIT;
-  *message = init_value;
-}
-size_t tendermint__abci__exec_tx_result__get_packed_size
-                     (const Tendermint__Abci__ExecTxResult *message)
-{
-  assert(message->base.descriptor == &tendermint__abci__exec_tx_result__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__abci__exec_tx_result__pack
-                     (const Tendermint__Abci__ExecTxResult *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__abci__exec_tx_result__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__abci__exec_tx_result__pack_to_buffer
-                     (const Tendermint__Abci__ExecTxResult *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__abci__exec_tx_result__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Abci__ExecTxResult *
-       tendermint__abci__exec_tx_result__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Abci__ExecTxResult *)
-     protobuf_c_message_unpack (&tendermint__abci__exec_tx_result__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__abci__exec_tx_result__free_unpacked
-                     (Tendermint__Abci__ExecTxResult *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__abci__exec_tx_result__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   tendermint__abci__tx_result__init
@@ -2185,6 +2140,18 @@ static const ProtobufCFieldDescriptor tendermint__abci__request__field_descripto
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
+    "begin_block",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__Request, value_case),
+    offsetof(Tendermint__Abci__Request, begin_block),
+    &tendermint__abci__request_begin_block__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
     "check_tx",
     8,
     PROTOBUF_C_LABEL_NONE,
@@ -2192,6 +2159,30 @@ static const ProtobufCFieldDescriptor tendermint__abci__request__field_descripto
     offsetof(Tendermint__Abci__Request, value_case),
     offsetof(Tendermint__Abci__Request, check_tx),
     &tendermint__abci__request_check_tx__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "deliver_tx",
+    9,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__Request, value_case),
+    offsetof(Tendermint__Abci__Request, deliver_tx),
+    &tendermint__abci__request_deliver_tx__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "end_block",
+    10,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__Request, value_case),
+    offsetof(Tendermint__Abci__Request, end_block),
+    &tendermint__abci__request_end_block__descriptor,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -2280,67 +2271,29 @@ static const ProtobufCFieldDescriptor tendermint__abci__request__field_descripto
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "extend_vote",
-    18,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__Request, value_case),
-    offsetof(Tendermint__Abci__Request, extend_vote),
-    &tendermint__abci__request_extend_vote__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "verify_vote_extension",
-    19,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__Request, value_case),
-    offsetof(Tendermint__Abci__Request, verify_vote_extension),
-    &tendermint__abci__request_verify_vote_extension__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "finalize_block",
-    20,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__Request, value_case),
-    offsetof(Tendermint__Abci__Request, finalize_block),
-    &tendermint__abci__request_finalize_block__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned tendermint__abci__request__field_indices_by_name[] = {
-  10,   /* field[10] = apply_snapshot_chunk */
-  5,   /* field[5] = check_tx */
-  6,   /* field[6] = commit */
+  13,   /* field[13] = apply_snapshot_chunk */
+  5,   /* field[5] = begin_block */
+  6,   /* field[6] = check_tx */
+  9,   /* field[9] = commit */
+  7,   /* field[7] = deliver_tx */
   0,   /* field[0] = echo */
-  13,   /* field[13] = extend_vote */
-  15,   /* field[15] = finalize_block */
+  8,   /* field[8] = end_block */
   1,   /* field[1] = flush */
   2,   /* field[2] = info */
   3,   /* field[3] = init_chain */
-  7,   /* field[7] = list_snapshots */
-  9,   /* field[9] = load_snapshot_chunk */
-  8,   /* field[8] = offer_snapshot */
-  11,   /* field[11] = prepare_proposal */
-  12,   /* field[12] = process_proposal */
+  10,   /* field[10] = list_snapshots */
+  12,   /* field[12] = load_snapshot_chunk */
+  11,   /* field[11] = offer_snapshot */
+  14,   /* field[14] = prepare_proposal */
+  15,   /* field[15] = process_proposal */
   4,   /* field[4] = query */
-  14,   /* field[14] = verify_vote_extension */
 };
-static const ProtobufCIntRange tendermint__abci__request__number_ranges[4 + 1] =
+static const ProtobufCIntRange tendermint__abci__request__number_ranges[2 + 1] =
 {
   { 1, 0 },
   { 5, 3 },
-  { 8, 5 },
-  { 11, 6 },
   { 0, 16 }
 };
 const ProtobufCMessageDescriptor tendermint__abci__request__descriptor =
@@ -2354,7 +2307,7 @@ const ProtobufCMessageDescriptor tendermint__abci__request__descriptor =
   16,
   tendermint__abci__request__field_descriptors,
   tendermint__abci__request__field_indices_by_name,
-  4,  tendermint__abci__request__number_ranges,
+  2,  tendermint__abci__request__number_ranges,
   (ProtobufCMessageInit) tendermint__abci__request__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
@@ -2671,6 +2624,83 @@ const ProtobufCMessageDescriptor tendermint__abci__request_query__descriptor =
   (ProtobufCMessageInit) tendermint__abci__request_query__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
+static const ProtobufCFieldDescriptor tendermint__abci__request_begin_block__field_descriptors[4] =
+{
+  {
+    "hash",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BYTES,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__RequestBeginBlock, hash),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "header",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__RequestBeginBlock, header),
+    &tendermint__types__header__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "last_commit_info",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__RequestBeginBlock, last_commit_info),
+    &tendermint__abci__commit_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "byzantine_validators",
+    4,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__RequestBeginBlock, n_byzantine_validators),
+    offsetof(Tendermint__Abci__RequestBeginBlock, byzantine_validators),
+    &tendermint__abci__misbehavior__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned tendermint__abci__request_begin_block__field_indices_by_name[] = {
+  3,   /* field[3] = byzantine_validators */
+  0,   /* field[0] = hash */
+  1,   /* field[1] = header */
+  2,   /* field[2] = last_commit_info */
+};
+static const ProtobufCIntRange tendermint__abci__request_begin_block__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor tendermint__abci__request_begin_block__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "tendermint.abci.RequestBeginBlock",
+  "RequestBeginBlock",
+  "Tendermint__Abci__RequestBeginBlock",
+  "tendermint.abci",
+  sizeof(Tendermint__Abci__RequestBeginBlock),
+  4,
+  tendermint__abci__request_begin_block__field_descriptors,
+  tendermint__abci__request_begin_block__field_indices_by_name,
+  1,  tendermint__abci__request_begin_block__number_ranges,
+  (ProtobufCMessageInit) tendermint__abci__request_begin_block__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCFieldDescriptor tendermint__abci__request_check_tx__field_descriptors[2] =
 {
   {
@@ -2720,6 +2750,82 @@ const ProtobufCMessageDescriptor tendermint__abci__request_check_tx__descriptor 
   tendermint__abci__request_check_tx__field_indices_by_name,
   1,  tendermint__abci__request_check_tx__number_ranges,
   (ProtobufCMessageInit) tendermint__abci__request_check_tx__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor tendermint__abci__request_deliver_tx__field_descriptors[1] =
+{
+  {
+    "tx",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BYTES,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__RequestDeliverTx, tx),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned tendermint__abci__request_deliver_tx__field_indices_by_name[] = {
+  0,   /* field[0] = tx */
+};
+static const ProtobufCIntRange tendermint__abci__request_deliver_tx__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor tendermint__abci__request_deliver_tx__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "tendermint.abci.RequestDeliverTx",
+  "RequestDeliverTx",
+  "Tendermint__Abci__RequestDeliverTx",
+  "tendermint.abci",
+  sizeof(Tendermint__Abci__RequestDeliverTx),
+  1,
+  tendermint__abci__request_deliver_tx__field_descriptors,
+  tendermint__abci__request_deliver_tx__field_indices_by_name,
+  1,  tendermint__abci__request_deliver_tx__number_ranges,
+  (ProtobufCMessageInit) tendermint__abci__request_deliver_tx__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor tendermint__abci__request_end_block__field_descriptors[1] =
+{
+  {
+    "height",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__RequestEndBlock, height),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned tendermint__abci__request_end_block__field_indices_by_name[] = {
+  0,   /* field[0] = height */
+};
+static const ProtobufCIntRange tendermint__abci__request_end_block__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor tendermint__abci__request_end_block__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "tendermint.abci.RequestEndBlock",
+  "RequestEndBlock",
+  "Tendermint__Abci__RequestEndBlock",
+  "tendermint.abci",
+  sizeof(Tendermint__Abci__RequestEndBlock),
+  1,
+  tendermint__abci__request_end_block__field_descriptors,
+  tendermint__abci__request_end_block__field_indices_by_name,
+  1,  tendermint__abci__request_end_block__number_ranges,
+  (ProtobufCMessageInit) tendermint__abci__request_end_block__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 #define tendermint__abci__request_commit__field_descriptors NULL
@@ -3195,263 +3301,6 @@ const ProtobufCMessageDescriptor tendermint__abci__request_process_proposal__des
   (ProtobufCMessageInit) tendermint__abci__request_process_proposal__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__abci__request_extend_vote__field_descriptors[2] =
-{
-  {
-    "hash",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestExtendVote, hash),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "height",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT64,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestExtendVote, height),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__request_extend_vote__field_indices_by_name[] = {
-  0,   /* field[0] = hash */
-  1,   /* field[1] = height */
-};
-static const ProtobufCIntRange tendermint__abci__request_extend_vote__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__request_extend_vote__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.RequestExtendVote",
-  "RequestExtendVote",
-  "Tendermint__Abci__RequestExtendVote",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__RequestExtendVote),
-  2,
-  tendermint__abci__request_extend_vote__field_descriptors,
-  tendermint__abci__request_extend_vote__field_indices_by_name,
-  1,  tendermint__abci__request_extend_vote__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__request_extend_vote__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor tendermint__abci__request_verify_vote_extension__field_descriptors[4] =
-{
-  {
-    "hash",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestVerifyVoteExtension, hash),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "validator_address",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestVerifyVoteExtension, validator_address),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "height",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT64,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestVerifyVoteExtension, height),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "vote_extension",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestVerifyVoteExtension, vote_extension),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__request_verify_vote_extension__field_indices_by_name[] = {
-  0,   /* field[0] = hash */
-  2,   /* field[2] = height */
-  1,   /* field[1] = validator_address */
-  3,   /* field[3] = vote_extension */
-};
-static const ProtobufCIntRange tendermint__abci__request_verify_vote_extension__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 4 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__request_verify_vote_extension__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.RequestVerifyVoteExtension",
-  "RequestVerifyVoteExtension",
-  "Tendermint__Abci__RequestVerifyVoteExtension",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__RequestVerifyVoteExtension),
-  4,
-  tendermint__abci__request_verify_vote_extension__field_descriptors,
-  tendermint__abci__request_verify_vote_extension__field_indices_by_name,
-  1,  tendermint__abci__request_verify_vote_extension__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__request_verify_vote_extension__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor tendermint__abci__request_finalize_block__field_descriptors[8] =
-{
-  {
-    "txs",
-    1,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_BYTES,
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, n_txs),
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, txs),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "decided_last_commit",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, decided_last_commit),
-    &tendermint__abci__commit_info__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "misbehavior",
-    3,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, n_misbehavior),
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, misbehavior),
-    &tendermint__abci__misbehavior__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "hash",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, hash),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "height",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT64,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, height),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "time",
-    6,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, time),
-    &google__protobuf__timestamp__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "next_validators_hash",
-    7,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, next_validators_hash),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "proposer_address",
-    8,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__RequestFinalizeBlock, proposer_address),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__request_finalize_block__field_indices_by_name[] = {
-  1,   /* field[1] = decided_last_commit */
-  3,   /* field[3] = hash */
-  4,   /* field[4] = height */
-  2,   /* field[2] = misbehavior */
-  6,   /* field[6] = next_validators_hash */
-  7,   /* field[7] = proposer_address */
-  5,   /* field[5] = time */
-  0,   /* field[0] = txs */
-};
-static const ProtobufCIntRange tendermint__abci__request_finalize_block__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 8 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__request_finalize_block__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.RequestFinalizeBlock",
-  "RequestFinalizeBlock",
-  "Tendermint__Abci__RequestFinalizeBlock",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__RequestFinalizeBlock),
-  8,
-  tendermint__abci__request_finalize_block__field_descriptors,
-  tendermint__abci__request_finalize_block__field_indices_by_name,
-  1,  tendermint__abci__request_finalize_block__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__request_finalize_block__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
 static const ProtobufCFieldDescriptor tendermint__abci__response__field_descriptors[17] =
 {
   {
@@ -3527,6 +3376,18 @@ static const ProtobufCFieldDescriptor tendermint__abci__response__field_descript
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
+    "begin_block",
+    8,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__Response, value_case),
+    offsetof(Tendermint__Abci__Response, begin_block),
+    &tendermint__abci__response_begin_block__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
     "check_tx",
     9,
     PROTOBUF_C_LABEL_NONE,
@@ -3534,6 +3395,30 @@ static const ProtobufCFieldDescriptor tendermint__abci__response__field_descript
     offsetof(Tendermint__Abci__Response, value_case),
     offsetof(Tendermint__Abci__Response, check_tx),
     &tendermint__abci__response_check_tx__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "deliver_tx",
+    10,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__Response, value_case),
+    offsetof(Tendermint__Abci__Response, deliver_tx),
+    &tendermint__abci__response_deliver_tx__descriptor,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "end_block",
+    11,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__Response, value_case),
+    offsetof(Tendermint__Abci__Response, end_block),
+    &tendermint__abci__response_end_block__descriptor,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -3622,68 +3507,30 @@ static const ProtobufCFieldDescriptor tendermint__abci__response__field_descript
     0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "extend_vote",
-    19,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__Response, value_case),
-    offsetof(Tendermint__Abci__Response, extend_vote),
-    &tendermint__abci__response_extend_vote__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "verify_vote_extension",
-    20,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__Response, value_case),
-    offsetof(Tendermint__Abci__Response, verify_vote_extension),
-    &tendermint__abci__response_verify_vote_extension__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "finalize_block",
-    21,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__Response, value_case),
-    offsetof(Tendermint__Abci__Response, finalize_block),
-    &tendermint__abci__response_finalize_block__descriptor,
-    NULL,
-    0 | PROTOBUF_C_FIELD_FLAG_ONEOF,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned tendermint__abci__response__field_indices_by_name[] = {
-  11,   /* field[11] = apply_snapshot_chunk */
-  6,   /* field[6] = check_tx */
-  7,   /* field[7] = commit */
+  14,   /* field[14] = apply_snapshot_chunk */
+  6,   /* field[6] = begin_block */
+  7,   /* field[7] = check_tx */
+  10,   /* field[10] = commit */
+  8,   /* field[8] = deliver_tx */
   1,   /* field[1] = echo */
+  9,   /* field[9] = end_block */
   0,   /* field[0] = exception */
-  14,   /* field[14] = extend_vote */
-  16,   /* field[16] = finalize_block */
   2,   /* field[2] = flush */
   3,   /* field[3] = info */
   4,   /* field[4] = init_chain */
-  8,   /* field[8] = list_snapshots */
-  10,   /* field[10] = load_snapshot_chunk */
-  9,   /* field[9] = offer_snapshot */
-  12,   /* field[12] = prepare_proposal */
-  13,   /* field[13] = process_proposal */
+  11,   /* field[11] = list_snapshots */
+  13,   /* field[13] = load_snapshot_chunk */
+  12,   /* field[12] = offer_snapshot */
+  15,   /* field[15] = prepare_proposal */
+  16,   /* field[16] = process_proposal */
   5,   /* field[5] = query */
-  15,   /* field[15] = verify_vote_extension */
 };
-static const ProtobufCIntRange tendermint__abci__response__number_ranges[4 + 1] =
+static const ProtobufCIntRange tendermint__abci__response__number_ranges[2 + 1] =
 {
   { 1, 0 },
   { 6, 4 },
-  { 9, 6 },
-  { 12, 7 },
   { 0, 17 }
 };
 const ProtobufCMessageDescriptor tendermint__abci__response__descriptor =
@@ -3697,7 +3544,7 @@ const ProtobufCMessageDescriptor tendermint__abci__response__descriptor =
   17,
   tendermint__abci__response__field_descriptors,
   tendermint__abci__response__field_indices_by_name,
-  4,  tendermint__abci__response__number_ranges,
+  2,  tendermint__abci__response__number_ranges,
   (ProtobufCMessageInit) tendermint__abci__response__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
@@ -4092,7 +3939,45 @@ const ProtobufCMessageDescriptor tendermint__abci__response_query__descriptor =
   (ProtobufCMessageInit) tendermint__abci__response_query__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__abci__response_check_tx__field_descriptors[8] =
+static const ProtobufCFieldDescriptor tendermint__abci__response_begin_block__field_descriptors[1] =
+{
+  {
+    "events",
+    1,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__ResponseBeginBlock, n_events),
+    offsetof(Tendermint__Abci__ResponseBeginBlock, events),
+    &tendermint__abci__event__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned tendermint__abci__response_begin_block__field_indices_by_name[] = {
+  0,   /* field[0] = events */
+};
+static const ProtobufCIntRange tendermint__abci__response_begin_block__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor tendermint__abci__response_begin_block__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "tendermint.abci.ResponseBeginBlock",
+  "ResponseBeginBlock",
+  "Tendermint__Abci__ResponseBeginBlock",
+  "tendermint.abci",
+  sizeof(Tendermint__Abci__ResponseBeginBlock),
+  1,
+  tendermint__abci__response_begin_block__field_descriptors,
+  tendermint__abci__response_begin_block__field_indices_by_name,
+  1,  tendermint__abci__response_begin_block__number_ranges,
+  (ProtobufCMessageInit) tendermint__abci__response_begin_block__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor tendermint__abci__response_check_tx__field_descriptors[11] =
 {
   {
     "code",
@@ -4190,6 +4075,42 @@ static const ProtobufCFieldDescriptor tendermint__abci__response_check_tx__field
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "sender",
+    9,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseCheckTx, sender),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "priority",
+    10,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseCheckTx, priority),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mempool_error",
+    11,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseCheckTx, mempool_error),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned tendermint__abci__response_check_tx__field_indices_by_name[] = {
   0,   /* field[0] = code */
@@ -4200,11 +4121,14 @@ static const unsigned tendermint__abci__response_check_tx__field_indices_by_name
   4,   /* field[4] = gas_wanted */
   3,   /* field[3] = info */
   2,   /* field[2] = log */
+  10,   /* field[10] = mempool_error */
+  9,   /* field[9] = priority */
+  8,   /* field[8] = sender */
 };
 static const ProtobufCIntRange tendermint__abci__response_check_tx__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 8 }
+  { 0, 11 }
 };
 const ProtobufCMessageDescriptor tendermint__abci__response_check_tx__descriptor =
 {
@@ -4214,15 +4138,220 @@ const ProtobufCMessageDescriptor tendermint__abci__response_check_tx__descriptor
   "Tendermint__Abci__ResponseCheckTx",
   "tendermint.abci",
   sizeof(Tendermint__Abci__ResponseCheckTx),
-  8,
+  11,
   tendermint__abci__response_check_tx__field_descriptors,
   tendermint__abci__response_check_tx__field_indices_by_name,
   1,  tendermint__abci__response_check_tx__number_ranges,
   (ProtobufCMessageInit) tendermint__abci__response_check_tx__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__abci__response_commit__field_descriptors[1] =
+static const ProtobufCFieldDescriptor tendermint__abci__response_deliver_tx__field_descriptors[8] =
 {
+  {
+    "code",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT32,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, code),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "data",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BYTES,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, data),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "log",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, log),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, info),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "gas_wanted",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, gas_wanted),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "gas_used",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, gas_used),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "events",
+    7,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__ResponseDeliverTx, n_events),
+    offsetof(Tendermint__Abci__ResponseDeliverTx, events),
+    &tendermint__abci__event__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "codespace",
+    8,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseDeliverTx, codespace),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned tendermint__abci__response_deliver_tx__field_indices_by_name[] = {
+  0,   /* field[0] = code */
+  7,   /* field[7] = codespace */
+  1,   /* field[1] = data */
+  6,   /* field[6] = events */
+  5,   /* field[5] = gas_used */
+  4,   /* field[4] = gas_wanted */
+  3,   /* field[3] = info */
+  2,   /* field[2] = log */
+};
+static const ProtobufCIntRange tendermint__abci__response_deliver_tx__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 8 }
+};
+const ProtobufCMessageDescriptor tendermint__abci__response_deliver_tx__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "tendermint.abci.ResponseDeliverTx",
+  "ResponseDeliverTx",
+  "Tendermint__Abci__ResponseDeliverTx",
+  "tendermint.abci",
+  sizeof(Tendermint__Abci__ResponseDeliverTx),
+  8,
+  tendermint__abci__response_deliver_tx__field_descriptors,
+  tendermint__abci__response_deliver_tx__field_indices_by_name,
+  1,  tendermint__abci__response_deliver_tx__number_ranges,
+  (ProtobufCMessageInit) tendermint__abci__response_deliver_tx__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor tendermint__abci__response_end_block__field_descriptors[3] =
+{
+  {
+    "validator_updates",
+    1,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__ResponseEndBlock, n_validator_updates),
+    offsetof(Tendermint__Abci__ResponseEndBlock, validator_updates),
+    &tendermint__abci__validator_update__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "consensus_param_updates",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseEndBlock, consensus_param_updates),
+    &tendermint__types__consensus_params__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "events",
+    3,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Tendermint__Abci__ResponseEndBlock, n_events),
+    offsetof(Tendermint__Abci__ResponseEndBlock, events),
+    &tendermint__abci__event__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned tendermint__abci__response_end_block__field_indices_by_name[] = {
+  1,   /* field[1] = consensus_param_updates */
+  2,   /* field[2] = events */
+  0,   /* field[0] = validator_updates */
+};
+static const ProtobufCIntRange tendermint__abci__response_end_block__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor tendermint__abci__response_end_block__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "tendermint.abci.ResponseEndBlock",
+  "ResponseEndBlock",
+  "Tendermint__Abci__ResponseEndBlock",
+  "tendermint.abci",
+  sizeof(Tendermint__Abci__ResponseEndBlock),
+  3,
+  tendermint__abci__response_end_block__field_descriptors,
+  tendermint__abci__response_end_block__field_indices_by_name,
+  1,  tendermint__abci__response_end_block__number_ranges,
+  (ProtobufCMessageInit) tendermint__abci__response_end_block__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor tendermint__abci__response_commit__field_descriptors[2] =
+{
+  {
+    "data",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BYTES,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ResponseCommit, data),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
   {
     "retain_height",
     3,
@@ -4237,12 +4366,13 @@ static const ProtobufCFieldDescriptor tendermint__abci__response_commit__field_d
   },
 };
 static const unsigned tendermint__abci__response_commit__field_indices_by_name[] = {
-  0,   /* field[0] = retain_height */
+  0,   /* field[0] = data */
+  1,   /* field[1] = retain_height */
 };
 static const ProtobufCIntRange tendermint__abci__response_commit__number_ranges[1 + 1] =
 {
-  { 3, 0 },
-  { 0, 1 }
+  { 2, 0 },
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor tendermint__abci__response_commit__descriptor =
 {
@@ -4252,7 +4382,7 @@ const ProtobufCMessageDescriptor tendermint__abci__response_commit__descriptor =
   "Tendermint__Abci__ResponseCommit",
   "tendermint.abci",
   sizeof(Tendermint__Abci__ResponseCommit),
-  1,
+  2,
   tendermint__abci__response_commit__field_descriptors,
   tendermint__abci__response_commit__field_indices_by_name,
   1,  tendermint__abci__response_commit__number_ranges,
@@ -4615,202 +4745,6 @@ const ProtobufCMessageDescriptor tendermint__abci__response_process_proposal__de
   (ProtobufCMessageInit) tendermint__abci__response_process_proposal__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__abci__response_extend_vote__field_descriptors[1] =
-{
-  {
-    "vote_extension",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ResponseExtendVote, vote_extension),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__response_extend_vote__field_indices_by_name[] = {
-  0,   /* field[0] = vote_extension */
-};
-static const ProtobufCIntRange tendermint__abci__response_extend_vote__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 1 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__response_extend_vote__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.ResponseExtendVote",
-  "ResponseExtendVote",
-  "Tendermint__Abci__ResponseExtendVote",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__ResponseExtendVote),
-  1,
-  tendermint__abci__response_extend_vote__field_descriptors,
-  tendermint__abci__response_extend_vote__field_indices_by_name,
-  1,  tendermint__abci__response_extend_vote__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__response_extend_vote__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCEnumValue tendermint__abci__response_verify_vote_extension__verify_status__enum_values_by_number[3] =
-{
-  { "UNKNOWN", "TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__UNKNOWN", 0 },
-  { "ACCEPT", "TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__ACCEPT", 1 },
-  { "REJECT", "TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__REJECT", 2 },
-};
-static const ProtobufCIntRange tendermint__abci__response_verify_vote_extension__verify_status__value_ranges[] = {
-{0, 0},{0, 3}
-};
-static const ProtobufCEnumValueIndex tendermint__abci__response_verify_vote_extension__verify_status__enum_values_by_name[3] =
-{
-  { "ACCEPT", 1 },
-  { "REJECT", 2 },
-  { "UNKNOWN", 0 },
-};
-const ProtobufCEnumDescriptor tendermint__abci__response_verify_vote_extension__verify_status__descriptor =
-{
-  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "tendermint.abci.ResponseVerifyVoteExtension.VerifyStatus",
-  "VerifyStatus",
-  "Tendermint__Abci__ResponseVerifyVoteExtension__VerifyStatus",
-  "tendermint.abci",
-  3,
-  tendermint__abci__response_verify_vote_extension__verify_status__enum_values_by_number,
-  3,
-  tendermint__abci__response_verify_vote_extension__verify_status__enum_values_by_name,
-  1,
-  tendermint__abci__response_verify_vote_extension__verify_status__value_ranges,
-  NULL,NULL,NULL,NULL   /* reserved[1234] */
-};
-static const ProtobufCFieldDescriptor tendermint__abci__response_verify_vote_extension__field_descriptors[1] =
-{
-  {
-    "status",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ResponseVerifyVoteExtension, status),
-    &tendermint__abci__response_verify_vote_extension__verify_status__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__response_verify_vote_extension__field_indices_by_name[] = {
-  0,   /* field[0] = status */
-};
-static const ProtobufCIntRange tendermint__abci__response_verify_vote_extension__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 1 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__response_verify_vote_extension__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.ResponseVerifyVoteExtension",
-  "ResponseVerifyVoteExtension",
-  "Tendermint__Abci__ResponseVerifyVoteExtension",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__ResponseVerifyVoteExtension),
-  1,
-  tendermint__abci__response_verify_vote_extension__field_descriptors,
-  tendermint__abci__response_verify_vote_extension__field_indices_by_name,
-  1,  tendermint__abci__response_verify_vote_extension__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__response_verify_vote_extension__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor tendermint__abci__response_finalize_block__field_descriptors[5] =
-{
-  {
-    "events",
-    1,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, n_events),
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, events),
-    &tendermint__abci__event__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "tx_results",
-    2,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, n_tx_results),
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, tx_results),
-    &tendermint__abci__exec_tx_result__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "validator_updates",
-    3,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, n_validator_updates),
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, validator_updates),
-    &tendermint__abci__validator_update__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "consensus_param_updates",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, consensus_param_updates),
-    &tendermint__types__consensus_params__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "app_hash",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ResponseFinalizeBlock, app_hash),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__response_finalize_block__field_indices_by_name[] = {
-  4,   /* field[4] = app_hash */
-  3,   /* field[3] = consensus_param_updates */
-  0,   /* field[0] = events */
-  1,   /* field[1] = tx_results */
-  2,   /* field[2] = validator_updates */
-};
-static const ProtobufCIntRange tendermint__abci__response_finalize_block__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 5 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__response_finalize_block__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.ResponseFinalizeBlock",
-  "ResponseFinalizeBlock",
-  "Tendermint__Abci__ResponseFinalizeBlock",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__ResponseFinalizeBlock),
-  5,
-  tendermint__abci__response_finalize_block__field_descriptors,
-  tendermint__abci__response_finalize_block__field_indices_by_name,
-  1,  tendermint__abci__response_finalize_block__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__response_finalize_block__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
 static const ProtobufCFieldDescriptor tendermint__abci__commit_info__field_descriptors[2] =
 {
   {
@@ -5028,135 +4962,6 @@ const ProtobufCMessageDescriptor tendermint__abci__event_attribute__descriptor =
   (ProtobufCMessageInit) tendermint__abci__event_attribute__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__abci__exec_tx_result__field_descriptors[8] =
-{
-  {
-    "code",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, code),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "data",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, data),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "log",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, log),
-    NULL,
-    &protobuf_c_empty_string,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "info",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, info),
-    NULL,
-    &protobuf_c_empty_string,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "gas_wanted",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT64,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, gas_wanted),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "gas_used",
-    6,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT64,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, gas_used),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "events",
-    7,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Abci__ExecTxResult, n_events),
-    offsetof(Tendermint__Abci__ExecTxResult, events),
-    &tendermint__abci__event__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "codespace",
-    8,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_STRING,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExecTxResult, codespace),
-    NULL,
-    &protobuf_c_empty_string,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__abci__exec_tx_result__field_indices_by_name[] = {
-  0,   /* field[0] = code */
-  7,   /* field[7] = codespace */
-  1,   /* field[1] = data */
-  6,   /* field[6] = events */
-  5,   /* field[5] = gas_used */
-  4,   /* field[4] = gas_wanted */
-  3,   /* field[3] = info */
-  2,   /* field[2] = log */
-};
-static const ProtobufCIntRange tendermint__abci__exec_tx_result__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 8 }
-};
-const ProtobufCMessageDescriptor tendermint__abci__exec_tx_result__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.ExecTxResult",
-  "ExecTxResult",
-  "Tendermint__Abci__ExecTxResult",
-  "tendermint.abci",
-  sizeof(Tendermint__Abci__ExecTxResult),
-  8,
-  tendermint__abci__exec_tx_result__field_descriptors,
-  tendermint__abci__exec_tx_result__field_indices_by_name,
-  1,  tendermint__abci__exec_tx_result__number_ranges,
-  (ProtobufCMessageInit) tendermint__abci__exec_tx_result__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
 static const ProtobufCFieldDescriptor tendermint__abci__tx_result__field_descriptors[4] =
 {
   {
@@ -5202,7 +5007,7 @@ static const ProtobufCFieldDescriptor tendermint__abci__tx_result__field_descrip
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Tendermint__Abci__TxResult, result),
-    &tendermint__abci__exec_tx_result__descriptor,
+    &tendermint__abci__response_deliver_tx__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -5352,26 +5157,25 @@ static const ProtobufCFieldDescriptor tendermint__abci__vote_info__field_descrip
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "block_id_flag",
-    3,
+    "signed_last_block",
+    2,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
+    PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__VoteInfo, block_id_flag),
-    &tendermint__types__block_idflag__descriptor,
+    offsetof(Tendermint__Abci__VoteInfo, signed_last_block),
+    NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned tendermint__abci__vote_info__field_indices_by_name[] = {
-  1,   /* field[1] = block_id_flag */
+  1,   /* field[1] = signed_last_block */
   0,   /* field[0] = validator */
 };
-static const ProtobufCIntRange tendermint__abci__vote_info__number_ranges[2 + 1] =
+static const ProtobufCIntRange tendermint__abci__vote_info__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 3, 1 },
   { 0, 2 }
 };
 const ProtobufCMessageDescriptor tendermint__abci__vote_info__descriptor =
@@ -5385,11 +5189,11 @@ const ProtobufCMessageDescriptor tendermint__abci__vote_info__descriptor =
   2,
   tendermint__abci__vote_info__field_descriptors,
   tendermint__abci__vote_info__field_indices_by_name,
-  2,  tendermint__abci__vote_info__number_ranges,
+  1,  tendermint__abci__vote_info__number_ranges,
   (ProtobufCMessageInit) tendermint__abci__vote_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__abci__extended_vote_info__field_descriptors[4] =
+static const ProtobufCFieldDescriptor tendermint__abci__extended_vote_info__field_descriptors[3] =
 {
   {
     "validator",
@@ -5399,6 +5203,18 @@ static const ProtobufCFieldDescriptor tendermint__abci__extended_vote_info__fiel
     0,   /* quantifier_offset */
     offsetof(Tendermint__Abci__ExtendedVoteInfo, validator),
     &tendermint__abci__validator__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signed_last_block",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Tendermint__Abci__ExtendedVoteInfo, signed_last_block),
+    NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -5415,42 +5231,16 @@ static const ProtobufCFieldDescriptor tendermint__abci__extended_vote_info__fiel
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "extension_signature",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExtendedVoteInfo, extension_signature),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "block_id_flag",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Abci__ExtendedVoteInfo, block_id_flag),
-    &tendermint__types__block_idflag__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned tendermint__abci__extended_vote_info__field_indices_by_name[] = {
-  3,   /* field[3] = block_id_flag */
-  2,   /* field[2] = extension_signature */
+  1,   /* field[1] = signed_last_block */
   0,   /* field[0] = validator */
-  1,   /* field[1] = vote_extension */
+  2,   /* field[2] = vote_extension */
 };
-static const ProtobufCIntRange tendermint__abci__extended_vote_info__number_ranges[2 + 1] =
+static const ProtobufCIntRange tendermint__abci__extended_vote_info__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 3, 1 },
-  { 0, 4 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor tendermint__abci__extended_vote_info__descriptor =
 {
@@ -5460,10 +5250,10 @@ const ProtobufCMessageDescriptor tendermint__abci__extended_vote_info__descripto
   "Tendermint__Abci__ExtendedVoteInfo",
   "tendermint.abci",
   sizeof(Tendermint__Abci__ExtendedVoteInfo),
-  4,
+  3,
   tendermint__abci__extended_vote_info__field_descriptors,
   tendermint__abci__extended_vote_info__field_indices_by_name,
-  2,  tendermint__abci__extended_vote_info__number_ranges,
+  1,  tendermint__abci__extended_vote_info__number_ranges,
   (ProtobufCMessageInit) tendermint__abci__extended_vote_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
@@ -5705,186 +5495,186 @@ const ProtobufCEnumDescriptor tendermint__abci__misbehavior_type__descriptor =
   tendermint__abci__misbehavior_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCMethodDescriptor tendermint__abci__abci__method_descriptors[16] =
+static const ProtobufCMethodDescriptor tendermint__abci__abciapplication__method_descriptors[16] =
 {
   { "Echo", &tendermint__abci__request_echo__descriptor, &tendermint__abci__response_echo__descriptor },
   { "Flush", &tendermint__abci__request_flush__descriptor, &tendermint__abci__response_flush__descriptor },
   { "Info", &tendermint__abci__request_info__descriptor, &tendermint__abci__response_info__descriptor },
+  { "DeliverTx", &tendermint__abci__request_deliver_tx__descriptor, &tendermint__abci__response_deliver_tx__descriptor },
   { "CheckTx", &tendermint__abci__request_check_tx__descriptor, &tendermint__abci__response_check_tx__descriptor },
   { "Query", &tendermint__abci__request_query__descriptor, &tendermint__abci__response_query__descriptor },
   { "Commit", &tendermint__abci__request_commit__descriptor, &tendermint__abci__response_commit__descriptor },
   { "InitChain", &tendermint__abci__request_init_chain__descriptor, &tendermint__abci__response_init_chain__descriptor },
+  { "BeginBlock", &tendermint__abci__request_begin_block__descriptor, &tendermint__abci__response_begin_block__descriptor },
+  { "EndBlock", &tendermint__abci__request_end_block__descriptor, &tendermint__abci__response_end_block__descriptor },
   { "ListSnapshots", &tendermint__abci__request_list_snapshots__descriptor, &tendermint__abci__response_list_snapshots__descriptor },
   { "OfferSnapshot", &tendermint__abci__request_offer_snapshot__descriptor, &tendermint__abci__response_offer_snapshot__descriptor },
   { "LoadSnapshotChunk", &tendermint__abci__request_load_snapshot_chunk__descriptor, &tendermint__abci__response_load_snapshot_chunk__descriptor },
   { "ApplySnapshotChunk", &tendermint__abci__request_apply_snapshot_chunk__descriptor, &tendermint__abci__response_apply_snapshot_chunk__descriptor },
   { "PrepareProposal", &tendermint__abci__request_prepare_proposal__descriptor, &tendermint__abci__response_prepare_proposal__descriptor },
   { "ProcessProposal", &tendermint__abci__request_process_proposal__descriptor, &tendermint__abci__response_process_proposal__descriptor },
-  { "ExtendVote", &tendermint__abci__request_extend_vote__descriptor, &tendermint__abci__response_extend_vote__descriptor },
-  { "VerifyVoteExtension", &tendermint__abci__request_verify_vote_extension__descriptor, &tendermint__abci__response_verify_vote_extension__descriptor },
-  { "FinalizeBlock", &tendermint__abci__request_finalize_block__descriptor, &tendermint__abci__response_finalize_block__descriptor },
 };
-const unsigned tendermint__abci__abci__method_indices_by_name[] = {
-  10,        /* ApplySnapshotChunk */
-  3,        /* CheckTx */
-  5,        /* Commit */
+const unsigned tendermint__abci__abciapplication__method_indices_by_name[] = {
+  13,        /* ApplySnapshotChunk */
+  8,        /* BeginBlock */
+  4,        /* CheckTx */
+  6,        /* Commit */
+  3,        /* DeliverTx */
   0,        /* Echo */
-  13,        /* ExtendVote */
-  15,        /* FinalizeBlock */
+  9,        /* EndBlock */
   1,        /* Flush */
   2,        /* Info */
-  6,        /* InitChain */
-  7,        /* ListSnapshots */
-  9,        /* LoadSnapshotChunk */
-  8,        /* OfferSnapshot */
-  11,        /* PrepareProposal */
-  12,        /* ProcessProposal */
-  4,        /* Query */
-  14         /* VerifyVoteExtension */
+  7,        /* InitChain */
+  10,        /* ListSnapshots */
+  12,        /* LoadSnapshotChunk */
+  11,        /* OfferSnapshot */
+  14,        /* PrepareProposal */
+  15,        /* ProcessProposal */
+  5         /* Query */
 };
-const ProtobufCServiceDescriptor tendermint__abci__abci__descriptor =
+const ProtobufCServiceDescriptor tendermint__abci__abciapplication__descriptor =
 {
   PROTOBUF_C__SERVICE_DESCRIPTOR_MAGIC,
-  "tendermint.abci.ABCI",
-  "ABCI",
-  "Tendermint__Abci__ABCI",
+  "tendermint.abci.ABCIApplication",
+  "ABCIApplication",
+  "Tendermint__Abci__ABCIApplication",
   "tendermint.abci",
   16,
-  tendermint__abci__abci__method_descriptors,
-  tendermint__abci__abci__method_indices_by_name
+  tendermint__abci__abciapplication__method_descriptors,
+  tendermint__abci__abciapplication__method_indices_by_name
 };
-void tendermint__abci__abci__echo(ProtobufCService *service,
-                                  const Tendermint__Abci__RequestEcho *input,
-                                  Tendermint__Abci__ResponseEcho_Closure closure,
-                                  void *closure_data)
+void tendermint__abci__abciapplication__echo(ProtobufCService *service,
+                                             const Tendermint__Abci__RequestEcho *input,
+                                             Tendermint__Abci__ResponseEcho_Closure closure,
+                                             void *closure_data)
 {
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
   service->invoke(service, 0, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
-void tendermint__abci__abci__flush(ProtobufCService *service,
-                                   const Tendermint__Abci__RequestFlush *input,
-                                   Tendermint__Abci__ResponseFlush_Closure closure,
-                                   void *closure_data)
+void tendermint__abci__abciapplication__flush(ProtobufCService *service,
+                                              const Tendermint__Abci__RequestFlush *input,
+                                              Tendermint__Abci__ResponseFlush_Closure closure,
+                                              void *closure_data)
 {
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
   service->invoke(service, 1, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
-void tendermint__abci__abci__info(ProtobufCService *service,
-                                  const Tendermint__Abci__RequestInfo *input,
-                                  Tendermint__Abci__ResponseInfo_Closure closure,
-                                  void *closure_data)
+void tendermint__abci__abciapplication__info(ProtobufCService *service,
+                                             const Tendermint__Abci__RequestInfo *input,
+                                             Tendermint__Abci__ResponseInfo_Closure closure,
+                                             void *closure_data)
 {
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
   service->invoke(service, 2, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
-void tendermint__abci__abci__check_tx(ProtobufCService *service,
-                                      const Tendermint__Abci__RequestCheckTx *input,
-                                      Tendermint__Abci__ResponseCheckTx_Closure closure,
-                                      void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 3, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__query(ProtobufCService *service,
-                                   const Tendermint__Abci__RequestQuery *input,
-                                   Tendermint__Abci__ResponseQuery_Closure closure,
-                                   void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 4, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__commit(ProtobufCService *service,
-                                    const Tendermint__Abci__RequestCommit *input,
-                                    Tendermint__Abci__ResponseCommit_Closure closure,
-                                    void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 5, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__init_chain(ProtobufCService *service,
-                                        const Tendermint__Abci__RequestInitChain *input,
-                                        Tendermint__Abci__ResponseInitChain_Closure closure,
-                                        void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 6, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__list_snapshots(ProtobufCService *service,
-                                            const Tendermint__Abci__RequestListSnapshots *input,
-                                            Tendermint__Abci__ResponseListSnapshots_Closure closure,
-                                            void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 7, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__offer_snapshot(ProtobufCService *service,
-                                            const Tendermint__Abci__RequestOfferSnapshot *input,
-                                            Tendermint__Abci__ResponseOfferSnapshot_Closure closure,
-                                            void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 8, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__load_snapshot_chunk(ProtobufCService *service,
-                                                 const Tendermint__Abci__RequestLoadSnapshotChunk *input,
-                                                 Tendermint__Abci__ResponseLoadSnapshotChunk_Closure closure,
-                                                 void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 9, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__apply_snapshot_chunk(ProtobufCService *service,
-                                                  const Tendermint__Abci__RequestApplySnapshotChunk *input,
-                                                  Tendermint__Abci__ResponseApplySnapshotChunk_Closure closure,
-                                                  void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 10, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__prepare_proposal(ProtobufCService *service,
-                                              const Tendermint__Abci__RequestPrepareProposal *input,
-                                              Tendermint__Abci__ResponsePrepareProposal_Closure closure,
-                                              void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 11, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__process_proposal(ProtobufCService *service,
-                                              const Tendermint__Abci__RequestProcessProposal *input,
-                                              Tendermint__Abci__ResponseProcessProposal_Closure closure,
-                                              void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 12, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__extend_vote(ProtobufCService *service,
-                                         const Tendermint__Abci__RequestExtendVote *input,
-                                         Tendermint__Abci__ResponseExtendVote_Closure closure,
-                                         void *closure_data)
-{
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
-  service->invoke(service, 13, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
-}
-void tendermint__abci__abci__verify_vote_extension(ProtobufCService *service,
-                                                   const Tendermint__Abci__RequestVerifyVoteExtension *input,
-                                                   Tendermint__Abci__ResponseVerifyVoteExtension_Closure closure,
+void tendermint__abci__abciapplication__deliver_tx(ProtobufCService *service,
+                                                   const Tendermint__Abci__RequestDeliverTx *input,
+                                                   Tendermint__Abci__ResponseDeliverTx_Closure closure,
                                                    void *closure_data)
 {
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 3, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__check_tx(ProtobufCService *service,
+                                                 const Tendermint__Abci__RequestCheckTx *input,
+                                                 Tendermint__Abci__ResponseCheckTx_Closure closure,
+                                                 void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 4, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__query(ProtobufCService *service,
+                                              const Tendermint__Abci__RequestQuery *input,
+                                              Tendermint__Abci__ResponseQuery_Closure closure,
+                                              void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 5, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__commit(ProtobufCService *service,
+                                               const Tendermint__Abci__RequestCommit *input,
+                                               Tendermint__Abci__ResponseCommit_Closure closure,
+                                               void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 6, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__init_chain(ProtobufCService *service,
+                                                   const Tendermint__Abci__RequestInitChain *input,
+                                                   Tendermint__Abci__ResponseInitChain_Closure closure,
+                                                   void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 7, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__begin_block(ProtobufCService *service,
+                                                    const Tendermint__Abci__RequestBeginBlock *input,
+                                                    Tendermint__Abci__ResponseBeginBlock_Closure closure,
+                                                    void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 8, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__end_block(ProtobufCService *service,
+                                                  const Tendermint__Abci__RequestEndBlock *input,
+                                                  Tendermint__Abci__ResponseEndBlock_Closure closure,
+                                                  void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 9, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__list_snapshots(ProtobufCService *service,
+                                                       const Tendermint__Abci__RequestListSnapshots *input,
+                                                       Tendermint__Abci__ResponseListSnapshots_Closure closure,
+                                                       void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 10, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__offer_snapshot(ProtobufCService *service,
+                                                       const Tendermint__Abci__RequestOfferSnapshot *input,
+                                                       Tendermint__Abci__ResponseOfferSnapshot_Closure closure,
+                                                       void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 11, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__load_snapshot_chunk(ProtobufCService *service,
+                                                            const Tendermint__Abci__RequestLoadSnapshotChunk *input,
+                                                            Tendermint__Abci__ResponseLoadSnapshotChunk_Closure closure,
+                                                            void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 12, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__apply_snapshot_chunk(ProtobufCService *service,
+                                                             const Tendermint__Abci__RequestApplySnapshotChunk *input,
+                                                             Tendermint__Abci__ResponseApplySnapshotChunk_Closure closure,
+                                                             void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
+  service->invoke(service, 13, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void tendermint__abci__abciapplication__prepare_proposal(ProtobufCService *service,
+                                                         const Tendermint__Abci__RequestPrepareProposal *input,
+                                                         Tendermint__Abci__ResponsePrepareProposal_Closure closure,
+                                                         void *closure_data)
+{
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
   service->invoke(service, 14, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
-void tendermint__abci__abci__finalize_block(ProtobufCService *service,
-                                            const Tendermint__Abci__RequestFinalizeBlock *input,
-                                            Tendermint__Abci__ResponseFinalizeBlock_Closure closure,
-                                            void *closure_data)
+void tendermint__abci__abciapplication__process_proposal(ProtobufCService *service,
+                                                         const Tendermint__Abci__RequestProcessProposal *input,
+                                                         Tendermint__Abci__ResponseProcessProposal_Closure closure,
+                                                         void *closure_data)
 {
-  assert(service->descriptor == &tendermint__abci__abci__descriptor);
+  assert(service->descriptor == &tendermint__abci__abciapplication__descriptor);
   service->invoke(service, 15, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
-void tendermint__abci__abci__init (Tendermint__Abci__ABCI_Service *service,
-                                   Tendermint__Abci__ABCI_ServiceDestroy destroy)
+void tendermint__abci__abciapplication__init (Tendermint__Abci__ABCIApplication_Service *service,
+                                              Tendermint__Abci__ABCIApplication_ServiceDestroy destroy)
 {
   protobuf_c_service_generated_init (&service->base,
-                                     &tendermint__abci__abci__descriptor,
+                                     &tendermint__abci__abciapplication__descriptor,
                                      (ProtobufCServiceDestroy) destroy);
 }

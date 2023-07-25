@@ -15,9 +15,9 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 #include "tendermint/crypto/proof.pb-c.h"
+#include "tendermint/types/types.pb-c.h"
 #include "tendermint/crypto/keys.pb-c.h"
 #include "tendermint/types/params.pb-c.h"
-#include "tendermint/types/validator.pb-c.h"
 #include "google/protobuf/timestamp.pb-c.h"
 #include "gogoproto/gogo.pb-c.h"
 
@@ -27,7 +27,10 @@ typedef struct Tendermint__Abci__RequestFlush Tendermint__Abci__RequestFlush;
 typedef struct Tendermint__Abci__RequestInfo Tendermint__Abci__RequestInfo;
 typedef struct Tendermint__Abci__RequestInitChain Tendermint__Abci__RequestInitChain;
 typedef struct Tendermint__Abci__RequestQuery Tendermint__Abci__RequestQuery;
+typedef struct Tendermint__Abci__RequestBeginBlock Tendermint__Abci__RequestBeginBlock;
 typedef struct Tendermint__Abci__RequestCheckTx Tendermint__Abci__RequestCheckTx;
+typedef struct Tendermint__Abci__RequestDeliverTx Tendermint__Abci__RequestDeliverTx;
+typedef struct Tendermint__Abci__RequestEndBlock Tendermint__Abci__RequestEndBlock;
 typedef struct Tendermint__Abci__RequestCommit Tendermint__Abci__RequestCommit;
 typedef struct Tendermint__Abci__RequestListSnapshots Tendermint__Abci__RequestListSnapshots;
 typedef struct Tendermint__Abci__RequestOfferSnapshot Tendermint__Abci__RequestOfferSnapshot;
@@ -35,9 +38,6 @@ typedef struct Tendermint__Abci__RequestLoadSnapshotChunk Tendermint__Abci__Requ
 typedef struct Tendermint__Abci__RequestApplySnapshotChunk Tendermint__Abci__RequestApplySnapshotChunk;
 typedef struct Tendermint__Abci__RequestPrepareProposal Tendermint__Abci__RequestPrepareProposal;
 typedef struct Tendermint__Abci__RequestProcessProposal Tendermint__Abci__RequestProcessProposal;
-typedef struct Tendermint__Abci__RequestExtendVote Tendermint__Abci__RequestExtendVote;
-typedef struct Tendermint__Abci__RequestVerifyVoteExtension Tendermint__Abci__RequestVerifyVoteExtension;
-typedef struct Tendermint__Abci__RequestFinalizeBlock Tendermint__Abci__RequestFinalizeBlock;
 typedef struct Tendermint__Abci__Response Tendermint__Abci__Response;
 typedef struct Tendermint__Abci__ResponseException Tendermint__Abci__ResponseException;
 typedef struct Tendermint__Abci__ResponseEcho Tendermint__Abci__ResponseEcho;
@@ -45,7 +45,10 @@ typedef struct Tendermint__Abci__ResponseFlush Tendermint__Abci__ResponseFlush;
 typedef struct Tendermint__Abci__ResponseInfo Tendermint__Abci__ResponseInfo;
 typedef struct Tendermint__Abci__ResponseInitChain Tendermint__Abci__ResponseInitChain;
 typedef struct Tendermint__Abci__ResponseQuery Tendermint__Abci__ResponseQuery;
+typedef struct Tendermint__Abci__ResponseBeginBlock Tendermint__Abci__ResponseBeginBlock;
 typedef struct Tendermint__Abci__ResponseCheckTx Tendermint__Abci__ResponseCheckTx;
+typedef struct Tendermint__Abci__ResponseDeliverTx Tendermint__Abci__ResponseDeliverTx;
+typedef struct Tendermint__Abci__ResponseEndBlock Tendermint__Abci__ResponseEndBlock;
 typedef struct Tendermint__Abci__ResponseCommit Tendermint__Abci__ResponseCommit;
 typedef struct Tendermint__Abci__ResponseListSnapshots Tendermint__Abci__ResponseListSnapshots;
 typedef struct Tendermint__Abci__ResponseOfferSnapshot Tendermint__Abci__ResponseOfferSnapshot;
@@ -53,14 +56,10 @@ typedef struct Tendermint__Abci__ResponseLoadSnapshotChunk Tendermint__Abci__Res
 typedef struct Tendermint__Abci__ResponseApplySnapshotChunk Tendermint__Abci__ResponseApplySnapshotChunk;
 typedef struct Tendermint__Abci__ResponsePrepareProposal Tendermint__Abci__ResponsePrepareProposal;
 typedef struct Tendermint__Abci__ResponseProcessProposal Tendermint__Abci__ResponseProcessProposal;
-typedef struct Tendermint__Abci__ResponseExtendVote Tendermint__Abci__ResponseExtendVote;
-typedef struct Tendermint__Abci__ResponseVerifyVoteExtension Tendermint__Abci__ResponseVerifyVoteExtension;
-typedef struct Tendermint__Abci__ResponseFinalizeBlock Tendermint__Abci__ResponseFinalizeBlock;
 typedef struct Tendermint__Abci__CommitInfo Tendermint__Abci__CommitInfo;
 typedef struct Tendermint__Abci__ExtendedCommitInfo Tendermint__Abci__ExtendedCommitInfo;
 typedef struct Tendermint__Abci__Event Tendermint__Abci__Event;
 typedef struct Tendermint__Abci__EventAttribute Tendermint__Abci__EventAttribute;
-typedef struct Tendermint__Abci__ExecTxResult Tendermint__Abci__ExecTxResult;
 typedef struct Tendermint__Abci__TxResult Tendermint__Abci__TxResult;
 typedef struct Tendermint__Abci__Validator Tendermint__Abci__Validator;
 typedef struct Tendermint__Abci__ValidatorUpdate Tendermint__Abci__ValidatorUpdate;
@@ -132,18 +131,6 @@ typedef enum _Tendermint__Abci__ResponseProcessProposal__ProposalStatus {
   TENDERMINT__ABCI__RESPONSE_PROCESS_PROPOSAL__PROPOSAL_STATUS__REJECT = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(TENDERMINT__ABCI__RESPONSE_PROCESS_PROPOSAL__PROPOSAL_STATUS)
 } Tendermint__Abci__ResponseProcessProposal__ProposalStatus;
-typedef enum _Tendermint__Abci__ResponseVerifyVoteExtension__VerifyStatus {
-  TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__UNKNOWN = 0,
-  TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__ACCEPT = 1,
-  /*
-   * Rejecting the vote extension will reject the entire precommit by the sender.
-   * Incorrectly implementing this thus has liveness implications as it may affect
-   * CometBFT's ability to receive 2/3+ valid votes to finalize the block.
-   * Honest nodes should never be rejected.
-   */
-  TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__REJECT = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS)
-} Tendermint__Abci__ResponseVerifyVoteExtension__VerifyStatus;
 typedef enum _Tendermint__Abci__CheckTxType {
   TENDERMINT__ABCI__CHECK_TX_TYPE__NEW = 0,
   TENDERMINT__ABCI__CHECK_TX_TYPE__RECHECK = 1
@@ -165,17 +152,17 @@ typedef enum {
   TENDERMINT__ABCI__REQUEST__VALUE_INFO = 3,
   TENDERMINT__ABCI__REQUEST__VALUE_INIT_CHAIN = 5,
   TENDERMINT__ABCI__REQUEST__VALUE_QUERY = 6,
+  TENDERMINT__ABCI__REQUEST__VALUE_BEGIN_BLOCK = 7,
   TENDERMINT__ABCI__REQUEST__VALUE_CHECK_TX = 8,
+  TENDERMINT__ABCI__REQUEST__VALUE_DELIVER_TX = 9,
+  TENDERMINT__ABCI__REQUEST__VALUE_END_BLOCK = 10,
   TENDERMINT__ABCI__REQUEST__VALUE_COMMIT = 11,
   TENDERMINT__ABCI__REQUEST__VALUE_LIST_SNAPSHOTS = 12,
   TENDERMINT__ABCI__REQUEST__VALUE_OFFER_SNAPSHOT = 13,
   TENDERMINT__ABCI__REQUEST__VALUE_LOAD_SNAPSHOT_CHUNK = 14,
   TENDERMINT__ABCI__REQUEST__VALUE_APPLY_SNAPSHOT_CHUNK = 15,
   TENDERMINT__ABCI__REQUEST__VALUE_PREPARE_PROPOSAL = 16,
-  TENDERMINT__ABCI__REQUEST__VALUE_PROCESS_PROPOSAL = 17,
-  TENDERMINT__ABCI__REQUEST__VALUE_EXTEND_VOTE = 18,
-  TENDERMINT__ABCI__REQUEST__VALUE_VERIFY_VOTE_EXTENSION = 19,
-  TENDERMINT__ABCI__REQUEST__VALUE_FINALIZE_BLOCK = 20
+  TENDERMINT__ABCI__REQUEST__VALUE_PROCESS_PROPOSAL = 17
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(TENDERMINT__ABCI__REQUEST__VALUE__CASE)
 } Tendermint__Abci__Request__ValueCase;
 
@@ -189,7 +176,10 @@ struct  Tendermint__Abci__Request
     Tendermint__Abci__RequestInfo *info;
     Tendermint__Abci__RequestInitChain *init_chain;
     Tendermint__Abci__RequestQuery *query;
+    Tendermint__Abci__RequestBeginBlock *begin_block;
     Tendermint__Abci__RequestCheckTx *check_tx;
+    Tendermint__Abci__RequestDeliverTx *deliver_tx;
+    Tendermint__Abci__RequestEndBlock *end_block;
     Tendermint__Abci__RequestCommit *commit;
     Tendermint__Abci__RequestListSnapshots *list_snapshots;
     Tendermint__Abci__RequestOfferSnapshot *offer_snapshot;
@@ -197,9 +187,6 @@ struct  Tendermint__Abci__Request
     Tendermint__Abci__RequestApplySnapshotChunk *apply_snapshot_chunk;
     Tendermint__Abci__RequestPrepareProposal *prepare_proposal;
     Tendermint__Abci__RequestProcessProposal *process_proposal;
-    Tendermint__Abci__RequestExtendVote *extend_vote;
-    Tendermint__Abci__RequestVerifyVoteExtension *verify_vote_extension;
-    Tendermint__Abci__RequestFinalizeBlock *finalize_block;
   };
 };
 #define TENDERMINT__ABCI__REQUEST__INIT \
@@ -268,6 +255,20 @@ struct  Tendermint__Abci__RequestQuery
     , {0,NULL}, (char *)protobuf_c_empty_string, 0, 0 }
 
 
+struct  Tendermint__Abci__RequestBeginBlock
+{
+  ProtobufCMessage base;
+  ProtobufCBinaryData hash;
+  Tendermint__Types__Header *header;
+  Tendermint__Abci__CommitInfo *last_commit_info;
+  size_t n_byzantine_validators;
+  Tendermint__Abci__Misbehavior **byzantine_validators;
+};
+#define TENDERMINT__ABCI__REQUEST_BEGIN_BLOCK__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_begin_block__descriptor) \
+    , {0,NULL}, NULL, NULL, 0,NULL }
+
+
 struct  Tendermint__Abci__RequestCheckTx
 {
   ProtobufCMessage base;
@@ -277,6 +278,26 @@ struct  Tendermint__Abci__RequestCheckTx
 #define TENDERMINT__ABCI__REQUEST_CHECK_TX__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_check_tx__descriptor) \
     , {0,NULL}, TENDERMINT__ABCI__CHECK_TX_TYPE__NEW }
+
+
+struct  Tendermint__Abci__RequestDeliverTx
+{
+  ProtobufCMessage base;
+  ProtobufCBinaryData tx;
+};
+#define TENDERMINT__ABCI__REQUEST_DELIVER_TX__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_deliver_tx__descriptor) \
+    , {0,NULL} }
+
+
+struct  Tendermint__Abci__RequestEndBlock
+{
+  ProtobufCMessage base;
+  int64_t height;
+};
+#define TENDERMINT__ABCI__REQUEST_END_BLOCK__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_end_block__descriptor) \
+    , 0 }
 
 
 struct  Tendermint__Abci__RequestCommit
@@ -404,73 +425,6 @@ struct  Tendermint__Abci__RequestProcessProposal
     , 0,NULL, NULL, 0,NULL, {0,NULL}, 0, NULL, {0,NULL}, {0,NULL} }
 
 
-/*
- * Extends a vote with application-injected data
- */
-struct  Tendermint__Abci__RequestExtendVote
-{
-  ProtobufCMessage base;
-  /*
-   * the hash of the block  that this vote may be referring to
-   */
-  ProtobufCBinaryData hash;
-  /*
-   * the height of the extended vote
-   */
-  int64_t height;
-};
-#define TENDERMINT__ABCI__REQUEST_EXTEND_VOTE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_extend_vote__descriptor) \
-    , {0,NULL}, 0 }
-
-
-/*
- * Verify the vote extension
- */
-struct  Tendermint__Abci__RequestVerifyVoteExtension
-{
-  ProtobufCMessage base;
-  /*
-   * the hash of the block that this received vote corresponds to
-   */
-  ProtobufCBinaryData hash;
-  /*
-   * the validator that signed the vote extension
-   */
-  ProtobufCBinaryData validator_address;
-  int64_t height;
-  ProtobufCBinaryData vote_extension;
-};
-#define TENDERMINT__ABCI__REQUEST_VERIFY_VOTE_EXTENSION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_verify_vote_extension__descriptor) \
-    , {0,NULL}, {0,NULL}, 0, {0,NULL} }
-
-
-struct  Tendermint__Abci__RequestFinalizeBlock
-{
-  ProtobufCMessage base;
-  size_t n_txs;
-  ProtobufCBinaryData *txs;
-  Tendermint__Abci__CommitInfo *decided_last_commit;
-  size_t n_misbehavior;
-  Tendermint__Abci__Misbehavior **misbehavior;
-  /*
-   * hash is the merkle root hash of the fields of the decided block.
-   */
-  ProtobufCBinaryData hash;
-  int64_t height;
-  Google__Protobuf__Timestamp *time;
-  ProtobufCBinaryData next_validators_hash;
-  /*
-   * proposer_address is the address of the public key of the original proposer of the block.
-   */
-  ProtobufCBinaryData proposer_address;
-};
-#define TENDERMINT__ABCI__REQUEST_FINALIZE_BLOCK__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__request_finalize_block__descriptor) \
-    , 0,NULL, NULL, 0,NULL, {0,NULL}, 0, NULL, {0,NULL}, {0,NULL} }
-
-
 typedef enum {
   TENDERMINT__ABCI__RESPONSE__VALUE__NOT_SET = 0,
   TENDERMINT__ABCI__RESPONSE__VALUE_EXCEPTION = 1,
@@ -479,17 +433,17 @@ typedef enum {
   TENDERMINT__ABCI__RESPONSE__VALUE_INFO = 4,
   TENDERMINT__ABCI__RESPONSE__VALUE_INIT_CHAIN = 6,
   TENDERMINT__ABCI__RESPONSE__VALUE_QUERY = 7,
+  TENDERMINT__ABCI__RESPONSE__VALUE_BEGIN_BLOCK = 8,
   TENDERMINT__ABCI__RESPONSE__VALUE_CHECK_TX = 9,
+  TENDERMINT__ABCI__RESPONSE__VALUE_DELIVER_TX = 10,
+  TENDERMINT__ABCI__RESPONSE__VALUE_END_BLOCK = 11,
   TENDERMINT__ABCI__RESPONSE__VALUE_COMMIT = 12,
   TENDERMINT__ABCI__RESPONSE__VALUE_LIST_SNAPSHOTS = 13,
   TENDERMINT__ABCI__RESPONSE__VALUE_OFFER_SNAPSHOT = 14,
   TENDERMINT__ABCI__RESPONSE__VALUE_LOAD_SNAPSHOT_CHUNK = 15,
   TENDERMINT__ABCI__RESPONSE__VALUE_APPLY_SNAPSHOT_CHUNK = 16,
   TENDERMINT__ABCI__RESPONSE__VALUE_PREPARE_PROPOSAL = 17,
-  TENDERMINT__ABCI__RESPONSE__VALUE_PROCESS_PROPOSAL = 18,
-  TENDERMINT__ABCI__RESPONSE__VALUE_EXTEND_VOTE = 19,
-  TENDERMINT__ABCI__RESPONSE__VALUE_VERIFY_VOTE_EXTENSION = 20,
-  TENDERMINT__ABCI__RESPONSE__VALUE_FINALIZE_BLOCK = 21
+  TENDERMINT__ABCI__RESPONSE__VALUE_PROCESS_PROPOSAL = 18
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(TENDERMINT__ABCI__RESPONSE__VALUE__CASE)
 } Tendermint__Abci__Response__ValueCase;
 
@@ -504,7 +458,10 @@ struct  Tendermint__Abci__Response
     Tendermint__Abci__ResponseInfo *info;
     Tendermint__Abci__ResponseInitChain *init_chain;
     Tendermint__Abci__ResponseQuery *query;
+    Tendermint__Abci__ResponseBeginBlock *begin_block;
     Tendermint__Abci__ResponseCheckTx *check_tx;
+    Tendermint__Abci__ResponseDeliverTx *deliver_tx;
+    Tendermint__Abci__ResponseEndBlock *end_block;
     Tendermint__Abci__ResponseCommit *commit;
     Tendermint__Abci__ResponseListSnapshots *list_snapshots;
     Tendermint__Abci__ResponseOfferSnapshot *offer_snapshot;
@@ -512,9 +469,6 @@ struct  Tendermint__Abci__Response
     Tendermint__Abci__ResponseApplySnapshotChunk *apply_snapshot_chunk;
     Tendermint__Abci__ResponsePrepareProposal *prepare_proposal;
     Tendermint__Abci__ResponseProcessProposal *process_proposal;
-    Tendermint__Abci__ResponseExtendVote *extend_vote;
-    Tendermint__Abci__ResponseVerifyVoteExtension *verify_vote_extension;
-    Tendermint__Abci__ResponseFinalizeBlock *finalize_block;
   };
 };
 #define TENDERMINT__ABCI__RESPONSE__INIT \
@@ -608,6 +562,17 @@ struct  Tendermint__Abci__ResponseQuery
     , 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, {0,NULL}, {0,NULL}, NULL, 0, (char *)protobuf_c_empty_string }
 
 
+struct  Tendermint__Abci__ResponseBeginBlock
+{
+  ProtobufCMessage base;
+  size_t n_events;
+  Tendermint__Abci__Event **events;
+};
+#define TENDERMINT__ABCI__RESPONSE_BEGIN_BLOCK__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_begin_block__descriptor) \
+    , 0,NULL }
+
+
 struct  Tendermint__Abci__ResponseCheckTx
 {
   ProtobufCMessage base;
@@ -626,20 +591,72 @@ struct  Tendermint__Abci__ResponseCheckTx
   size_t n_events;
   Tendermint__Abci__Event **events;
   char *codespace;
+  char *sender;
+  int64_t priority;
+  /*
+   * mempool_error is set by CometBFT.
+   * ABCI applictions creating a ResponseCheckTX should not set mempool_error.
+   */
+  char *mempool_error;
 };
 #define TENDERMINT__ABCI__RESPONSE_CHECK_TX__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_check_tx__descriptor) \
+    , 0, {0,NULL}, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, 0,NULL, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string }
+
+
+struct  Tendermint__Abci__ResponseDeliverTx
+{
+  ProtobufCMessage base;
+  uint32_t code;
+  ProtobufCBinaryData data;
+  /*
+   * nondeterministic
+   */
+  char *log;
+  /*
+   * nondeterministic
+   */
+  char *info;
+  int64_t gas_wanted;
+  int64_t gas_used;
+  /*
+   * nondeterministic
+   */
+  size_t n_events;
+  Tendermint__Abci__Event **events;
+  char *codespace;
+};
+#define TENDERMINT__ABCI__RESPONSE_DELIVER_TX__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_deliver_tx__descriptor) \
     , 0, {0,NULL}, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, 0,NULL, (char *)protobuf_c_empty_string }
+
+
+struct  Tendermint__Abci__ResponseEndBlock
+{
+  ProtobufCMessage base;
+  size_t n_validator_updates;
+  Tendermint__Abci__ValidatorUpdate **validator_updates;
+  Tendermint__Types__ConsensusParams *consensus_param_updates;
+  size_t n_events;
+  Tendermint__Abci__Event **events;
+};
+#define TENDERMINT__ABCI__RESPONSE_END_BLOCK__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_end_block__descriptor) \
+    , 0,NULL, NULL, 0,NULL }
 
 
 struct  Tendermint__Abci__ResponseCommit
 {
   ProtobufCMessage base;
+  /*
+   * reserve 1
+   */
+  ProtobufCBinaryData data;
   int64_t retain_height;
 };
 #define TENDERMINT__ABCI__RESPONSE_COMMIT__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_commit__descriptor) \
-    , 0 }
+    , {0,NULL}, 0 }
 
 
 struct  Tendermint__Abci__ResponseListSnapshots
@@ -714,60 +731,6 @@ struct  Tendermint__Abci__ResponseProcessProposal
     , TENDERMINT__ABCI__RESPONSE_PROCESS_PROPOSAL__PROPOSAL_STATUS__UNKNOWN }
 
 
-struct  Tendermint__Abci__ResponseExtendVote
-{
-  ProtobufCMessage base;
-  ProtobufCBinaryData vote_extension;
-};
-#define TENDERMINT__ABCI__RESPONSE_EXTEND_VOTE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_extend_vote__descriptor) \
-    , {0,NULL} }
-
-
-struct  Tendermint__Abci__ResponseVerifyVoteExtension
-{
-  ProtobufCMessage base;
-  Tendermint__Abci__ResponseVerifyVoteExtension__VerifyStatus status;
-};
-#define TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_verify_vote_extension__descriptor) \
-    , TENDERMINT__ABCI__RESPONSE_VERIFY_VOTE_EXTENSION__VERIFY_STATUS__UNKNOWN }
-
-
-struct  Tendermint__Abci__ResponseFinalizeBlock
-{
-  ProtobufCMessage base;
-  /*
-   * set of block events emmitted as part of executing the block
-   */
-  size_t n_events;
-  Tendermint__Abci__Event **events;
-  /*
-   * the result of executing each transaction including the events
-   * the particular transction emitted. This should match the order
-   * of the transactions delivered in the block itself
-   */
-  size_t n_tx_results;
-  Tendermint__Abci__ExecTxResult **tx_results;
-  /*
-   * a list of updates to the validator set. These will reflect the validator set at current height + 2.
-   */
-  size_t n_validator_updates;
-  Tendermint__Abci__ValidatorUpdate **validator_updates;
-  /*
-   * updates to the consensus params, if any.
-   */
-  Tendermint__Types__ConsensusParams *consensus_param_updates;
-  /*
-   * app_hash is the hash of the applications' state which is used to confirm that execution of the transactions was deterministic. It is up to the application to decide which algorithm to use.
-   */
-  ProtobufCBinaryData app_hash;
-};
-#define TENDERMINT__ABCI__RESPONSE_FINALIZE_BLOCK__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__response_finalize_block__descriptor) \
-    , 0,NULL, 0,NULL, 0,NULL, NULL, {0,NULL} }
-
-
 struct  Tendermint__Abci__CommitInfo
 {
   ProtobufCMessage base;
@@ -780,11 +743,6 @@ struct  Tendermint__Abci__CommitInfo
     , 0, 0,NULL }
 
 
-/*
- * ExtendedCommitInfo is similar to CommitInfo except that it is only used in
- * the PrepareProposal request such that CometBFT can provide vote extensions
- * to the application.
- */
 struct  Tendermint__Abci__ExtendedCommitInfo
 {
   ProtobufCMessage base;
@@ -806,7 +764,7 @@ struct  Tendermint__Abci__ExtendedCommitInfo
 
 /*
  * Event allows application developers to attach additional information to
- * ResponseFinalizeBlock and ResponseCheckTx.
+ * ResponseBeginBlock, ResponseEndBlock, ResponseCheckTx and ResponseDeliverTx.
  * Later, transactions may be queried using these events.
  */
 struct  Tendermint__Abci__Event
@@ -840,37 +798,6 @@ struct  Tendermint__Abci__EventAttribute
 
 
 /*
- * ExecTxResult contains results of executing one individual transaction.
- * * Its structure is equivalent to #ResponseDeliverTx which will be deprecated/deleted
- */
-struct  Tendermint__Abci__ExecTxResult
-{
-  ProtobufCMessage base;
-  uint32_t code;
-  ProtobufCBinaryData data;
-  /*
-   * nondeterministic
-   */
-  char *log;
-  /*
-   * nondeterministic
-   */
-  char *info;
-  int64_t gas_wanted;
-  int64_t gas_used;
-  /*
-   * nondeterministic
-   */
-  size_t n_events;
-  Tendermint__Abci__Event **events;
-  char *codespace;
-};
-#define TENDERMINT__ABCI__EXEC_TX_RESULT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__exec_tx_result__descriptor) \
-    , 0, {0,NULL}, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, 0,NULL, (char *)protobuf_c_empty_string }
-
-
-/*
  * TxResult contains results of executing the transaction.
  * One usage is indexing transaction results.
  */
@@ -880,13 +807,16 @@ struct  Tendermint__Abci__TxResult
   int64_t height;
   uint32_t index;
   ProtobufCBinaryData tx;
-  Tendermint__Abci__ExecTxResult *result;
+  Tendermint__Abci__ResponseDeliverTx *result;
 };
 #define TENDERMINT__ABCI__TX_RESULT__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__tx_result__descriptor) \
     , 0, 0, {0,NULL}, NULL }
 
 
+/*
+ * Validator
+ */
 struct  Tendermint__Abci__Validator
 {
   ProtobufCMessage base;
@@ -907,6 +837,9 @@ struct  Tendermint__Abci__Validator
     , {0,NULL}, 0 }
 
 
+/*
+ * ValidatorUpdate
+ */
 struct  Tendermint__Abci__ValidatorUpdate
 {
   ProtobufCMessage base;
@@ -918,40 +851,33 @@ struct  Tendermint__Abci__ValidatorUpdate
     , NULL, 0 }
 
 
+/*
+ * VoteInfo
+ */
 struct  Tendermint__Abci__VoteInfo
 {
   ProtobufCMessage base;
   Tendermint__Abci__Validator *validator;
-  Tendermint__Types__BlockIDFlag block_id_flag;
+  protobuf_c_boolean signed_last_block;
 };
 #define TENDERMINT__ABCI__VOTE_INFO__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__vote_info__descriptor) \
-    , NULL, TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN }
+    , NULL, 0 }
 
 
 struct  Tendermint__Abci__ExtendedVoteInfo
 {
   ProtobufCMessage base;
-  /*
-   * The validator that sent the vote.
-   */
   Tendermint__Abci__Validator *validator;
+  protobuf_c_boolean signed_last_block;
   /*
-   * Non-deterministic extension provided by the sending validator's application.
+   * Reserved for future use
    */
   ProtobufCBinaryData vote_extension;
-  /*
-   * Vote extension signature created by CometBFT
-   */
-  ProtobufCBinaryData extension_signature;
-  /*
-   * block_id_flag indicates whether the validator voted for a block, nil, or did not vote at all
-   */
-  Tendermint__Types__BlockIDFlag block_id_flag;
 };
 #define TENDERMINT__ABCI__EXTENDED_VOTE_INFO__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&tendermint__abci__extended_vote_info__descriptor) \
-    , NULL, {0,NULL}, {0,NULL}, TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN }
+    , NULL, 0, {0,NULL} }
 
 
 struct  Tendermint__Abci__Misbehavior
@@ -1125,6 +1051,25 @@ Tendermint__Abci__RequestQuery *
 void   tendermint__abci__request_query__free_unpacked
                      (Tendermint__Abci__RequestQuery *message,
                       ProtobufCAllocator *allocator);
+/* Tendermint__Abci__RequestBeginBlock methods */
+void   tendermint__abci__request_begin_block__init
+                     (Tendermint__Abci__RequestBeginBlock         *message);
+size_t tendermint__abci__request_begin_block__get_packed_size
+                     (const Tendermint__Abci__RequestBeginBlock   *message);
+size_t tendermint__abci__request_begin_block__pack
+                     (const Tendermint__Abci__RequestBeginBlock   *message,
+                      uint8_t             *out);
+size_t tendermint__abci__request_begin_block__pack_to_buffer
+                     (const Tendermint__Abci__RequestBeginBlock   *message,
+                      ProtobufCBuffer     *buffer);
+Tendermint__Abci__RequestBeginBlock *
+       tendermint__abci__request_begin_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   tendermint__abci__request_begin_block__free_unpacked
+                     (Tendermint__Abci__RequestBeginBlock *message,
+                      ProtobufCAllocator *allocator);
 /* Tendermint__Abci__RequestCheckTx methods */
 void   tendermint__abci__request_check_tx__init
                      (Tendermint__Abci__RequestCheckTx         *message);
@@ -1143,6 +1088,44 @@ Tendermint__Abci__RequestCheckTx *
                       const uint8_t       *data);
 void   tendermint__abci__request_check_tx__free_unpacked
                      (Tendermint__Abci__RequestCheckTx *message,
+                      ProtobufCAllocator *allocator);
+/* Tendermint__Abci__RequestDeliverTx methods */
+void   tendermint__abci__request_deliver_tx__init
+                     (Tendermint__Abci__RequestDeliverTx         *message);
+size_t tendermint__abci__request_deliver_tx__get_packed_size
+                     (const Tendermint__Abci__RequestDeliverTx   *message);
+size_t tendermint__abci__request_deliver_tx__pack
+                     (const Tendermint__Abci__RequestDeliverTx   *message,
+                      uint8_t             *out);
+size_t tendermint__abci__request_deliver_tx__pack_to_buffer
+                     (const Tendermint__Abci__RequestDeliverTx   *message,
+                      ProtobufCBuffer     *buffer);
+Tendermint__Abci__RequestDeliverTx *
+       tendermint__abci__request_deliver_tx__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   tendermint__abci__request_deliver_tx__free_unpacked
+                     (Tendermint__Abci__RequestDeliverTx *message,
+                      ProtobufCAllocator *allocator);
+/* Tendermint__Abci__RequestEndBlock methods */
+void   tendermint__abci__request_end_block__init
+                     (Tendermint__Abci__RequestEndBlock         *message);
+size_t tendermint__abci__request_end_block__get_packed_size
+                     (const Tendermint__Abci__RequestEndBlock   *message);
+size_t tendermint__abci__request_end_block__pack
+                     (const Tendermint__Abci__RequestEndBlock   *message,
+                      uint8_t             *out);
+size_t tendermint__abci__request_end_block__pack_to_buffer
+                     (const Tendermint__Abci__RequestEndBlock   *message,
+                      ProtobufCBuffer     *buffer);
+Tendermint__Abci__RequestEndBlock *
+       tendermint__abci__request_end_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   tendermint__abci__request_end_block__free_unpacked
+                     (Tendermint__Abci__RequestEndBlock *message,
                       ProtobufCAllocator *allocator);
 /* Tendermint__Abci__RequestCommit methods */
 void   tendermint__abci__request_commit__init
@@ -1277,63 +1260,6 @@ Tendermint__Abci__RequestProcessProposal *
 void   tendermint__abci__request_process_proposal__free_unpacked
                      (Tendermint__Abci__RequestProcessProposal *message,
                       ProtobufCAllocator *allocator);
-/* Tendermint__Abci__RequestExtendVote methods */
-void   tendermint__abci__request_extend_vote__init
-                     (Tendermint__Abci__RequestExtendVote         *message);
-size_t tendermint__abci__request_extend_vote__get_packed_size
-                     (const Tendermint__Abci__RequestExtendVote   *message);
-size_t tendermint__abci__request_extend_vote__pack
-                     (const Tendermint__Abci__RequestExtendVote   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__request_extend_vote__pack_to_buffer
-                     (const Tendermint__Abci__RequestExtendVote   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__RequestExtendVote *
-       tendermint__abci__request_extend_vote__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__request_extend_vote__free_unpacked
-                     (Tendermint__Abci__RequestExtendVote *message,
-                      ProtobufCAllocator *allocator);
-/* Tendermint__Abci__RequestVerifyVoteExtension methods */
-void   tendermint__abci__request_verify_vote_extension__init
-                     (Tendermint__Abci__RequestVerifyVoteExtension         *message);
-size_t tendermint__abci__request_verify_vote_extension__get_packed_size
-                     (const Tendermint__Abci__RequestVerifyVoteExtension   *message);
-size_t tendermint__abci__request_verify_vote_extension__pack
-                     (const Tendermint__Abci__RequestVerifyVoteExtension   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__request_verify_vote_extension__pack_to_buffer
-                     (const Tendermint__Abci__RequestVerifyVoteExtension   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__RequestVerifyVoteExtension *
-       tendermint__abci__request_verify_vote_extension__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__request_verify_vote_extension__free_unpacked
-                     (Tendermint__Abci__RequestVerifyVoteExtension *message,
-                      ProtobufCAllocator *allocator);
-/* Tendermint__Abci__RequestFinalizeBlock methods */
-void   tendermint__abci__request_finalize_block__init
-                     (Tendermint__Abci__RequestFinalizeBlock         *message);
-size_t tendermint__abci__request_finalize_block__get_packed_size
-                     (const Tendermint__Abci__RequestFinalizeBlock   *message);
-size_t tendermint__abci__request_finalize_block__pack
-                     (const Tendermint__Abci__RequestFinalizeBlock   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__request_finalize_block__pack_to_buffer
-                     (const Tendermint__Abci__RequestFinalizeBlock   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__RequestFinalizeBlock *
-       tendermint__abci__request_finalize_block__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__request_finalize_block__free_unpacked
-                     (Tendermint__Abci__RequestFinalizeBlock *message,
-                      ProtobufCAllocator *allocator);
 /* Tendermint__Abci__Response methods */
 void   tendermint__abci__response__init
                      (Tendermint__Abci__Response         *message);
@@ -1467,6 +1393,25 @@ Tendermint__Abci__ResponseQuery *
 void   tendermint__abci__response_query__free_unpacked
                      (Tendermint__Abci__ResponseQuery *message,
                       ProtobufCAllocator *allocator);
+/* Tendermint__Abci__ResponseBeginBlock methods */
+void   tendermint__abci__response_begin_block__init
+                     (Tendermint__Abci__ResponseBeginBlock         *message);
+size_t tendermint__abci__response_begin_block__get_packed_size
+                     (const Tendermint__Abci__ResponseBeginBlock   *message);
+size_t tendermint__abci__response_begin_block__pack
+                     (const Tendermint__Abci__ResponseBeginBlock   *message,
+                      uint8_t             *out);
+size_t tendermint__abci__response_begin_block__pack_to_buffer
+                     (const Tendermint__Abci__ResponseBeginBlock   *message,
+                      ProtobufCBuffer     *buffer);
+Tendermint__Abci__ResponseBeginBlock *
+       tendermint__abci__response_begin_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   tendermint__abci__response_begin_block__free_unpacked
+                     (Tendermint__Abci__ResponseBeginBlock *message,
+                      ProtobufCAllocator *allocator);
 /* Tendermint__Abci__ResponseCheckTx methods */
 void   tendermint__abci__response_check_tx__init
                      (Tendermint__Abci__ResponseCheckTx         *message);
@@ -1485,6 +1430,44 @@ Tendermint__Abci__ResponseCheckTx *
                       const uint8_t       *data);
 void   tendermint__abci__response_check_tx__free_unpacked
                      (Tendermint__Abci__ResponseCheckTx *message,
+                      ProtobufCAllocator *allocator);
+/* Tendermint__Abci__ResponseDeliverTx methods */
+void   tendermint__abci__response_deliver_tx__init
+                     (Tendermint__Abci__ResponseDeliverTx         *message);
+size_t tendermint__abci__response_deliver_tx__get_packed_size
+                     (const Tendermint__Abci__ResponseDeliverTx   *message);
+size_t tendermint__abci__response_deliver_tx__pack
+                     (const Tendermint__Abci__ResponseDeliverTx   *message,
+                      uint8_t             *out);
+size_t tendermint__abci__response_deliver_tx__pack_to_buffer
+                     (const Tendermint__Abci__ResponseDeliverTx   *message,
+                      ProtobufCBuffer     *buffer);
+Tendermint__Abci__ResponseDeliverTx *
+       tendermint__abci__response_deliver_tx__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   tendermint__abci__response_deliver_tx__free_unpacked
+                     (Tendermint__Abci__ResponseDeliverTx *message,
+                      ProtobufCAllocator *allocator);
+/* Tendermint__Abci__ResponseEndBlock methods */
+void   tendermint__abci__response_end_block__init
+                     (Tendermint__Abci__ResponseEndBlock         *message);
+size_t tendermint__abci__response_end_block__get_packed_size
+                     (const Tendermint__Abci__ResponseEndBlock   *message);
+size_t tendermint__abci__response_end_block__pack
+                     (const Tendermint__Abci__ResponseEndBlock   *message,
+                      uint8_t             *out);
+size_t tendermint__abci__response_end_block__pack_to_buffer
+                     (const Tendermint__Abci__ResponseEndBlock   *message,
+                      ProtobufCBuffer     *buffer);
+Tendermint__Abci__ResponseEndBlock *
+       tendermint__abci__response_end_block__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   tendermint__abci__response_end_block__free_unpacked
+                     (Tendermint__Abci__ResponseEndBlock *message,
                       ProtobufCAllocator *allocator);
 /* Tendermint__Abci__ResponseCommit methods */
 void   tendermint__abci__response_commit__init
@@ -1619,63 +1602,6 @@ Tendermint__Abci__ResponseProcessProposal *
 void   tendermint__abci__response_process_proposal__free_unpacked
                      (Tendermint__Abci__ResponseProcessProposal *message,
                       ProtobufCAllocator *allocator);
-/* Tendermint__Abci__ResponseExtendVote methods */
-void   tendermint__abci__response_extend_vote__init
-                     (Tendermint__Abci__ResponseExtendVote         *message);
-size_t tendermint__abci__response_extend_vote__get_packed_size
-                     (const Tendermint__Abci__ResponseExtendVote   *message);
-size_t tendermint__abci__response_extend_vote__pack
-                     (const Tendermint__Abci__ResponseExtendVote   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__response_extend_vote__pack_to_buffer
-                     (const Tendermint__Abci__ResponseExtendVote   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__ResponseExtendVote *
-       tendermint__abci__response_extend_vote__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__response_extend_vote__free_unpacked
-                     (Tendermint__Abci__ResponseExtendVote *message,
-                      ProtobufCAllocator *allocator);
-/* Tendermint__Abci__ResponseVerifyVoteExtension methods */
-void   tendermint__abci__response_verify_vote_extension__init
-                     (Tendermint__Abci__ResponseVerifyVoteExtension         *message);
-size_t tendermint__abci__response_verify_vote_extension__get_packed_size
-                     (const Tendermint__Abci__ResponseVerifyVoteExtension   *message);
-size_t tendermint__abci__response_verify_vote_extension__pack
-                     (const Tendermint__Abci__ResponseVerifyVoteExtension   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__response_verify_vote_extension__pack_to_buffer
-                     (const Tendermint__Abci__ResponseVerifyVoteExtension   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__ResponseVerifyVoteExtension *
-       tendermint__abci__response_verify_vote_extension__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__response_verify_vote_extension__free_unpacked
-                     (Tendermint__Abci__ResponseVerifyVoteExtension *message,
-                      ProtobufCAllocator *allocator);
-/* Tendermint__Abci__ResponseFinalizeBlock methods */
-void   tendermint__abci__response_finalize_block__init
-                     (Tendermint__Abci__ResponseFinalizeBlock         *message);
-size_t tendermint__abci__response_finalize_block__get_packed_size
-                     (const Tendermint__Abci__ResponseFinalizeBlock   *message);
-size_t tendermint__abci__response_finalize_block__pack
-                     (const Tendermint__Abci__ResponseFinalizeBlock   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__response_finalize_block__pack_to_buffer
-                     (const Tendermint__Abci__ResponseFinalizeBlock   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__ResponseFinalizeBlock *
-       tendermint__abci__response_finalize_block__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__response_finalize_block__free_unpacked
-                     (Tendermint__Abci__ResponseFinalizeBlock *message,
-                      ProtobufCAllocator *allocator);
 /* Tendermint__Abci__CommitInfo methods */
 void   tendermint__abci__commit_info__init
                      (Tendermint__Abci__CommitInfo         *message);
@@ -1751,25 +1677,6 @@ Tendermint__Abci__EventAttribute *
                       const uint8_t       *data);
 void   tendermint__abci__event_attribute__free_unpacked
                      (Tendermint__Abci__EventAttribute *message,
-                      ProtobufCAllocator *allocator);
-/* Tendermint__Abci__ExecTxResult methods */
-void   tendermint__abci__exec_tx_result__init
-                     (Tendermint__Abci__ExecTxResult         *message);
-size_t tendermint__abci__exec_tx_result__get_packed_size
-                     (const Tendermint__Abci__ExecTxResult   *message);
-size_t tendermint__abci__exec_tx_result__pack
-                     (const Tendermint__Abci__ExecTxResult   *message,
-                      uint8_t             *out);
-size_t tendermint__abci__exec_tx_result__pack_to_buffer
-                     (const Tendermint__Abci__ExecTxResult   *message,
-                      ProtobufCBuffer     *buffer);
-Tendermint__Abci__ExecTxResult *
-       tendermint__abci__exec_tx_result__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   tendermint__abci__exec_tx_result__free_unpacked
-                     (Tendermint__Abci__ExecTxResult *message,
                       ProtobufCAllocator *allocator);
 /* Tendermint__Abci__TxResult methods */
 void   tendermint__abci__tx_result__init
@@ -1924,8 +1831,17 @@ typedef void (*Tendermint__Abci__RequestInitChain_Closure)
 typedef void (*Tendermint__Abci__RequestQuery_Closure)
                  (const Tendermint__Abci__RequestQuery *message,
                   void *closure_data);
+typedef void (*Tendermint__Abci__RequestBeginBlock_Closure)
+                 (const Tendermint__Abci__RequestBeginBlock *message,
+                  void *closure_data);
 typedef void (*Tendermint__Abci__RequestCheckTx_Closure)
                  (const Tendermint__Abci__RequestCheckTx *message,
+                  void *closure_data);
+typedef void (*Tendermint__Abci__RequestDeliverTx_Closure)
+                 (const Tendermint__Abci__RequestDeliverTx *message,
+                  void *closure_data);
+typedef void (*Tendermint__Abci__RequestEndBlock_Closure)
+                 (const Tendermint__Abci__RequestEndBlock *message,
                   void *closure_data);
 typedef void (*Tendermint__Abci__RequestCommit_Closure)
                  (const Tendermint__Abci__RequestCommit *message,
@@ -1948,15 +1864,6 @@ typedef void (*Tendermint__Abci__RequestPrepareProposal_Closure)
 typedef void (*Tendermint__Abci__RequestProcessProposal_Closure)
                  (const Tendermint__Abci__RequestProcessProposal *message,
                   void *closure_data);
-typedef void (*Tendermint__Abci__RequestExtendVote_Closure)
-                 (const Tendermint__Abci__RequestExtendVote *message,
-                  void *closure_data);
-typedef void (*Tendermint__Abci__RequestVerifyVoteExtension_Closure)
-                 (const Tendermint__Abci__RequestVerifyVoteExtension *message,
-                  void *closure_data);
-typedef void (*Tendermint__Abci__RequestFinalizeBlock_Closure)
-                 (const Tendermint__Abci__RequestFinalizeBlock *message,
-                  void *closure_data);
 typedef void (*Tendermint__Abci__Response_Closure)
                  (const Tendermint__Abci__Response *message,
                   void *closure_data);
@@ -1978,8 +1885,17 @@ typedef void (*Tendermint__Abci__ResponseInitChain_Closure)
 typedef void (*Tendermint__Abci__ResponseQuery_Closure)
                  (const Tendermint__Abci__ResponseQuery *message,
                   void *closure_data);
+typedef void (*Tendermint__Abci__ResponseBeginBlock_Closure)
+                 (const Tendermint__Abci__ResponseBeginBlock *message,
+                  void *closure_data);
 typedef void (*Tendermint__Abci__ResponseCheckTx_Closure)
                  (const Tendermint__Abci__ResponseCheckTx *message,
+                  void *closure_data);
+typedef void (*Tendermint__Abci__ResponseDeliverTx_Closure)
+                 (const Tendermint__Abci__ResponseDeliverTx *message,
+                  void *closure_data);
+typedef void (*Tendermint__Abci__ResponseEndBlock_Closure)
+                 (const Tendermint__Abci__ResponseEndBlock *message,
                   void *closure_data);
 typedef void (*Tendermint__Abci__ResponseCommit_Closure)
                  (const Tendermint__Abci__ResponseCommit *message,
@@ -2002,15 +1918,6 @@ typedef void (*Tendermint__Abci__ResponsePrepareProposal_Closure)
 typedef void (*Tendermint__Abci__ResponseProcessProposal_Closure)
                  (const Tendermint__Abci__ResponseProcessProposal *message,
                   void *closure_data);
-typedef void (*Tendermint__Abci__ResponseExtendVote_Closure)
-                 (const Tendermint__Abci__ResponseExtendVote *message,
-                  void *closure_data);
-typedef void (*Tendermint__Abci__ResponseVerifyVoteExtension_Closure)
-                 (const Tendermint__Abci__ResponseVerifyVoteExtension *message,
-                  void *closure_data);
-typedef void (*Tendermint__Abci__ResponseFinalizeBlock_Closure)
-                 (const Tendermint__Abci__ResponseFinalizeBlock *message,
-                  void *closure_data);
 typedef void (*Tendermint__Abci__CommitInfo_Closure)
                  (const Tendermint__Abci__CommitInfo *message,
                   void *closure_data);
@@ -2022,9 +1929,6 @@ typedef void (*Tendermint__Abci__Event_Closure)
                   void *closure_data);
 typedef void (*Tendermint__Abci__EventAttribute_Closure)
                  (const Tendermint__Abci__EventAttribute *message,
-                  void *closure_data);
-typedef void (*Tendermint__Abci__ExecTxResult_Closure)
-                 (const Tendermint__Abci__ExecTxResult *message,
                   void *closure_data);
 typedef void (*Tendermint__Abci__TxResult_Closure)
                  (const Tendermint__Abci__TxResult *message,
@@ -2050,162 +1954,162 @@ typedef void (*Tendermint__Abci__Snapshot_Closure)
 
 /* --- services --- */
 
-typedef struct Tendermint__Abci__ABCI_Service Tendermint__Abci__ABCI_Service;
-struct Tendermint__Abci__ABCI_Service
+typedef struct Tendermint__Abci__ABCIApplication_Service Tendermint__Abci__ABCIApplication_Service;
+struct Tendermint__Abci__ABCIApplication_Service
 {
   ProtobufCService base;
-  void (*echo)(Tendermint__Abci__ABCI_Service *service,
+  void (*echo)(Tendermint__Abci__ABCIApplication_Service *service,
                const Tendermint__Abci__RequestEcho *input,
                Tendermint__Abci__ResponseEcho_Closure closure,
                void *closure_data);
-  void (*flush)(Tendermint__Abci__ABCI_Service *service,
+  void (*flush)(Tendermint__Abci__ABCIApplication_Service *service,
                 const Tendermint__Abci__RequestFlush *input,
                 Tendermint__Abci__ResponseFlush_Closure closure,
                 void *closure_data);
-  void (*info)(Tendermint__Abci__ABCI_Service *service,
+  void (*info)(Tendermint__Abci__ABCIApplication_Service *service,
                const Tendermint__Abci__RequestInfo *input,
                Tendermint__Abci__ResponseInfo_Closure closure,
                void *closure_data);
-  void (*check_tx)(Tendermint__Abci__ABCI_Service *service,
+  void (*deliver_tx)(Tendermint__Abci__ABCIApplication_Service *service,
+                     const Tendermint__Abci__RequestDeliverTx *input,
+                     Tendermint__Abci__ResponseDeliverTx_Closure closure,
+                     void *closure_data);
+  void (*check_tx)(Tendermint__Abci__ABCIApplication_Service *service,
                    const Tendermint__Abci__RequestCheckTx *input,
                    Tendermint__Abci__ResponseCheckTx_Closure closure,
                    void *closure_data);
-  void (*query)(Tendermint__Abci__ABCI_Service *service,
+  void (*query)(Tendermint__Abci__ABCIApplication_Service *service,
                 const Tendermint__Abci__RequestQuery *input,
                 Tendermint__Abci__ResponseQuery_Closure closure,
                 void *closure_data);
-  void (*commit)(Tendermint__Abci__ABCI_Service *service,
+  void (*commit)(Tendermint__Abci__ABCIApplication_Service *service,
                  const Tendermint__Abci__RequestCommit *input,
                  Tendermint__Abci__ResponseCommit_Closure closure,
                  void *closure_data);
-  void (*init_chain)(Tendermint__Abci__ABCI_Service *service,
+  void (*init_chain)(Tendermint__Abci__ABCIApplication_Service *service,
                      const Tendermint__Abci__RequestInitChain *input,
                      Tendermint__Abci__ResponseInitChain_Closure closure,
                      void *closure_data);
-  void (*list_snapshots)(Tendermint__Abci__ABCI_Service *service,
+  void (*begin_block)(Tendermint__Abci__ABCIApplication_Service *service,
+                      const Tendermint__Abci__RequestBeginBlock *input,
+                      Tendermint__Abci__ResponseBeginBlock_Closure closure,
+                      void *closure_data);
+  void (*end_block)(Tendermint__Abci__ABCIApplication_Service *service,
+                    const Tendermint__Abci__RequestEndBlock *input,
+                    Tendermint__Abci__ResponseEndBlock_Closure closure,
+                    void *closure_data);
+  void (*list_snapshots)(Tendermint__Abci__ABCIApplication_Service *service,
                          const Tendermint__Abci__RequestListSnapshots *input,
                          Tendermint__Abci__ResponseListSnapshots_Closure closure,
                          void *closure_data);
-  void (*offer_snapshot)(Tendermint__Abci__ABCI_Service *service,
+  void (*offer_snapshot)(Tendermint__Abci__ABCIApplication_Service *service,
                          const Tendermint__Abci__RequestOfferSnapshot *input,
                          Tendermint__Abci__ResponseOfferSnapshot_Closure closure,
                          void *closure_data);
-  void (*load_snapshot_chunk)(Tendermint__Abci__ABCI_Service *service,
+  void (*load_snapshot_chunk)(Tendermint__Abci__ABCIApplication_Service *service,
                               const Tendermint__Abci__RequestLoadSnapshotChunk *input,
                               Tendermint__Abci__ResponseLoadSnapshotChunk_Closure closure,
                               void *closure_data);
-  void (*apply_snapshot_chunk)(Tendermint__Abci__ABCI_Service *service,
+  void (*apply_snapshot_chunk)(Tendermint__Abci__ABCIApplication_Service *service,
                                const Tendermint__Abci__RequestApplySnapshotChunk *input,
                                Tendermint__Abci__ResponseApplySnapshotChunk_Closure closure,
                                void *closure_data);
-  void (*prepare_proposal)(Tendermint__Abci__ABCI_Service *service,
+  void (*prepare_proposal)(Tendermint__Abci__ABCIApplication_Service *service,
                            const Tendermint__Abci__RequestPrepareProposal *input,
                            Tendermint__Abci__ResponsePrepareProposal_Closure closure,
                            void *closure_data);
-  void (*process_proposal)(Tendermint__Abci__ABCI_Service *service,
+  void (*process_proposal)(Tendermint__Abci__ABCIApplication_Service *service,
                            const Tendermint__Abci__RequestProcessProposal *input,
                            Tendermint__Abci__ResponseProcessProposal_Closure closure,
                            void *closure_data);
-  void (*extend_vote)(Tendermint__Abci__ABCI_Service *service,
-                      const Tendermint__Abci__RequestExtendVote *input,
-                      Tendermint__Abci__ResponseExtendVote_Closure closure,
-                      void *closure_data);
-  void (*verify_vote_extension)(Tendermint__Abci__ABCI_Service *service,
-                                const Tendermint__Abci__RequestVerifyVoteExtension *input,
-                                Tendermint__Abci__ResponseVerifyVoteExtension_Closure closure,
-                                void *closure_data);
-  void (*finalize_block)(Tendermint__Abci__ABCI_Service *service,
-                         const Tendermint__Abci__RequestFinalizeBlock *input,
-                         Tendermint__Abci__ResponseFinalizeBlock_Closure closure,
-                         void *closure_data);
 };
-typedef void (*Tendermint__Abci__ABCI_ServiceDestroy)(Tendermint__Abci__ABCI_Service *);
-void tendermint__abci__abci__init (Tendermint__Abci__ABCI_Service *service,
-                                   Tendermint__Abci__ABCI_ServiceDestroy destroy);
-#define TENDERMINT__ABCI__ABCI__BASE_INIT \
-    { &tendermint__abci__abci__descriptor, protobuf_c_service_invoke_internal, NULL }
-#define TENDERMINT__ABCI__ABCI__INIT(function_prefix__) \
-    { TENDERMINT__ABCI__ABCI__BASE_INIT,\
+typedef void (*Tendermint__Abci__ABCIApplication_ServiceDestroy)(Tendermint__Abci__ABCIApplication_Service *);
+void tendermint__abci__abciapplication__init (Tendermint__Abci__ABCIApplication_Service *service,
+                                              Tendermint__Abci__ABCIApplication_ServiceDestroy destroy);
+#define TENDERMINT__ABCI__ABCIAPPLICATION__BASE_INIT \
+    { &tendermint__abci__abciapplication__descriptor, protobuf_c_service_invoke_internal, NULL }
+#define TENDERMINT__ABCI__ABCIAPPLICATION__INIT(function_prefix__) \
+    { TENDERMINT__ABCI__ABCIAPPLICATION__BASE_INIT,\
       function_prefix__ ## echo,\
       function_prefix__ ## flush,\
       function_prefix__ ## info,\
+      function_prefix__ ## deliver_tx,\
       function_prefix__ ## check_tx,\
       function_prefix__ ## query,\
       function_prefix__ ## commit,\
       function_prefix__ ## init_chain,\
+      function_prefix__ ## begin_block,\
+      function_prefix__ ## end_block,\
       function_prefix__ ## list_snapshots,\
       function_prefix__ ## offer_snapshot,\
       function_prefix__ ## load_snapshot_chunk,\
       function_prefix__ ## apply_snapshot_chunk,\
       function_prefix__ ## prepare_proposal,\
-      function_prefix__ ## process_proposal,\
-      function_prefix__ ## extend_vote,\
-      function_prefix__ ## verify_vote_extension,\
-      function_prefix__ ## finalize_block  }
-void tendermint__abci__abci__echo(ProtobufCService *service,
-                                  const Tendermint__Abci__RequestEcho *input,
-                                  Tendermint__Abci__ResponseEcho_Closure closure,
-                                  void *closure_data);
-void tendermint__abci__abci__flush(ProtobufCService *service,
-                                   const Tendermint__Abci__RequestFlush *input,
-                                   Tendermint__Abci__ResponseFlush_Closure closure,
-                                   void *closure_data);
-void tendermint__abci__abci__info(ProtobufCService *service,
-                                  const Tendermint__Abci__RequestInfo *input,
-                                  Tendermint__Abci__ResponseInfo_Closure closure,
-                                  void *closure_data);
-void tendermint__abci__abci__check_tx(ProtobufCService *service,
-                                      const Tendermint__Abci__RequestCheckTx *input,
-                                      Tendermint__Abci__ResponseCheckTx_Closure closure,
-                                      void *closure_data);
-void tendermint__abci__abci__query(ProtobufCService *service,
-                                   const Tendermint__Abci__RequestQuery *input,
-                                   Tendermint__Abci__ResponseQuery_Closure closure,
-                                   void *closure_data);
-void tendermint__abci__abci__commit(ProtobufCService *service,
-                                    const Tendermint__Abci__RequestCommit *input,
-                                    Tendermint__Abci__ResponseCommit_Closure closure,
-                                    void *closure_data);
-void tendermint__abci__abci__init_chain(ProtobufCService *service,
-                                        const Tendermint__Abci__RequestInitChain *input,
-                                        Tendermint__Abci__ResponseInitChain_Closure closure,
-                                        void *closure_data);
-void tendermint__abci__abci__list_snapshots(ProtobufCService *service,
-                                            const Tendermint__Abci__RequestListSnapshots *input,
-                                            Tendermint__Abci__ResponseListSnapshots_Closure closure,
-                                            void *closure_data);
-void tendermint__abci__abci__offer_snapshot(ProtobufCService *service,
-                                            const Tendermint__Abci__RequestOfferSnapshot *input,
-                                            Tendermint__Abci__ResponseOfferSnapshot_Closure closure,
-                                            void *closure_data);
-void tendermint__abci__abci__load_snapshot_chunk(ProtobufCService *service,
-                                                 const Tendermint__Abci__RequestLoadSnapshotChunk *input,
-                                                 Tendermint__Abci__ResponseLoadSnapshotChunk_Closure closure,
-                                                 void *closure_data);
-void tendermint__abci__abci__apply_snapshot_chunk(ProtobufCService *service,
-                                                  const Tendermint__Abci__RequestApplySnapshotChunk *input,
-                                                  Tendermint__Abci__ResponseApplySnapshotChunk_Closure closure,
-                                                  void *closure_data);
-void tendermint__abci__abci__prepare_proposal(ProtobufCService *service,
-                                              const Tendermint__Abci__RequestPrepareProposal *input,
-                                              Tendermint__Abci__ResponsePrepareProposal_Closure closure,
+      function_prefix__ ## process_proposal  }
+void tendermint__abci__abciapplication__echo(ProtobufCService *service,
+                                             const Tendermint__Abci__RequestEcho *input,
+                                             Tendermint__Abci__ResponseEcho_Closure closure,
+                                             void *closure_data);
+void tendermint__abci__abciapplication__flush(ProtobufCService *service,
+                                              const Tendermint__Abci__RequestFlush *input,
+                                              Tendermint__Abci__ResponseFlush_Closure closure,
                                               void *closure_data);
-void tendermint__abci__abci__process_proposal(ProtobufCService *service,
-                                              const Tendermint__Abci__RequestProcessProposal *input,
-                                              Tendermint__Abci__ResponseProcessProposal_Closure closure,
-                                              void *closure_data);
-void tendermint__abci__abci__extend_vote(ProtobufCService *service,
-                                         const Tendermint__Abci__RequestExtendVote *input,
-                                         Tendermint__Abci__ResponseExtendVote_Closure closure,
-                                         void *closure_data);
-void tendermint__abci__abci__verify_vote_extension(ProtobufCService *service,
-                                                   const Tendermint__Abci__RequestVerifyVoteExtension *input,
-                                                   Tendermint__Abci__ResponseVerifyVoteExtension_Closure closure,
+void tendermint__abci__abciapplication__info(ProtobufCService *service,
+                                             const Tendermint__Abci__RequestInfo *input,
+                                             Tendermint__Abci__ResponseInfo_Closure closure,
+                                             void *closure_data);
+void tendermint__abci__abciapplication__deliver_tx(ProtobufCService *service,
+                                                   const Tendermint__Abci__RequestDeliverTx *input,
+                                                   Tendermint__Abci__ResponseDeliverTx_Closure closure,
                                                    void *closure_data);
-void tendermint__abci__abci__finalize_block(ProtobufCService *service,
-                                            const Tendermint__Abci__RequestFinalizeBlock *input,
-                                            Tendermint__Abci__ResponseFinalizeBlock_Closure closure,
-                                            void *closure_data);
+void tendermint__abci__abciapplication__check_tx(ProtobufCService *service,
+                                                 const Tendermint__Abci__RequestCheckTx *input,
+                                                 Tendermint__Abci__ResponseCheckTx_Closure closure,
+                                                 void *closure_data);
+void tendermint__abci__abciapplication__query(ProtobufCService *service,
+                                              const Tendermint__Abci__RequestQuery *input,
+                                              Tendermint__Abci__ResponseQuery_Closure closure,
+                                              void *closure_data);
+void tendermint__abci__abciapplication__commit(ProtobufCService *service,
+                                               const Tendermint__Abci__RequestCommit *input,
+                                               Tendermint__Abci__ResponseCommit_Closure closure,
+                                               void *closure_data);
+void tendermint__abci__abciapplication__init_chain(ProtobufCService *service,
+                                                   const Tendermint__Abci__RequestInitChain *input,
+                                                   Tendermint__Abci__ResponseInitChain_Closure closure,
+                                                   void *closure_data);
+void tendermint__abci__abciapplication__begin_block(ProtobufCService *service,
+                                                    const Tendermint__Abci__RequestBeginBlock *input,
+                                                    Tendermint__Abci__ResponseBeginBlock_Closure closure,
+                                                    void *closure_data);
+void tendermint__abci__abciapplication__end_block(ProtobufCService *service,
+                                                  const Tendermint__Abci__RequestEndBlock *input,
+                                                  Tendermint__Abci__ResponseEndBlock_Closure closure,
+                                                  void *closure_data);
+void tendermint__abci__abciapplication__list_snapshots(ProtobufCService *service,
+                                                       const Tendermint__Abci__RequestListSnapshots *input,
+                                                       Tendermint__Abci__ResponseListSnapshots_Closure closure,
+                                                       void *closure_data);
+void tendermint__abci__abciapplication__offer_snapshot(ProtobufCService *service,
+                                                       const Tendermint__Abci__RequestOfferSnapshot *input,
+                                                       Tendermint__Abci__ResponseOfferSnapshot_Closure closure,
+                                                       void *closure_data);
+void tendermint__abci__abciapplication__load_snapshot_chunk(ProtobufCService *service,
+                                                            const Tendermint__Abci__RequestLoadSnapshotChunk *input,
+                                                            Tendermint__Abci__ResponseLoadSnapshotChunk_Closure closure,
+                                                            void *closure_data);
+void tendermint__abci__abciapplication__apply_snapshot_chunk(ProtobufCService *service,
+                                                             const Tendermint__Abci__RequestApplySnapshotChunk *input,
+                                                             Tendermint__Abci__ResponseApplySnapshotChunk_Closure closure,
+                                                             void *closure_data);
+void tendermint__abci__abciapplication__prepare_proposal(ProtobufCService *service,
+                                                         const Tendermint__Abci__RequestPrepareProposal *input,
+                                                         Tendermint__Abci__ResponsePrepareProposal_Closure closure,
+                                                         void *closure_data);
+void tendermint__abci__abciapplication__process_proposal(ProtobufCService *service,
+                                                         const Tendermint__Abci__RequestProcessProposal *input,
+                                                         Tendermint__Abci__ResponseProcessProposal_Closure closure,
+                                                         void *closure_data);
 
 /* --- descriptors --- */
 
@@ -2217,7 +2121,10 @@ extern const ProtobufCMessageDescriptor tendermint__abci__request_flush__descrip
 extern const ProtobufCMessageDescriptor tendermint__abci__request_info__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_init_chain__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_query__descriptor;
+extern const ProtobufCMessageDescriptor tendermint__abci__request_begin_block__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_check_tx__descriptor;
+extern const ProtobufCMessageDescriptor tendermint__abci__request_deliver_tx__descriptor;
+extern const ProtobufCMessageDescriptor tendermint__abci__request_end_block__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_commit__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_list_snapshots__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_offer_snapshot__descriptor;
@@ -2225,9 +2132,6 @@ extern const ProtobufCMessageDescriptor tendermint__abci__request_load_snapshot_
 extern const ProtobufCMessageDescriptor tendermint__abci__request_apply_snapshot_chunk__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_prepare_proposal__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__request_process_proposal__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__request_extend_vote__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__request_verify_vote_extension__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__request_finalize_block__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_exception__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_echo__descriptor;
@@ -2235,7 +2139,10 @@ extern const ProtobufCMessageDescriptor tendermint__abci__response_flush__descri
 extern const ProtobufCMessageDescriptor tendermint__abci__response_info__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_init_chain__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_query__descriptor;
+extern const ProtobufCMessageDescriptor tendermint__abci__response_begin_block__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_check_tx__descriptor;
+extern const ProtobufCMessageDescriptor tendermint__abci__response_deliver_tx__descriptor;
+extern const ProtobufCMessageDescriptor tendermint__abci__response_end_block__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_commit__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_list_snapshots__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_offer_snapshot__descriptor;
@@ -2246,15 +2153,10 @@ extern const ProtobufCEnumDescriptor    tendermint__abci__response_apply_snapsho
 extern const ProtobufCMessageDescriptor tendermint__abci__response_prepare_proposal__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__response_process_proposal__descriptor;
 extern const ProtobufCEnumDescriptor    tendermint__abci__response_process_proposal__proposal_status__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__response_extend_vote__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__response_verify_vote_extension__descriptor;
-extern const ProtobufCEnumDescriptor    tendermint__abci__response_verify_vote_extension__verify_status__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__response_finalize_block__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__commit_info__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__extended_commit_info__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__event__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__event_attribute__descriptor;
-extern const ProtobufCMessageDescriptor tendermint__abci__exec_tx_result__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__tx_result__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__validator__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__validator_update__descriptor;
@@ -2262,7 +2164,7 @@ extern const ProtobufCMessageDescriptor tendermint__abci__vote_info__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__extended_vote_info__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__misbehavior__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__abci__snapshot__descriptor;
-extern const ProtobufCServiceDescriptor tendermint__abci__abci__descriptor;
+extern const ProtobufCServiceDescriptor tendermint__abci__abciapplication__descriptor;
 
 PROTOBUF_C__END_DECLS
 

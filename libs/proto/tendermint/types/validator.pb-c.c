@@ -334,35 +334,3 @@ const ProtobufCMessageDescriptor tendermint__types__simple_validator__descriptor
   (ProtobufCMessageInit) tendermint__types__simple_validator__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue tendermint__types__block_idflag__enum_values_by_number[4] =
-{
-  { "BLOCK_ID_FLAG_UNKNOWN", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN", 0 },
-  { "BLOCK_ID_FLAG_ABSENT", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_ABSENT", 1 },
-  { "BLOCK_ID_FLAG_COMMIT", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_COMMIT", 2 },
-  { "BLOCK_ID_FLAG_NIL", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_NIL", 3 },
-};
-static const ProtobufCIntRange tendermint__types__block_idflag__value_ranges[] = {
-{0, 0},{0, 4}
-};
-static const ProtobufCEnumValueIndex tendermint__types__block_idflag__enum_values_by_name[4] =
-{
-  { "BLOCK_ID_FLAG_ABSENT", 1 },
-  { "BLOCK_ID_FLAG_COMMIT", 2 },
-  { "BLOCK_ID_FLAG_NIL", 3 },
-  { "BLOCK_ID_FLAG_UNKNOWN", 0 },
-};
-const ProtobufCEnumDescriptor tendermint__types__block_idflag__descriptor =
-{
-  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "tendermint.types.BlockIDFlag",
-  "BlockIDFlag",
-  "Tendermint__Types__BlockIDFlag",
-  "tendermint.types",
-  4,
-  tendermint__types__block_idflag__enum_values_by_number,
-  4,
-  tendermint__types__block_idflag__enum_values_by_name,
-  1,
-  tendermint__types__block_idflag__value_ranges,
-  NULL,NULL,NULL,NULL   /* reserved[1234] */
-};

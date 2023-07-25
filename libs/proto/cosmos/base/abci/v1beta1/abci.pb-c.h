@@ -16,7 +16,6 @@ PROTOBUF_C__BEGIN_DECLS
 
 #include "gogoproto/gogo.pb-c.h"
 #include "tendermint/abci/types.pb-c.h"
-#include "tendermint/types/block.pb-c.h"
 #include "google/protobuf/any.pb-c.h"
 
 typedef struct Cosmos__Base__Abci__V1beta1__TxResponse Cosmos__Base__Abci__V1beta1__TxResponse;
@@ -29,7 +28,6 @@ typedef struct Cosmos__Base__Abci__V1beta1__SimulationResponse Cosmos__Base__Abc
 typedef struct Cosmos__Base__Abci__V1beta1__MsgData Cosmos__Base__Abci__V1beta1__MsgData;
 typedef struct Cosmos__Base__Abci__V1beta1__TxMsgData Cosmos__Base__Abci__V1beta1__TxMsgData;
 typedef struct Cosmos__Base__Abci__V1beta1__SearchTxsResult Cosmos__Base__Abci__V1beta1__SearchTxsResult;
-typedef struct Cosmos__Base__Abci__V1beta1__SearchBlocksResult Cosmos__Base__Abci__V1beta1__SearchBlocksResult;
 
 
 /* --- enums --- */
@@ -308,43 +306,6 @@ struct  Cosmos__Base__Abci__V1beta1__SearchTxsResult
     , 0, 0, 0, 0, 0, 0,NULL }
 
 
-/*
- * SearchBlocksResult defines a structure for querying blocks pageable
- */
-struct  Cosmos__Base__Abci__V1beta1__SearchBlocksResult
-{
-  ProtobufCMessage base;
-  /*
-   * Count of all blocks
-   */
-  int64_t total_count;
-  /*
-   * Count of blocks in current page
-   */
-  int64_t count;
-  /*
-   * Index of current page, start from 1
-   */
-  int64_t page_number;
-  /*
-   * Count of total pages
-   */
-  int64_t page_total;
-  /*
-   * Max count blocks per page
-   */
-  int64_t limit;
-  /*
-   * List of blocks in current page
-   */
-  size_t n_blocks;
-  Tendermint__Types__Block **blocks;
-};
-#define COSMOS__BASE__ABCI__V1BETA1__SEARCH_BLOCKS_RESULT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cosmos__base__abci__v1beta1__search_blocks_result__descriptor) \
-    , 0, 0, 0, 0, 0, 0,NULL }
-
-
 /* Cosmos__Base__Abci__V1beta1__TxResponse methods */
 void   cosmos__base__abci__v1beta1__tx_response__init
                      (Cosmos__Base__Abci__V1beta1__TxResponse         *message);
@@ -535,25 +496,6 @@ Cosmos__Base__Abci__V1beta1__SearchTxsResult *
 void   cosmos__base__abci__v1beta1__search_txs_result__free_unpacked
                      (Cosmos__Base__Abci__V1beta1__SearchTxsResult *message,
                       ProtobufCAllocator *allocator);
-/* Cosmos__Base__Abci__V1beta1__SearchBlocksResult methods */
-void   cosmos__base__abci__v1beta1__search_blocks_result__init
-                     (Cosmos__Base__Abci__V1beta1__SearchBlocksResult         *message);
-size_t cosmos__base__abci__v1beta1__search_blocks_result__get_packed_size
-                     (const Cosmos__Base__Abci__V1beta1__SearchBlocksResult   *message);
-size_t cosmos__base__abci__v1beta1__search_blocks_result__pack
-                     (const Cosmos__Base__Abci__V1beta1__SearchBlocksResult   *message,
-                      uint8_t             *out);
-size_t cosmos__base__abci__v1beta1__search_blocks_result__pack_to_buffer
-                     (const Cosmos__Base__Abci__V1beta1__SearchBlocksResult   *message,
-                      ProtobufCBuffer     *buffer);
-Cosmos__Base__Abci__V1beta1__SearchBlocksResult *
-       cosmos__base__abci__v1beta1__search_blocks_result__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   cosmos__base__abci__v1beta1__search_blocks_result__free_unpacked
-                     (Cosmos__Base__Abci__V1beta1__SearchBlocksResult *message,
-                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*Cosmos__Base__Abci__V1beta1__TxResponse_Closure)
@@ -586,9 +528,6 @@ typedef void (*Cosmos__Base__Abci__V1beta1__TxMsgData_Closure)
 typedef void (*Cosmos__Base__Abci__V1beta1__SearchTxsResult_Closure)
                  (const Cosmos__Base__Abci__V1beta1__SearchTxsResult *message,
                   void *closure_data);
-typedef void (*Cosmos__Base__Abci__V1beta1__SearchBlocksResult_Closure)
-                 (const Cosmos__Base__Abci__V1beta1__SearchBlocksResult *message,
-                  void *closure_data);
 
 /* --- services --- */
 
@@ -605,7 +544,6 @@ extern const ProtobufCMessageDescriptor cosmos__base__abci__v1beta1__simulation_
 extern const ProtobufCMessageDescriptor cosmos__base__abci__v1beta1__msg_data__descriptor;
 extern const ProtobufCMessageDescriptor cosmos__base__abci__v1beta1__tx_msg_data__descriptor;
 extern const ProtobufCMessageDescriptor cosmos__base__abci__v1beta1__search_txs_result__descriptor;
-extern const ProtobufCMessageDescriptor cosmos__base__abci__v1beta1__search_blocks_result__descriptor;
 
 PROTOBUF_C__END_DECLS
 

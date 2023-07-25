@@ -24,28 +24,6 @@ typedef struct Tendermint__Types__SimpleValidator Tendermint__Types__SimpleValid
 
 /* --- enums --- */
 
-/*
- * BlockIdFlag indicates which BlockID the signature is for
- */
-typedef enum _Tendermint__Types__BlockIDFlag {
-  /*
-   * indicates an error condition
-   */
-  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN = 0,
-  /*
-   * the vote was not received
-   */
-  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_ABSENT = 1,
-  /*
-   * voted for the block that received the majority
-   */
-  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_COMMIT = 2,
-  /*
-   * voted for nil
-   */
-  TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_NIL = 3
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(TENDERMINT__TYPES__BLOCK_IDFLAG)
-} Tendermint__Types__BlockIDFlag;
 
 /* --- messages --- */
 
@@ -160,7 +138,6 @@ typedef void (*Tendermint__Types__SimpleValidator_Closure)
 
 /* --- descriptors --- */
 
-extern const ProtobufCEnumDescriptor    tendermint__types__block_idflag__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__validator_set__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__validator__descriptor;
 extern const ProtobufCMessageDescriptor tendermint__types__simple_validator__descriptor;

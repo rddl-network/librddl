@@ -48,8 +48,7 @@ typedef struct Cosmos__Tx__V1beta1__TxDecodeAminoResponse Cosmos__Tx__V1beta1__T
  */
 typedef enum _Cosmos__Tx__V1beta1__OrderBy {
   /*
-   * ORDER_BY_UNSPECIFIED specifies an unknown sorting order. OrderBy defaults
-   * to ASC in this case.
+   * ORDER_BY_UNSPECIFIED specifies an unknown sorting order. OrderBy defaults to ASC in this case.
    */
   COSMOS__TX__V1BETA1__ORDER_BY__ORDER_BY_UNSPECIFIED = 0,
   /*
@@ -63,8 +62,7 @@ typedef enum _Cosmos__Tx__V1beta1__OrderBy {
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(COSMOS__TX__V1BETA1__ORDER_BY)
 } Cosmos__Tx__V1beta1__OrderBy;
 /*
- * BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC
- * method.
+ * BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC method.
  */
 typedef enum _Cosmos__Tx__V1beta1__BroadcastMode {
   /*
@@ -77,13 +75,13 @@ typedef enum _Cosmos__Tx__V1beta1__BroadcastMode {
    */
   COSMOS__TX__V1BETA1__BROADCAST_MODE__BROADCAST_MODE_BLOCK = 1,
   /*
-   * BROADCAST_MODE_SYNC defines a tx broadcasting mode where the client waits
-   * for a CheckTx execution response only.
+   * BROADCAST_MODE_SYNC defines a tx broadcasting mode where the client waits for
+   * a CheckTx execution response only.
    */
   COSMOS__TX__V1BETA1__BROADCAST_MODE__BROADCAST_MODE_SYNC = 2,
   /*
-   * BROADCAST_MODE_ASYNC defines a tx broadcasting mode where the client
-   * returns immediately.
+   * BROADCAST_MODE_ASYNC defines a tx broadcasting mode where the client returns
+   * immediately.
    */
   COSMOS__TX__V1BETA1__BROADCAST_MODE__BROADCAST_MODE_ASYNC = 3
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(COSMOS__TX__V1BETA1__BROADCAST_MODE)
@@ -100,11 +98,9 @@ struct  Cosmos__Tx__V1beta1__GetTxsEventRequest
   ProtobufCMessage base;
   /*
    * events is the list of transaction event type.
-   * Deprecated post v0.47.x: use query instead, which should contain a valid
-   * events query.
    */
-  size_t n_events PROTOBUF_C__DEPRECATED;
-  char **events PROTOBUF_C__DEPRECATED;
+  size_t n_events;
+  char **events;
   /*
    * pagination defines a pagination for the request.
    * Deprecated post v0.46.x: use page and limit instead.
@@ -112,8 +108,7 @@ struct  Cosmos__Tx__V1beta1__GetTxsEventRequest
   Cosmos__Base__Query__V1beta1__PageRequest *pagination PROTOBUF_C__DEPRECATED;
   Cosmos__Tx__V1beta1__OrderBy order_by;
   /*
-   * page is the page number to query, starts at 1. If not provided, will
-   * default to first page.
+   * page is the page number to query, starts at 1. If not provided, will default to first page.
    */
   uint64_t page;
   /*
@@ -121,16 +116,10 @@ struct  Cosmos__Tx__V1beta1__GetTxsEventRequest
    * If left empty it will default to a value to be set by each app.
    */
   uint64_t limit;
-  /*
-   * query defines the transaction event query that is proxied to Tendermint's
-   * TxSearch RPC method. The query must be valid.
-   * Since cosmos-sdk 0.50
-   */
-  char *query;
 };
 #define COSMOS__TX__V1BETA1__GET_TXS_EVENT_REQUEST__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&cosmos__tx__v1beta1__get_txs_event_request__descriptor) \
-    , 0,NULL, NULL, COSMOS__TX__V1BETA1__ORDER_BY__ORDER_BY_UNSPECIFIED, 0, 0, (char *)protobuf_c_empty_string }
+    , 0,NULL, NULL, COSMOS__TX__V1BETA1__ORDER_BY__ORDER_BY_UNSPECIFIED, 0, 0 }
 
 
 /*
@@ -304,8 +293,7 @@ struct  Cosmos__Tx__V1beta1__GetBlockWithTxsRequest
 
 
 /*
- * GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs
- * method.
+ * GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs method.
  * Since: cosmos-sdk 0.45.2
  */
 struct  Cosmos__Tx__V1beta1__GetBlockWithTxsResponse

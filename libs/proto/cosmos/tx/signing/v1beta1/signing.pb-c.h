@@ -49,9 +49,7 @@ typedef enum _Cosmos__Tx__Signing__V1beta1__SignMode {
   /*
    * SIGN_MODE_TEXTUAL is a future signing mode that will verify some
    * human-readable textual representation on top of the binary representation
-   * from SIGN_MODE_DIRECT. It is currently experimental, and should be used
-   * for testing purposes only, until Textual is fully released. Please follow
-   * the tracking issue https://github.com/cosmos/cosmos-sdk/issues/11970.
+   * from SIGN_MODE_DIRECT. It is currently not supported.
    */
   COSMOS__TX__SIGNING__V1BETA1__SIGN_MODE__SIGN_MODE_TEXTUAL = 2,
   /*

@@ -367,96 +367,6 @@ void   tendermint__types__commit_sig__free_unpacked
   assert(message->base.descriptor == &tendermint__types__commit_sig__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   tendermint__types__extended_commit__init
-                     (Tendermint__Types__ExtendedCommit         *message)
-{
-  static const Tendermint__Types__ExtendedCommit init_value = TENDERMINT__TYPES__EXTENDED_COMMIT__INIT;
-  *message = init_value;
-}
-size_t tendermint__types__extended_commit__get_packed_size
-                     (const Tendermint__Types__ExtendedCommit *message)
-{
-  assert(message->base.descriptor == &tendermint__types__extended_commit__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__types__extended_commit__pack
-                     (const Tendermint__Types__ExtendedCommit *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__types__extended_commit__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__types__extended_commit__pack_to_buffer
-                     (const Tendermint__Types__ExtendedCommit *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__types__extended_commit__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Types__ExtendedCommit *
-       tendermint__types__extended_commit__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Types__ExtendedCommit *)
-     protobuf_c_message_unpack (&tendermint__types__extended_commit__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__types__extended_commit__free_unpacked
-                     (Tendermint__Types__ExtendedCommit *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__types__extended_commit__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
-void   tendermint__types__extended_commit_sig__init
-                     (Tendermint__Types__ExtendedCommitSig         *message)
-{
-  static const Tendermint__Types__ExtendedCommitSig init_value = TENDERMINT__TYPES__EXTENDED_COMMIT_SIG__INIT;
-  *message = init_value;
-}
-size_t tendermint__types__extended_commit_sig__get_packed_size
-                     (const Tendermint__Types__ExtendedCommitSig *message)
-{
-  assert(message->base.descriptor == &tendermint__types__extended_commit_sig__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t tendermint__types__extended_commit_sig__pack
-                     (const Tendermint__Types__ExtendedCommitSig *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &tendermint__types__extended_commit_sig__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t tendermint__types__extended_commit_sig__pack_to_buffer
-                     (const Tendermint__Types__ExtendedCommitSig *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &tendermint__types__extended_commit_sig__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Tendermint__Types__ExtendedCommitSig *
-       tendermint__types__extended_commit_sig__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Tendermint__Types__ExtendedCommitSig *)
-     protobuf_c_message_unpack (&tendermint__types__extended_commit_sig__descriptor,
-                                allocator, len, data);
-}
-void   tendermint__types__extended_commit_sig__free_unpacked
-                     (Tendermint__Types__ExtendedCommitSig *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &tendermint__types__extended_commit_sig__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   tendermint__types__proposal__init
                      (Tendermint__Types__Proposal         *message)
 {
@@ -1093,7 +1003,7 @@ const ProtobufCMessageDescriptor tendermint__types__data__descriptor =
   (ProtobufCMessageInit) tendermint__types__data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor tendermint__types__vote__field_descriptors[10] =
+static const ProtobufCFieldDescriptor tendermint__types__vote__field_descriptors[8] =
 {
   {
     "type",
@@ -1191,35 +1101,9 @@ static const ProtobufCFieldDescriptor tendermint__types__vote__field_descriptors
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "extension",
-    9,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__Vote, extension),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "extension_signature",
-    10,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__Vote, extension_signature),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned tendermint__types__vote__field_indices_by_name[] = {
   3,   /* field[3] = block_id */
-  8,   /* field[8] = extension */
-  9,   /* field[9] = extension_signature */
   1,   /* field[1] = height */
   2,   /* field[2] = round */
   7,   /* field[7] = signature */
@@ -1231,7 +1115,7 @@ static const unsigned tendermint__types__vote__field_indices_by_name[] = {
 static const ProtobufCIntRange tendermint__types__vote__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 10 }
+  { 0, 8 }
 };
 const ProtobufCMessageDescriptor tendermint__types__vote__descriptor =
 {
@@ -1241,7 +1125,7 @@ const ProtobufCMessageDescriptor tendermint__types__vote__descriptor =
   "Tendermint__Types__Vote",
   "tendermint.types",
   sizeof(Tendermint__Types__Vote),
-  10,
+  8,
   tendermint__types__vote__field_descriptors,
   tendermint__types__vote__field_indices_by_name,
   1,  tendermint__types__vote__number_ranges,
@@ -1400,186 +1284,6 @@ const ProtobufCMessageDescriptor tendermint__types__commit_sig__descriptor =
   tendermint__types__commit_sig__field_indices_by_name,
   1,  tendermint__types__commit_sig__number_ranges,
   (ProtobufCMessageInit) tendermint__types__commit_sig__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor tendermint__types__extended_commit__field_descriptors[4] =
-{
-  {
-    "height",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT64,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommit, height),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "round",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommit, round),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "block_id",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommit, block_id),
-    &tendermint__types__block_id__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "extended_signatures",
-    4,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Tendermint__Types__ExtendedCommit, n_extended_signatures),
-    offsetof(Tendermint__Types__ExtendedCommit, extended_signatures),
-    &tendermint__types__extended_commit_sig__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__types__extended_commit__field_indices_by_name[] = {
-  2,   /* field[2] = block_id */
-  3,   /* field[3] = extended_signatures */
-  0,   /* field[0] = height */
-  1,   /* field[1] = round */
-};
-static const ProtobufCIntRange tendermint__types__extended_commit__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 4 }
-};
-const ProtobufCMessageDescriptor tendermint__types__extended_commit__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.types.ExtendedCommit",
-  "ExtendedCommit",
-  "Tendermint__Types__ExtendedCommit",
-  "tendermint.types",
-  sizeof(Tendermint__Types__ExtendedCommit),
-  4,
-  tendermint__types__extended_commit__field_descriptors,
-  tendermint__types__extended_commit__field_indices_by_name,
-  1,  tendermint__types__extended_commit__number_ranges,
-  (ProtobufCMessageInit) tendermint__types__extended_commit__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor tendermint__types__extended_commit_sig__field_descriptors[6] =
-{
-  {
-    "block_id_flag",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommitSig, block_id_flag),
-    &tendermint__types__block_idflag__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "validator_address",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommitSig, validator_address),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "timestamp",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommitSig, timestamp),
-    &google__protobuf__timestamp__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "signature",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommitSig, signature),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "extension",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommitSig, extension),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "extension_signature",
-    6,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Tendermint__Types__ExtendedCommitSig, extension_signature),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned tendermint__types__extended_commit_sig__field_indices_by_name[] = {
-  0,   /* field[0] = block_id_flag */
-  4,   /* field[4] = extension */
-  5,   /* field[5] = extension_signature */
-  3,   /* field[3] = signature */
-  2,   /* field[2] = timestamp */
-  1,   /* field[1] = validator_address */
-};
-static const ProtobufCIntRange tendermint__types__extended_commit_sig__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 6 }
-};
-const ProtobufCMessageDescriptor tendermint__types__extended_commit_sig__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "tendermint.types.ExtendedCommitSig",
-  "ExtendedCommitSig",
-  "Tendermint__Types__ExtendedCommitSig",
-  "tendermint.types",
-  sizeof(Tendermint__Types__ExtendedCommitSig),
-  6,
-  tendermint__types__extended_commit_sig__field_descriptors,
-  tendermint__types__extended_commit_sig__field_indices_by_name,
-  1,  tendermint__types__extended_commit_sig__number_ranges,
-  (ProtobufCMessageInit) tendermint__types__extended_commit_sig__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor tendermint__types__proposal__field_descriptors[7] =
@@ -1940,6 +1644,38 @@ const ProtobufCMessageDescriptor tendermint__types__tx_proof__descriptor =
   1,  tendermint__types__tx_proof__number_ranges,
   (ProtobufCMessageInit) tendermint__types__tx_proof__init,
   NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue tendermint__types__block_idflag__enum_values_by_number[4] =
+{
+  { "BLOCK_ID_FLAG_UNKNOWN", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_UNKNOWN", 0 },
+  { "BLOCK_ID_FLAG_ABSENT", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_ABSENT", 1 },
+  { "BLOCK_ID_FLAG_COMMIT", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_COMMIT", 2 },
+  { "BLOCK_ID_FLAG_NIL", "TENDERMINT__TYPES__BLOCK_IDFLAG__BLOCK_ID_FLAG_NIL", 3 },
+};
+static const ProtobufCIntRange tendermint__types__block_idflag__value_ranges[] = {
+{0, 0},{0, 4}
+};
+static const ProtobufCEnumValueIndex tendermint__types__block_idflag__enum_values_by_name[4] =
+{
+  { "BLOCK_ID_FLAG_ABSENT", 1 },
+  { "BLOCK_ID_FLAG_COMMIT", 2 },
+  { "BLOCK_ID_FLAG_NIL", 3 },
+  { "BLOCK_ID_FLAG_UNKNOWN", 0 },
+};
+const ProtobufCEnumDescriptor tendermint__types__block_idflag__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "tendermint.types.BlockIDFlag",
+  "BlockIDFlag",
+  "Tendermint__Types__BlockIDFlag",
+  "tendermint.types",
+  4,
+  tendermint__types__block_idflag__enum_values_by_number,
+  4,
+  tendermint__types__block_idflag__enum_values_by_name,
+  1,
+  tendermint__types__block_idflag__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
 static const ProtobufCEnumValue tendermint__types__signed_msg_type__enum_values_by_number[4] =
 {

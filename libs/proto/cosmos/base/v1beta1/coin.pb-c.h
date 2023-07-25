@@ -20,6 +20,8 @@ PROTOBUF_C__BEGIN_DECLS
 
 typedef struct Cosmos__Base__V1beta1__Coin Cosmos__Base__V1beta1__Coin;
 typedef struct Cosmos__Base__V1beta1__DecCoin Cosmos__Base__V1beta1__DecCoin;
+typedef struct Cosmos__Base__V1beta1__IntProto Cosmos__Base__V1beta1__IntProto;
+typedef struct Cosmos__Base__V1beta1__DecProto Cosmos__Base__V1beta1__DecProto;
 
 
 /* --- enums --- */
@@ -57,6 +59,32 @@ struct  Cosmos__Base__V1beta1__DecCoin
 #define COSMOS__BASE__V1BETA1__DEC_COIN__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&cosmos__base__v1beta1__dec_coin__descriptor) \
     , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string }
+
+
+/*
+ * IntProto defines a Protobuf wrapper around an Int object.
+ */
+struct  Cosmos__Base__V1beta1__IntProto
+{
+  ProtobufCMessage base;
+  char *int_;
+};
+#define COSMOS__BASE__V1BETA1__INT_PROTO__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&cosmos__base__v1beta1__int_proto__descriptor) \
+    , (char *)protobuf_c_empty_string }
+
+
+/*
+ * DecProto defines a Protobuf wrapper around a Dec object.
+ */
+struct  Cosmos__Base__V1beta1__DecProto
+{
+  ProtobufCMessage base;
+  char *dec;
+};
+#define COSMOS__BASE__V1BETA1__DEC_PROTO__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&cosmos__base__v1beta1__dec_proto__descriptor) \
+    , (char *)protobuf_c_empty_string }
 
 
 /* Cosmos__Base__V1beta1__Coin methods */
@@ -97,6 +125,44 @@ Cosmos__Base__V1beta1__DecCoin *
 void   cosmos__base__v1beta1__dec_coin__free_unpacked
                      (Cosmos__Base__V1beta1__DecCoin *message,
                       ProtobufCAllocator *allocator);
+/* Cosmos__Base__V1beta1__IntProto methods */
+void   cosmos__base__v1beta1__int_proto__init
+                     (Cosmos__Base__V1beta1__IntProto         *message);
+size_t cosmos__base__v1beta1__int_proto__get_packed_size
+                     (const Cosmos__Base__V1beta1__IntProto   *message);
+size_t cosmos__base__v1beta1__int_proto__pack
+                     (const Cosmos__Base__V1beta1__IntProto   *message,
+                      uint8_t             *out);
+size_t cosmos__base__v1beta1__int_proto__pack_to_buffer
+                     (const Cosmos__Base__V1beta1__IntProto   *message,
+                      ProtobufCBuffer     *buffer);
+Cosmos__Base__V1beta1__IntProto *
+       cosmos__base__v1beta1__int_proto__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   cosmos__base__v1beta1__int_proto__free_unpacked
+                     (Cosmos__Base__V1beta1__IntProto *message,
+                      ProtobufCAllocator *allocator);
+/* Cosmos__Base__V1beta1__DecProto methods */
+void   cosmos__base__v1beta1__dec_proto__init
+                     (Cosmos__Base__V1beta1__DecProto         *message);
+size_t cosmos__base__v1beta1__dec_proto__get_packed_size
+                     (const Cosmos__Base__V1beta1__DecProto   *message);
+size_t cosmos__base__v1beta1__dec_proto__pack
+                     (const Cosmos__Base__V1beta1__DecProto   *message,
+                      uint8_t             *out);
+size_t cosmos__base__v1beta1__dec_proto__pack_to_buffer
+                     (const Cosmos__Base__V1beta1__DecProto   *message,
+                      ProtobufCBuffer     *buffer);
+Cosmos__Base__V1beta1__DecProto *
+       cosmos__base__v1beta1__dec_proto__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   cosmos__base__v1beta1__dec_proto__free_unpacked
+                     (Cosmos__Base__V1beta1__DecProto *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*Cosmos__Base__V1beta1__Coin_Closure)
@@ -104,6 +170,12 @@ typedef void (*Cosmos__Base__V1beta1__Coin_Closure)
                   void *closure_data);
 typedef void (*Cosmos__Base__V1beta1__DecCoin_Closure)
                  (const Cosmos__Base__V1beta1__DecCoin *message,
+                  void *closure_data);
+typedef void (*Cosmos__Base__V1beta1__IntProto_Closure)
+                 (const Cosmos__Base__V1beta1__IntProto *message,
+                  void *closure_data);
+typedef void (*Cosmos__Base__V1beta1__DecProto_Closure)
+                 (const Cosmos__Base__V1beta1__DecProto *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -113,6 +185,8 @@ typedef void (*Cosmos__Base__V1beta1__DecCoin_Closure)
 
 extern const ProtobufCMessageDescriptor cosmos__base__v1beta1__coin__descriptor;
 extern const ProtobufCMessageDescriptor cosmos__base__v1beta1__dec_coin__descriptor;
+extern const ProtobufCMessageDescriptor cosmos__base__v1beta1__int_proto__descriptor;
+extern const ProtobufCMessageDescriptor cosmos__base__v1beta1__dec_proto__descriptor;
 
 PROTOBUF_C__END_DECLS
 

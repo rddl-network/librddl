@@ -18,7 +18,7 @@ def generate_proto(source):
     the input.
     """
 
-    output = source.replace(".proto", "").replace("./protos/", ".")
+    output = source.replace(".proto", "").replace("./proto/", ".")
 
     if not os.path.exists(output) or (
         os.path.exists(source)
@@ -34,7 +34,7 @@ def generate_proto(source):
             protoc,
             "-I./proto",
             "-I.",
-            "--c_out=./libs",
+            "--c_out=./libs/proto",
             source,
         ]
         if subprocess.call(protoc_command) != 0:

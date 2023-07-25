@@ -29,6 +29,27 @@ const char* expected_address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
 uint8_t sha_hash[32] = {31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56,157,191,178,240,110,222,141,80,27,60,48,71,151,21,141,234};
 
 
+void test_attest_machine()
+{
+  attestMachine( reference_private_key +2, reference_pubkey+2, expected_address );
+  //body_bytes =
+  //[]uint8 len: 392, cap: 392, [10,133,3,10,38,47,112,108,97,110,101,116,109,105,110,116,103,111,46,109,97,99,104,105,110,101,46,77,115,103,65,116,116,101,115,116,77,97,99,104,105,110,101,18,218,2,10,45,99,111,115,109,111,115,49,57,99,108,48,53,122,116,103,116,...+328 more]
+  //"\n\x85\x03\n&/planetmintgo.machine.MsgAttestMachine\x12\xda\x02\n-cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx\x12\xa8\x02\n\amachine\x12\x0emachine_ticker\x18\x01 \xe8\a(\b2,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw:,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwB,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwJ|\n3{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}\x12,{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}\x1a\x12{\"Version\": \"0.1\"}\"\x03CID"
+  //auth_info_bytes =
+  //[]uint8 len: 100, cap: 100, [10,80,10,70,10,31,47,99,111,115,109,111,115,46,99,114,121,112,116,111,46,115,101,99,112,50,53,54,107,49,46,80,117,98,75,101,121,18,35,10,33,2,50,141,232,120,150,185,203,181,16,28,51,95,64,2,158,75,232,152,152,139,71,10,...+36 more]
+
+
+  /*
+  	signDoc := types.SignDoc{
+		BodyBytes:     bodyBytes,
+		AuthInfoBytes: authInfoBytes,
+		ChainId:       chainID,
+		AccountNumber: accnum,
+	}
+  */
+}
+
+
 
 // current derivation path FullFundraiserPath = "m/44'/118'/0'/0/0"
 extern uint8_t secret_seed[SEED_SIZE];
@@ -57,7 +78,6 @@ void private2public_key()
 }
 
 
-
 void test_pubkey2address_convertion()
 {
     int offset = 2;
@@ -78,6 +98,7 @@ void test_from_address_to_address_string()
 
 int main(void) {
   UNITY_BEGIN();
+  RUN_TEST(test_attest_machine);
   RUN_TEST(private2public_key);
   RUN_TEST(test_pubkey2address_convertion);
   RUN_TEST(test_from_address_to_address_string);

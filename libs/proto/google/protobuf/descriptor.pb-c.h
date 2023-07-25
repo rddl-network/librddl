@@ -21,7 +21,6 @@ typedef struct Google__Protobuf__DescriptorProto Google__Protobuf__DescriptorPro
 typedef struct Google__Protobuf__DescriptorProto__ExtensionRange Google__Protobuf__DescriptorProto__ExtensionRange;
 typedef struct Google__Protobuf__DescriptorProto__ReservedRange Google__Protobuf__DescriptorProto__ReservedRange;
 typedef struct Google__Protobuf__ExtensionRangeOptions Google__Protobuf__ExtensionRangeOptions;
-typedef struct Google__Protobuf__ExtensionRangeOptions__Declaration Google__Protobuf__ExtensionRangeOptions__Declaration;
 typedef struct Google__Protobuf__FieldDescriptorProto Google__Protobuf__FieldDescriptorProto;
 typedef struct Google__Protobuf__OneofDescriptorProto Google__Protobuf__OneofDescriptorProto;
 typedef struct Google__Protobuf__EnumDescriptorProto Google__Protobuf__EnumDescriptorProto;
@@ -32,7 +31,6 @@ typedef struct Google__Protobuf__MethodDescriptorProto Google__Protobuf__MethodD
 typedef struct Google__Protobuf__FileOptions Google__Protobuf__FileOptions;
 typedef struct Google__Protobuf__MessageOptions Google__Protobuf__MessageOptions;
 typedef struct Google__Protobuf__FieldOptions Google__Protobuf__FieldOptions;
-typedef struct Google__Protobuf__FieldOptions__EditionDefault Google__Protobuf__FieldOptions__EditionDefault;
 typedef struct Google__Protobuf__OneofOptions Google__Protobuf__OneofOptions;
 typedef struct Google__Protobuf__EnumOptions Google__Protobuf__EnumOptions;
 typedef struct Google__Protobuf__EnumValueOptions Google__Protobuf__EnumValueOptions;
@@ -40,7 +38,6 @@ typedef struct Google__Protobuf__ServiceOptions Google__Protobuf__ServiceOptions
 typedef struct Google__Protobuf__MethodOptions Google__Protobuf__MethodOptions;
 typedef struct Google__Protobuf__UninterpretedOption Google__Protobuf__UninterpretedOption;
 typedef struct Google__Protobuf__UninterpretedOption__NamePart Google__Protobuf__UninterpretedOption__NamePart;
-typedef struct Google__Protobuf__FeatureSet Google__Protobuf__FeatureSet;
 typedef struct Google__Protobuf__SourceCodeInfo Google__Protobuf__SourceCodeInfo;
 typedef struct Google__Protobuf__SourceCodeInfo__Location Google__Protobuf__SourceCodeInfo__Location;
 typedef struct Google__Protobuf__GeneratedCodeInfo Google__Protobuf__GeneratedCodeInfo;
@@ -49,17 +46,6 @@ typedef struct Google__Protobuf__GeneratedCodeInfo__Annotation Google__Protobuf_
 
 /* --- enums --- */
 
-/*
- * The verification state of the extension range.
- */
-typedef enum _Google__Protobuf__ExtensionRangeOptions__VerificationState {
-  /*
-   * All the extensions of the range must be declared.
-   */
-  GOOGLE__PROTOBUF__EXTENSION_RANGE_OPTIONS__VERIFICATION_STATE__DECLARATION = 0,
-  GOOGLE__PROTOBUF__EXTENSION_RANGE_OPTIONS__VERIFICATION_STATE__UNVERIFIED = 1
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__EXTENSION_RANGE_OPTIONS__VERIFICATION_STATE)
-} Google__Protobuf__ExtensionRangeOptions__VerificationState;
 typedef enum _Google__Protobuf__FieldDescriptorProto__Type {
   /*
    * 0 is reserved for errors.
@@ -146,14 +132,6 @@ typedef enum _Google__Protobuf__FieldOptions__CType {
    * Default mode.
    */
   GOOGLE__PROTOBUF__FIELD_OPTIONS__CTYPE__STRING = 0,
-  /*
-   * The option [ctype=CORD] may be applied to a non-repeated field of type
-   * "bytes". It indicates that in C++, the data should be stored in a Cord
-   * instead of a string.  For very large strings, this may reduce memory
-   * fragmentation. It may also allow better performance when parsing from a
-   * Cord, or when parsing with aliasing enabled, as the parsed Cord may then
-   * alias the original buffer.
-   */
   GOOGLE__PROTOBUF__FIELD_OPTIONS__CTYPE__CORD = 1,
   GOOGLE__PROTOBUF__FIELD_OPTIONS__CTYPE__STRING_PIECE = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FIELD_OPTIONS__CTYPE)
@@ -174,36 +152,6 @@ typedef enum _Google__Protobuf__FieldOptions__JSType {
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FIELD_OPTIONS__JSTYPE)
 } Google__Protobuf__FieldOptions__JSType;
 /*
- * If set to RETENTION_SOURCE, the option will be omitted from the binary.
- * Note: as of January 2023, support for this is in progress and does not yet
- * have an effect (b/264593489).
- */
-typedef enum _Google__Protobuf__FieldOptions__OptionRetention {
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_RETENTION__RETENTION_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_RETENTION__RETENTION_RUNTIME = 1,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_RETENTION__RETENTION_SOURCE = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_RETENTION)
-} Google__Protobuf__FieldOptions__OptionRetention;
-/*
- * This indicates the types of entities that the field may apply to when used
- * as an option. If it is unset, then the field may be freely used as an
- * option on any kind of entity. Note: as of January 2023, support for this is
- * in progress and does not yet have an effect (b/264593489).
- */
-typedef enum _Google__Protobuf__FieldOptions__OptionTargetType {
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_FILE = 1,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_EXTENSION_RANGE = 2,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_MESSAGE = 3,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_FIELD = 4,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_ONEOF = 5,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_ENUM = 6,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_ENUM_ENTRY = 7,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_SERVICE = 8,
-  GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE__TARGET_TYPE_METHOD = 9
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_TARGET_TYPE)
-} Google__Protobuf__FieldOptions__OptionTargetType;
-/*
  * Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
  * or neither? HTTP based RPC implementation may choose GET verb for safe
  * methods, and PUT verb for idempotent methods instead of the default POST.
@@ -220,63 +168,6 @@ typedef enum _Google__Protobuf__MethodOptions__IdempotencyLevel {
   GOOGLE__PROTOBUF__METHOD_OPTIONS__IDEMPOTENCY_LEVEL__IDEMPOTENT = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__METHOD_OPTIONS__IDEMPOTENCY_LEVEL)
 } Google__Protobuf__MethodOptions__IdempotencyLevel;
-typedef enum _Google__Protobuf__FeatureSet__FieldPresence {
-  GOOGLE__PROTOBUF__FEATURE_SET__FIELD_PRESENCE__FIELD_PRESENCE_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FEATURE_SET__FIELD_PRESENCE__EXPLICIT = 1,
-  GOOGLE__PROTOBUF__FEATURE_SET__FIELD_PRESENCE__IMPLICIT = 2,
-  GOOGLE__PROTOBUF__FEATURE_SET__FIELD_PRESENCE__LEGACY_REQUIRED = 3
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FEATURE_SET__FIELD_PRESENCE)
-} Google__Protobuf__FeatureSet__FieldPresence;
-typedef enum _Google__Protobuf__FeatureSet__EnumType {
-  GOOGLE__PROTOBUF__FEATURE_SET__ENUM_TYPE__ENUM_TYPE_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FEATURE_SET__ENUM_TYPE__OPEN = 1,
-  GOOGLE__PROTOBUF__FEATURE_SET__ENUM_TYPE__CLOSED = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FEATURE_SET__ENUM_TYPE)
-} Google__Protobuf__FeatureSet__EnumType;
-typedef enum _Google__Protobuf__FeatureSet__RepeatedFieldEncoding {
-  GOOGLE__PROTOBUF__FEATURE_SET__REPEATED_FIELD_ENCODING__REPEATED_FIELD_ENCODING_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FEATURE_SET__REPEATED_FIELD_ENCODING__PACKED = 1,
-  GOOGLE__PROTOBUF__FEATURE_SET__REPEATED_FIELD_ENCODING__EXPANDED = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FEATURE_SET__REPEATED_FIELD_ENCODING)
-} Google__Protobuf__FeatureSet__RepeatedFieldEncoding;
-typedef enum _Google__Protobuf__FeatureSet__StringFieldValidation {
-  GOOGLE__PROTOBUF__FEATURE_SET__STRING_FIELD_VALIDATION__STRING_FIELD_VALIDATION_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FEATURE_SET__STRING_FIELD_VALIDATION__MANDATORY = 1,
-  GOOGLE__PROTOBUF__FEATURE_SET__STRING_FIELD_VALIDATION__HINT = 2,
-  GOOGLE__PROTOBUF__FEATURE_SET__STRING_FIELD_VALIDATION__NONE = 3
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FEATURE_SET__STRING_FIELD_VALIDATION)
-} Google__Protobuf__FeatureSet__StringFieldValidation;
-typedef enum _Google__Protobuf__FeatureSet__MessageEncoding {
-  GOOGLE__PROTOBUF__FEATURE_SET__MESSAGE_ENCODING__MESSAGE_ENCODING_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FEATURE_SET__MESSAGE_ENCODING__LENGTH_PREFIXED = 1,
-  GOOGLE__PROTOBUF__FEATURE_SET__MESSAGE_ENCODING__DELIMITED = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FEATURE_SET__MESSAGE_ENCODING)
-} Google__Protobuf__FeatureSet__MessageEncoding;
-typedef enum _Google__Protobuf__FeatureSet__JsonFormat {
-  GOOGLE__PROTOBUF__FEATURE_SET__JSON_FORMAT__JSON_FORMAT_UNKNOWN = 0,
-  GOOGLE__PROTOBUF__FEATURE_SET__JSON_FORMAT__ALLOW = 1,
-  GOOGLE__PROTOBUF__FEATURE_SET__JSON_FORMAT__LEGACY_BEST_EFFORT = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__FEATURE_SET__JSON_FORMAT)
-} Google__Protobuf__FeatureSet__JsonFormat;
-/*
- * Represents the identified object's effect on the element in the original
- * .proto file.
- */
-typedef enum _Google__Protobuf__GeneratedCodeInfo__Annotation__Semantic {
-  /*
-   * There is no effect or the effect is indescribable.
-   */
-  GOOGLE__PROTOBUF__GENERATED_CODE_INFO__ANNOTATION__SEMANTIC__NONE = 0,
-  /*
-   * The element is set or otherwise mutated.
-   */
-  GOOGLE__PROTOBUF__GENERATED_CODE_INFO__ANNOTATION__SEMANTIC__SET = 1,
-  /*
-   * An alias to the element is returned.
-   */
-  GOOGLE__PROTOBUF__GENERATED_CODE_INFO__ANNOTATION__SEMANTIC__ALIAS = 2
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(GOOGLE__PROTOBUF__GENERATED_CODE_INFO__ANNOTATION__SEMANTIC)
-} Google__Protobuf__GeneratedCodeInfo__Annotation__Semantic;
 
 /* --- messages --- */
 
@@ -346,18 +237,13 @@ struct  Google__Protobuf__FileDescriptorProto
   Google__Protobuf__SourceCodeInfo *source_code_info;
   /*
    * The syntax of the proto file.
-   * The supported values are "proto2", "proto3", and "editions".
-   * If `edition` is present, this value must be "editions".
+   * The supported values are "proto2" and "proto3".
    */
   char *syntax;
-  /*
-   * The edition of the proto file, which is an opaque string.
-   */
-  char *edition;
 };
 #define GOOGLE__PROTOBUF__FILE_DESCRIPTOR_PROTO__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__file_descriptor_proto__descriptor) \
-    , NULL, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, NULL, NULL, NULL, NULL }
+    , NULL, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, NULL, NULL, NULL }
 
 
 struct  Google__Protobuf__DescriptorProto__ExtensionRange
@@ -438,44 +324,6 @@ struct  Google__Protobuf__DescriptorProto
     , NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, NULL, 0,NULL, 0,NULL }
 
 
-struct  Google__Protobuf__ExtensionRangeOptions__Declaration
-{
-  ProtobufCMessage base;
-  /*
-   * The extension number declared within the extension range.
-   */
-  protobuf_c_boolean has_number;
-  int32_t number;
-  /*
-   * The fully-qualified name of the extension field. There must be a leading
-   * dot in front of the full name.
-   */
-  char *full_name;
-  /*
-   * The fully-qualified type name of the extension field. Unlike
-   * Metadata.type, Declaration.type must have a leading dot for messages
-   * and enums.
-   */
-  char *type;
-  /*
-   * If true, indicates that the number is reserved in the extension range,
-   * and any extension field with the number will fail to compile. Set this
-   * when a declared extension field is deleted.
-   */
-  protobuf_c_boolean has_reserved;
-  protobuf_c_boolean reserved;
-  /*
-   * If true, indicates that the extension must be defined as repeated.
-   * Otherwise the extension must be defined as optional.
-   */
-  protobuf_c_boolean has_repeated;
-  protobuf_c_boolean repeated;
-};
-#define GOOGLE__PROTOBUF__EXTENSION_RANGE_OPTIONS__DECLARATION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__extension_range_options__declaration__descriptor) \
-    , 0, 0, NULL, NULL, 0, 0, 0, 0 }
-
-
 struct  Google__Protobuf__ExtensionRangeOptions
 {
   ProtobufCMessage base;
@@ -484,28 +332,10 @@ struct  Google__Protobuf__ExtensionRangeOptions
    */
   size_t n_uninterpreted_option;
   Google__Protobuf__UninterpretedOption **uninterpreted_option;
-  /*
-   * For external users: DO NOT USE. We are in the process of open sourcing
-   * extension declaration and executing internal cleanups before it can be
-   * used externally.
-   */
-  size_t n_declaration;
-  Google__Protobuf__ExtensionRangeOptions__Declaration **declaration;
-  /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
-  /*
-   * The verification state of the range.
-   * TODO(b/278783756): flip the default to DECLARATION once all empty ranges
-   * are marked as UNVERIFIED.
-   */
-  protobuf_c_boolean has_verification;
-  Google__Protobuf__ExtensionRangeOptions__VerificationState verification;
 };
 #define GOOGLE__PROTOBUF__EXTENSION_RANGE_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__extension_range_options__descriptor) \
-    , 0,NULL, 0,NULL, NULL, 0, GOOGLE__PROTOBUF__EXTENSION_RANGE_OPTIONS__VERIFICATION_STATE__UNVERIFIED }
+    , 0,NULL }
 
 
 /*
@@ -844,10 +674,6 @@ struct  Google__Protobuf__FileOptions
    */
   char *ruby_package;
   /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
-  /*
    * The parser stores options it doesn't recognize here.
    * See the documentation for the "Options" section above.
    */
@@ -856,7 +682,7 @@ struct  Google__Protobuf__FileOptions
 };
 #define GOOGLE__PROTOBUF__FILE_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__file_options__descriptor) \
-    , NULL, NULL, 0, 0, 0, 0, 0, 0, 0, GOOGLE__PROTOBUF__FILE_OPTIONS__OPTIMIZE_MODE__SPEED, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0,NULL }
+    , NULL, NULL, 0, 0, 0, 0, 0, 0, 0, GOOGLE__PROTOBUF__FILE_OPTIONS__OPTIMIZE_MODE__SPEED, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0,NULL }
 
 
 struct  Google__Protobuf__MessageOptions
@@ -897,9 +723,6 @@ struct  Google__Protobuf__MessageOptions
   protobuf_c_boolean has_deprecated;
   protobuf_c_boolean deprecated;
   /*
-   * NOTE: Do not set the option in .proto files. Always use the maps syntax
-   * instead. The option should only be implicitly set by the proto compiler
-   * parser.
    * Whether the message is an automatically generated map entry type for the
    * maps field.
    * For maps fields:
@@ -915,25 +738,12 @@ struct  Google__Protobuf__MessageOptions
    * use a native map in the target language to hold the keys and values.
    * The reflection APIs in such implementations still need to work as
    * if the field is a repeated message field.
+   * NOTE: Do not set the option in .proto files. Always use the maps syntax
+   * instead. The option should only be implicitly set by the proto compiler
+   * parser.
    */
   protobuf_c_boolean has_map_entry;
   protobuf_c_boolean map_entry;
-  /*
-   * Enable the legacy handling of JSON field name conflicts.  This lowercases
-   * and strips underscored from the fields before comparison in proto3 only.
-   * The new behavior takes `json_name` into account and applies to proto2 as
-   * well.
-   * This should only be used as a temporary measure against broken builds due
-   * to the change in behavior for JSON field name conflicts.
-   * TODO(b/261750190) This is legacy behavior we plan to remove once downstream
-   * teams have had time to migrate.
-   */
-  protobuf_c_boolean has_deprecated_legacy_json_field_conflicts PROTOBUF_C__DEPRECATED;
-  protobuf_c_boolean deprecated_legacy_json_field_conflicts PROTOBUF_C__DEPRECATED;
-  /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
   /*
    * The parser stores options it doesn't recognize here. See above.
    */
@@ -942,21 +752,7 @@ struct  Google__Protobuf__MessageOptions
 };
 #define GOOGLE__PROTOBUF__MESSAGE_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__message_options__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0,NULL }
-
-
-struct  Google__Protobuf__FieldOptions__EditionDefault
-{
-  ProtobufCMessage base;
-  char *edition;
-  /*
-   * Textproto value.
-   */
-  char *value;
-};
-#define GOOGLE__PROTOBUF__FIELD_OPTIONS__EDITION_DEFAULT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__field_options__edition_default__descriptor) \
-    , NULL, NULL }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL }
 
 
 struct  Google__Protobuf__FieldOptions
@@ -965,10 +761,8 @@ struct  Google__Protobuf__FieldOptions
   /*
    * The ctype option instructs the C++ code generator to use a different
    * representation of the field than it normally would.  See the specific
-   * options below.  This option is only implemented to support use of
-   * [ctype=CORD] and [ctype=STRING] (the default) on non-repeated fields of
-   * type "bytes" in the open source release -- sorry, we'll try to include
-   * other types in a future version!
+   * options below.  This option is not yet implemented in the open source
+   * release -- sorry, we'll try to include it in a future version!
    */
   protobuf_c_boolean has_ctype;
   Google__Protobuf__FieldOptions__CType ctype;
@@ -1020,8 +814,10 @@ struct  Google__Protobuf__FieldOptions
    * implementation must either *always* check its required fields, or *never*
    * check its required fields, regardless of whether or not the message has
    * been parsed.
-   * As of May 2022, lazy verifies the contents of the byte stream during
-   * parsing.  An invalid byte stream will cause the overall parsing to fail.
+   * As of 2021, lazy does no correctness checks on the byte stream during
+   * parsing.  This may lead to crashes if and when an invalid byte stream is
+   * finally parsed upon access.
+   * TODO(b/211906113):  Enable validation on lazy fields.
    */
   protobuf_c_boolean has_lazy;
   protobuf_c_boolean lazy;
@@ -1046,22 +842,6 @@ struct  Google__Protobuf__FieldOptions
   protobuf_c_boolean has_weak;
   protobuf_c_boolean weak;
   /*
-   * Indicate that the field value should not be printed out when using debug
-   * formats, e.g. when the field contains sensitive credentials.
-   */
-  protobuf_c_boolean has_debug_redact;
-  protobuf_c_boolean debug_redact;
-  protobuf_c_boolean has_retention;
-  Google__Protobuf__FieldOptions__OptionRetention retention;
-  size_t n_targets;
-  Google__Protobuf__FieldOptions__OptionTargetType *targets;
-  size_t n_edition_defaults;
-  Google__Protobuf__FieldOptions__EditionDefault **edition_defaults;
-  /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
-  /*
    * The parser stores options it doesn't recognize here. See above.
    */
   size_t n_uninterpreted_option;
@@ -1069,16 +849,12 @@ struct  Google__Protobuf__FieldOptions
 };
 #define GOOGLE__PROTOBUF__FIELD_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__field_options__descriptor) \
-    , 0, GOOGLE__PROTOBUF__FIELD_OPTIONS__CTYPE__STRING, 0, 0, 0, GOOGLE__PROTOBUF__FIELD_OPTIONS__JSTYPE__JS_NORMAL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, GOOGLE__PROTOBUF__FIELD_OPTIONS__OPTION_RETENTION__RETENTION_UNKNOWN, 0,NULL, 0,NULL, NULL, 0,NULL }
+    , 0, GOOGLE__PROTOBUF__FIELD_OPTIONS__CTYPE__STRING, 0, 0, 0, GOOGLE__PROTOBUF__FIELD_OPTIONS__JSTYPE__JS_NORMAL, 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL }
 
 
 struct  Google__Protobuf__OneofOptions
 {
   ProtobufCMessage base;
-  /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
   /*
    * The parser stores options it doesn't recognize here. See above.
    */
@@ -1087,7 +863,7 @@ struct  Google__Protobuf__OneofOptions
 };
 #define GOOGLE__PROTOBUF__ONEOF_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__oneof_options__descriptor) \
-    , NULL, 0,NULL }
+    , 0,NULL }
 
 
 struct  Google__Protobuf__EnumOptions
@@ -1108,20 +884,6 @@ struct  Google__Protobuf__EnumOptions
   protobuf_c_boolean has_deprecated;
   protobuf_c_boolean deprecated;
   /*
-   * Enable the legacy handling of JSON field name conflicts.  This lowercases
-   * and strips underscored from the fields before comparison in proto3 only.
-   * The new behavior takes `json_name` into account and applies to proto2 as
-   * well.
-   * TODO(b/261750190) Remove this legacy behavior once downstream teams have
-   * had time to migrate.
-   */
-  protobuf_c_boolean has_deprecated_legacy_json_field_conflicts PROTOBUF_C__DEPRECATED;
-  protobuf_c_boolean deprecated_legacy_json_field_conflicts PROTOBUF_C__DEPRECATED;
-  /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
-  /*
    * The parser stores options it doesn't recognize here. See above.
    */
   size_t n_uninterpreted_option;
@@ -1129,7 +891,7 @@ struct  Google__Protobuf__EnumOptions
 };
 #define GOOGLE__PROTOBUF__ENUM_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__enum_options__descriptor) \
-    , 0, 0, 0, 0, 0, 0, NULL, 0,NULL }
+    , 0, 0, 0, 0, 0,NULL }
 
 
 struct  Google__Protobuf__EnumValueOptions
@@ -1144,17 +906,6 @@ struct  Google__Protobuf__EnumValueOptions
   protobuf_c_boolean has_deprecated;
   protobuf_c_boolean deprecated;
   /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
-  /*
-   * Indicate that fields annotated with this enum value should not be printed
-   * out when using debug formats, e.g. when the field contains sensitive
-   * credentials.
-   */
-  protobuf_c_boolean has_debug_redact;
-  protobuf_c_boolean debug_redact;
-  /*
    * The parser stores options it doesn't recognize here. See above.
    */
   size_t n_uninterpreted_option;
@@ -1162,16 +913,12 @@ struct  Google__Protobuf__EnumValueOptions
 };
 #define GOOGLE__PROTOBUF__ENUM_VALUE_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__enum_value_options__descriptor) \
-    , 0, 0, NULL, 0, 0, 0,NULL }
+    , 0, 0, 0,NULL }
 
 
 struct  Google__Protobuf__ServiceOptions
 {
   ProtobufCMessage base;
-  /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
   /*
    * Is this service deprecated?
    * Depending on the target platform, this can emit Deprecated annotations
@@ -1188,7 +935,7 @@ struct  Google__Protobuf__ServiceOptions
 };
 #define GOOGLE__PROTOBUF__SERVICE_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__service_options__descriptor) \
-    , NULL, 0, 0, 0,NULL }
+    , 0, 0, 0,NULL }
 
 
 struct  Google__Protobuf__MethodOptions
@@ -1205,10 +952,6 @@ struct  Google__Protobuf__MethodOptions
   protobuf_c_boolean has_idempotency_level;
   Google__Protobuf__MethodOptions__IdempotencyLevel idempotency_level;
   /*
-   * Any features defined in the specific edition.
-   */
-  Google__Protobuf__FeatureSet *features;
-  /*
    * The parser stores options it doesn't recognize here. See above.
    */
   size_t n_uninterpreted_option;
@@ -1216,15 +959,15 @@ struct  Google__Protobuf__MethodOptions
 };
 #define GOOGLE__PROTOBUF__METHOD_OPTIONS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__method_options__descriptor) \
-    , 0, 0, 0, GOOGLE__PROTOBUF__METHOD_OPTIONS__IDEMPOTENCY_LEVEL__IDEMPOTENCY_UNKNOWN, NULL, 0,NULL }
+    , 0, 0, 0, GOOGLE__PROTOBUF__METHOD_OPTIONS__IDEMPOTENCY_LEVEL__IDEMPOTENCY_UNKNOWN, 0,NULL }
 
 
 /*
  * The name of the uninterpreted option.  Each string represents a segment in
  * a dot-separated name.  is_extension is true iff a segment represents an
  * extension (denoted with parentheses in options specs in .proto files).
- * E.g.,{ ["foo", false], ["bar.baz", true], ["moo", false] } represents
- * "foo.(bar.baz).moo".
+ * E.g.,{ ["foo", false], ["bar.baz", true], ["qux", false] } represents
+ * "foo.(bar.baz).qux".
  */
 struct  Google__Protobuf__UninterpretedOption__NamePart
 {
@@ -1268,36 +1011,6 @@ struct  Google__Protobuf__UninterpretedOption
 #define GOOGLE__PROTOBUF__UNINTERPRETED_OPTION__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__uninterpreted_option__descriptor) \
     , 0,NULL, NULL, 0, 0, 0, 0, 0, 0, 0, {0,NULL}, NULL }
-
-
-/*
- * TODO(b/274655146) Enums in C++ gencode (and potentially other languages) are
- * not well scoped.  This means that each of the feature enums below can clash
- * with each other.  The short names we've chosen maximize call-site
- * readability, but leave us very open to this scenario.  A future feature will
- * be designed and implemented to handle this, hopefully before we ever hit a
- * conflict here.
- */
-struct  Google__Protobuf__FeatureSet
-{
-  ProtobufCMessage base;
-  protobuf_c_boolean has_field_presence;
-  Google__Protobuf__FeatureSet__FieldPresence field_presence;
-  protobuf_c_boolean has_enum_type;
-  Google__Protobuf__FeatureSet__EnumType enum_type;
-  protobuf_c_boolean has_repeated_field_encoding;
-  Google__Protobuf__FeatureSet__RepeatedFieldEncoding repeated_field_encoding;
-  protobuf_c_boolean has_string_field_validation;
-  Google__Protobuf__FeatureSet__StringFieldValidation string_field_validation;
-  protobuf_c_boolean has_message_encoding;
-  Google__Protobuf__FeatureSet__MessageEncoding message_encoding;
-  protobuf_c_boolean has_json_format;
-  Google__Protobuf__FeatureSet__JsonFormat json_format;
-  Google__Protobuf__FeatureSet *raw_features;
-};
-#define GOOGLE__PROTOBUF__FEATURE_SET__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__feature_set__descriptor) \
-    , 0, GOOGLE__PROTOBUF__FEATURE_SET__FIELD_PRESENCE__FIELD_PRESENCE_UNKNOWN, 0, GOOGLE__PROTOBUF__FEATURE_SET__ENUM_TYPE__ENUM_TYPE_UNKNOWN, 0, GOOGLE__PROTOBUF__FEATURE_SET__REPEATED_FIELD_ENCODING__REPEATED_FIELD_ENCODING_UNKNOWN, 0, GOOGLE__PROTOBUF__FEATURE_SET__STRING_FIELD_VALIDATION__STRING_FIELD_VALIDATION_UNKNOWN, 0, GOOGLE__PROTOBUF__FEATURE_SET__MESSAGE_ENCODING__MESSAGE_ENCODING_UNKNOWN, 0, GOOGLE__PROTOBUF__FEATURE_SET__JSON_FORMAT__JSON_FORMAT_UNKNOWN, NULL }
 
 
 struct  Google__Protobuf__SourceCodeInfo__Location
@@ -1358,12 +1071,12 @@ struct  Google__Protobuf__SourceCodeInfo__Location
    *   optional string baz = 3;
    *   // Comment attached to baz.
    *   // Another line attached to baz.
-   *   // Comment attached to moo.
+   *   // Comment attached to qux.
    *   //
-   *   // Another line attached to moo.
-   *   optional double moo = 4;
+   *   // Another line attached to qux.
+   *   optional double qux = 4;
    *   // Detached comment for corge. This is not leading or trailing comments
-   *   // to moo or corge because there are blank lines separating it from
+   *   // to qux or corge because there are blank lines separating it from
    *   // both.
    *   // Detached comment for corge paragraph 2.
    *   optional string corge = 5;
@@ -1464,17 +1177,15 @@ struct  Google__Protobuf__GeneratedCodeInfo__Annotation
   int32_t begin;
   /*
    * Identifies the ending offset in bytes in the generated code that
-   * relates to the identified object. The end offset should be one past
+   * relates to the identified offset. The end offset should be one past
    * the last relevant byte (so the length of the text = end - begin).
    */
   protobuf_c_boolean has_end;
   int32_t end;
-  protobuf_c_boolean has_semantic;
-  Google__Protobuf__GeneratedCodeInfo__Annotation__Semantic semantic;
 };
 #define GOOGLE__PROTOBUF__GENERATED_CODE_INFO__ANNOTATION__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&google__protobuf__generated_code_info__annotation__descriptor) \
-    , 0,NULL, NULL, 0, 0, 0, 0, 0, GOOGLE__PROTOBUF__GENERATED_CODE_INFO__ANNOTATION__SEMANTIC__NONE }
+    , 0,NULL, NULL, 0, 0, 0, 0 }
 
 
 /*
@@ -1560,9 +1271,6 @@ Google__Protobuf__DescriptorProto *
 void   google__protobuf__descriptor_proto__free_unpacked
                      (Google__Protobuf__DescriptorProto *message,
                       ProtobufCAllocator *allocator);
-/* Google__Protobuf__ExtensionRangeOptions__Declaration methods */
-void   google__protobuf__extension_range_options__declaration__init
-                     (Google__Protobuf__ExtensionRangeOptions__Declaration         *message);
 /* Google__Protobuf__ExtensionRangeOptions methods */
 void   google__protobuf__extension_range_options__init
                      (Google__Protobuf__ExtensionRangeOptions         *message);
@@ -1737,9 +1445,6 @@ Google__Protobuf__MessageOptions *
 void   google__protobuf__message_options__free_unpacked
                      (Google__Protobuf__MessageOptions *message,
                       ProtobufCAllocator *allocator);
-/* Google__Protobuf__FieldOptions__EditionDefault methods */
-void   google__protobuf__field_options__edition_default__init
-                     (Google__Protobuf__FieldOptions__EditionDefault         *message);
 /* Google__Protobuf__FieldOptions methods */
 void   google__protobuf__field_options__init
                      (Google__Protobuf__FieldOptions         *message);
@@ -1876,25 +1581,6 @@ Google__Protobuf__UninterpretedOption *
 void   google__protobuf__uninterpreted_option__free_unpacked
                      (Google__Protobuf__UninterpretedOption *message,
                       ProtobufCAllocator *allocator);
-/* Google__Protobuf__FeatureSet methods */
-void   google__protobuf__feature_set__init
-                     (Google__Protobuf__FeatureSet         *message);
-size_t google__protobuf__feature_set__get_packed_size
-                     (const Google__Protobuf__FeatureSet   *message);
-size_t google__protobuf__feature_set__pack
-                     (const Google__Protobuf__FeatureSet   *message,
-                      uint8_t             *out);
-size_t google__protobuf__feature_set__pack_to_buffer
-                     (const Google__Protobuf__FeatureSet   *message,
-                      ProtobufCBuffer     *buffer);
-Google__Protobuf__FeatureSet *
-       google__protobuf__feature_set__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   google__protobuf__feature_set__free_unpacked
-                     (Google__Protobuf__FeatureSet *message,
-                      ProtobufCAllocator *allocator);
 /* Google__Protobuf__SourceCodeInfo__Location methods */
 void   google__protobuf__source_code_info__location__init
                      (Google__Protobuf__SourceCodeInfo__Location         *message);
@@ -1956,9 +1642,6 @@ typedef void (*Google__Protobuf__DescriptorProto__ReservedRange_Closure)
 typedef void (*Google__Protobuf__DescriptorProto_Closure)
                  (const Google__Protobuf__DescriptorProto *message,
                   void *closure_data);
-typedef void (*Google__Protobuf__ExtensionRangeOptions__Declaration_Closure)
-                 (const Google__Protobuf__ExtensionRangeOptions__Declaration *message,
-                  void *closure_data);
 typedef void (*Google__Protobuf__ExtensionRangeOptions_Closure)
                  (const Google__Protobuf__ExtensionRangeOptions *message,
                   void *closure_data);
@@ -1989,9 +1672,6 @@ typedef void (*Google__Protobuf__FileOptions_Closure)
 typedef void (*Google__Protobuf__MessageOptions_Closure)
                  (const Google__Protobuf__MessageOptions *message,
                   void *closure_data);
-typedef void (*Google__Protobuf__FieldOptions__EditionDefault_Closure)
-                 (const Google__Protobuf__FieldOptions__EditionDefault *message,
-                  void *closure_data);
 typedef void (*Google__Protobuf__FieldOptions_Closure)
                  (const Google__Protobuf__FieldOptions *message,
                   void *closure_data);
@@ -2015,9 +1695,6 @@ typedef void (*Google__Protobuf__UninterpretedOption__NamePart_Closure)
                   void *closure_data);
 typedef void (*Google__Protobuf__UninterpretedOption_Closure)
                  (const Google__Protobuf__UninterpretedOption *message,
-                  void *closure_data);
-typedef void (*Google__Protobuf__FeatureSet_Closure)
-                 (const Google__Protobuf__FeatureSet *message,
                   void *closure_data);
 typedef void (*Google__Protobuf__SourceCodeInfo__Location_Closure)
                  (const Google__Protobuf__SourceCodeInfo__Location *message,
@@ -2043,8 +1720,6 @@ extern const ProtobufCMessageDescriptor google__protobuf__descriptor_proto__desc
 extern const ProtobufCMessageDescriptor google__protobuf__descriptor_proto__extension_range__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__descriptor_proto__reserved_range__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__extension_range_options__descriptor;
-extern const ProtobufCMessageDescriptor google__protobuf__extension_range_options__declaration__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__extension_range_options__verification_state__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__field_descriptor_proto__descriptor;
 extern const ProtobufCEnumDescriptor    google__protobuf__field_descriptor_proto__type__descriptor;
 extern const ProtobufCEnumDescriptor    google__protobuf__field_descriptor_proto__label__descriptor;
@@ -2058,11 +1733,8 @@ extern const ProtobufCMessageDescriptor google__protobuf__file_options__descript
 extern const ProtobufCEnumDescriptor    google__protobuf__file_options__optimize_mode__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__message_options__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__field_options__descriptor;
-extern const ProtobufCMessageDescriptor google__protobuf__field_options__edition_default__descriptor;
 extern const ProtobufCEnumDescriptor    google__protobuf__field_options__ctype__descriptor;
 extern const ProtobufCEnumDescriptor    google__protobuf__field_options__jstype__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__field_options__option_retention__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__field_options__option_target_type__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__oneof_options__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__enum_options__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__enum_value_options__descriptor;
@@ -2071,18 +1743,10 @@ extern const ProtobufCMessageDescriptor google__protobuf__method_options__descri
 extern const ProtobufCEnumDescriptor    google__protobuf__method_options__idempotency_level__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__uninterpreted_option__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__uninterpreted_option__name_part__descriptor;
-extern const ProtobufCMessageDescriptor google__protobuf__feature_set__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__feature_set__field_presence__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__feature_set__enum_type__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__feature_set__repeated_field_encoding__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__feature_set__string_field_validation__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__feature_set__message_encoding__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__feature_set__json_format__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__source_code_info__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__source_code_info__location__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__generated_code_info__descriptor;
 extern const ProtobufCMessageDescriptor google__protobuf__generated_code_info__annotation__descriptor;
-extern const ProtobufCEnumDescriptor    google__protobuf__generated_code_info__annotation__semantic__descriptor;
 
 PROTOBUF_C__END_DECLS
 

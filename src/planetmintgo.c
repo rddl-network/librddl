@@ -73,30 +73,6 @@ bool attestMachine(uint8_t* priv_key, uint8_t* pub_key, char* public_address)
     machineMsg.machine = &machine;
 
 
-    //body_bytes =
-    //[]uint8 len: 392, cap: 392, [10,133,3,10,38,47,112,108,97,110,101,116,109,105,110,116,103,111,46,109,97,99,104,105,110,101,46,77,115,103,65,116,116,101,115,116,77,97,99,104,105,110,101,18,218,2,10,45,99,111,115,109,111,115,49,57,99,108,48,53,122,116,103,116,...+328 more]
-    //"\n\x85\x03\n&/planetmintgo.machine.MsgAttestMachine\x12\xda\x02\n-cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx\x12\xa8\x02\n\amachine\x12\x0emachine_ticker\x18\x01 \xe8\a(\b2,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw:,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwB,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwJ|\n3{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}\x12,{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}\x1a\x12{\"Version\": \"0.1\"}\"\x03CID"
-    //auth_info_bytes =
-    //[]uint8 len: 100, cap: 100, [10,80,10,70,10,31,47,99,111,115,109,111,115,46,99,114,121,112,116,111,46,115,101,99,112,50,53,54,107,49,46,80,117,98,75,101,121,18,35,10,33,2,50,141,232,120,150,185,203,181,16,28,51,95,64,2,158,75,232,152,152,139,71,10,...+36 more]
-
-
-    /*
-        signDoc := types.SignDoc{
-            BodyBytes:     bodyBytes,
-            AuthInfoBytes: authInfoBytes,
-            ChainId:       chainID,
-            AccountNumber: accnum,
-        }
-    func DirectSignBytes(bodyBytes, authInfoBytes []byte, chainID string, accnum uint64) ([]byte, error) {
-        signDoc := types.SignDoc{
-            BodyBytes:     bodyBytes,
-            AuthInfoBytes: authInfoBytes,
-            ChainId:       chainID,
-            AccountNumber: accnum,
-        }
-        return signDoc.Marshal()
-    }
-    */
     Cosmos__Tx__V1beta1__SignerInfo signInfo = COSMOS__TX__V1BETA1__SIGNER_INFO__INIT;
     cosmos__tx__v1beta1__signer_info__init(&signInfo);
     Cosmos__Tx__V1beta1__Fee fee = COSMOS__TX__V1BETA1__FEE__INIT;
@@ -112,18 +88,14 @@ bool attestMachine(uint8_t* priv_key, uint8_t* pub_key, char* public_address)
     fee.amount = &coins;
     fee.gas_limit = 200000;
     fee.n_amount = 1;
-    
-    
     Cosmos__Base__V1beta1__Coin tip_coin = COSMOS__TX__V1BETA1__TIP__INIT;
     //tip_coin.amount= "1";
     //tip_coin.denom="stake";
-
     Cosmos__Base__V1beta1__Coin tip_coins[1] ={tip_coin};
     Cosmos__Tx__V1beta1__Tip tip = COSMOS__TX__V1BETA1__TIP__INIT;
     //cosmos__tx__v1beta1__tip__init(&tip);
     //tip.n_amount= 1;
     //tip.amount=tip_coins;
-
 
     signInfo.mode_info = &mode_info;
     signInfo.sequence = 1;
@@ -178,8 +150,8 @@ bool attestMachine(uint8_t* priv_key, uint8_t* pub_key, char* public_address)
     cosmos__tx__v1beta1__tx__init(&tx);
     tx.body = &body;
     tx.auth_info = &auth;
-    tx.n_signatures=1;
-    tx.signatures = NULL;
+    //tx.n_signatures=0;
+    //tx.signatures = NULL;
 
     // Cosmos__Tx__V1beta1__TxRaw is raw transaction
     Cosmos__Tx__V1beta1__TxRaw txRaw;

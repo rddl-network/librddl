@@ -9,6 +9,7 @@ import subprocess
 
 
 protoc = shutil.which("protoc")
+protoc = "./protoc-linux-amd64"
 
 
 def generate_proto(source):

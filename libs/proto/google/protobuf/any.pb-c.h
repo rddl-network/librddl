@@ -43,11 +43,7 @@ typedef struct Google__Protobuf__Any Google__Protobuf__Any;
  *     if (any.is(Foo.class)) {
  *       foo = any.unpack(Foo.class);
  *     }
- *     // or ...
- *     if (any.isSameTypeAs(Foo.getDefaultInstance())) {
- *       foo = any.unpack(Foo.getDefaultInstance());
- *     }
- *  Example 3: Pack and unpack a message in Python.
+ * Example 3: Pack and unpack a message in Python.
  *     foo = Foo(...)
  *     any = Any()
  *     any.Pack(foo)
@@ -55,7 +51,7 @@ typedef struct Google__Protobuf__Any Google__Protobuf__Any;
  *     if any.Is(Foo.DESCRIPTOR):
  *       any.Unpack(foo)
  *       ...
- *  Example 4: Pack and unpack a message in Go
+ * Example 4: Pack and unpack a message in Go
  *      foo := &pb.Foo{...}
  *      any, err := anypb.New(foo)
  *      if err != nil {
@@ -72,7 +68,6 @@ typedef struct Google__Protobuf__Any Google__Protobuf__Any;
  * in the type URL, for example "foo.bar.com/x/y.z" will yield type
  * name "y.z".
  * JSON
- * ====
  * The JSON representation of an `Any` value uses the regular
  * representation of the deserialized, embedded message, with an
  * additional field `@type` which contains the type URL. Example:
@@ -119,8 +114,7 @@ struct  Google__Protobuf__Any
    *   breaking changes.)
    * Note: this functionality is not currently available in the official
    * protobuf release, and it is not used for type URLs beginning with
-   * type.googleapis.com. As of May 2023, there are no widely used type server
-   * implementations and no plans to implement one.
+   * type.googleapis.com.
    * Schemes other than `http`, `https` (or the empty scheme) might be
    * used with implementation specific semantics.
    */

@@ -169,12 +169,12 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "issued",
+    "reissue",
     3,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT64,
+    PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(Planetmintgo__Machine__Machine, issued),
+    offsetof(Planetmintgo__Machine__Machine, reissue),
     NULL,
     NULL,
     0,             /* flags */
@@ -255,13 +255,13 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
 };
 static const unsigned planetmintgo__machine__machine__field_indices_by_name[] = {
   3,   /* field[3] = amount */
-  2,   /* field[2] = issued */
   6,   /* field[6] = issuerLiquid */
   5,   /* field[5] = issuerPlanetmint */
   7,   /* field[7] = machineId */
   8,   /* field[8] = metadata */
   0,   /* field[0] = name */
   4,   /* field[4] = precision */
+  2,   /* field[2] = reissue */
   1,   /* field[1] = ticker */
 };
 static const ProtobufCIntRange planetmintgo__machine__machine__number_ranges[1 + 1] =

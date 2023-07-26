@@ -30,7 +30,7 @@ struct  Planetmintgo__Machine__Machine
   ProtobufCMessage base;
   char *name;
   char *ticker;
-  uint64_t issued;
+  protobuf_c_boolean reissue;
   uint64_t amount;
   uint64_t precision;
   char *issuerplanetmint;

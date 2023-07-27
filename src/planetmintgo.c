@@ -52,7 +52,7 @@ void tx_to_tw_raw(Cosmos__Tx__V1beta1__Tx *tx, Cosmos__Tx__V1beta1__TxRaw *txRaw
 
 
 
-bool attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, uint8_t* signature)
+void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, uint8_t* signature, uint8_t** tx_bytes, size_t* tx_size)
 {
     //
     // create body
@@ -125,6 +125,7 @@ bool attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     signInfo.mode_info = &mode_info;
     signInfo.sequence = 1;
     signInfo.public_key = &any_pub_key;
+    
 
 
     Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
@@ -177,6 +178,7 @@ bool attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     tx_to_tw_raw(&tx, &txRaw);
     txRaw.n_signatures = tx.n_signatures;
 
+
     // create Cosmos__Tx__V1beta1__SignDoc
     // to create a signature
     Cosmos__Tx__V1beta1__SignDoc signDoc;
@@ -200,16 +202,25 @@ bool attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     
     int res = ecdsa_sign_digest(curve, (const unsigned char *)priv_key, (const unsigned char *)digest, signature, NULL, NULL);
 
-    // 513 bytesSign
-    //"\n\x88\x03\n\x85\x03\n&/planetmintgo.machine.MsgAttestMachine\x12\xda\x02\n-cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx\x12\xa8\x02\n\amachine\x12\x0emachine_ticker\x18\x01 \xe8\a(\b2,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw:,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwB,AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwJ|\n3{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}\x12,{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}\x1a\x12{\"Version\": \"0.1\"}\"\x03CID\x12d\nP\nF\n\x1f/cosmos.crypto.secp256k1.PubKey\x12#\n!\x022\x8d\xe8x\x96\xb9˵\x10\x1c3_@\x02\x9eK蘘\x8bG\n\xbb\xf6\x83\xf1\xa0\xb3\x18\xd74p\x12\x04\n\x02\b\x01\x18\x01\x12\x10\n\n\n\x05stake\x12\x012\x10\xc0\x9a\f\x1a\fchain-mP3enC "
+    ProtobufCBinaryData sig;
+    sig.len=64;
+    sig.data= signature; 
+    ProtobufCBinaryData sigs[1]={sig};
+    txRaw.n_signatures=1;
+    txRaw.signatures=sigs;
 
-    //"http://0.0.0.0:42807/cosmos/auth/v1beta1/account_info/cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx"
-    //"{\"info\":{\"address\":\"cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx\",\"pub_key\":{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw\"},\"account_number\":\"7\",\"sequence\":\"1\"}}"
-
+    (*tx_size) = cosmos__tx__v1beta1__tx_raw__get_packed_size( &txRaw );
+    (*tx_bytes) = malloc( (*tx_size)  );
+    //uint8_t* *tx_envelope = malloc( len );
+    cosmos__tx__v1beta1__tx_raw__pack(&txRaw, (*tx_bytes));
+    
     free(binMessage.data);
     free(txRaw.body_bytes.data);
     free(txRaw.auth_info_bytes.data);
     free(anyMsg.value.data);
     free(pubkey.key.data);
     free(any_pub_key.value.data);
+    //return tx_envelope;
 }
+
+//"{\"tx_bytes\":\"CvcDCvQDCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLJAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EpcDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchgBIOgHKAgyQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MDpveHB1YjY2MU15TXdBcVJiY0VpZ1JTR05qenFzVWJrb3hSSFREWVhEUTZvNWtxNkVRVFNZdVh4d0Q1ek5iRVhGakNHM2hEbVlacUNFNEhGdGNQQWkzVjNNVzl0VFl3cXpMRFV0OUJtSHY3ZlBjV2FCQkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMTh"

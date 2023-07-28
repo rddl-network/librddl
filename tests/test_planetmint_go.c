@@ -44,7 +44,7 @@ void test_attest_machine()
   char tx_bytes_b64[3000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
-  printf( "buffer %s\n" , tx_bytes_b64);
+  //printf( "buffer %s\n" , tx_bytes_b64);
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes, tx_bytes_b64, length );
   free( txbytes );
 }
@@ -68,7 +68,7 @@ void test_attest_machine_generic()
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
-  printf( "Generic %s\n" , tx_bytes_b64);
+  //printf( "Generic %s\n" , tx_bytes_b64);
   free( txbytes );
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
 
@@ -93,7 +93,7 @@ void test_attest_asset_generic()
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
-  printf( "Generic %s\n" , tx_bytes_b64);
+  //printf( "Generic %s\n" , tx_bytes_b64);
   free( txbytes );
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
 

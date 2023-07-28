@@ -38,7 +38,7 @@ void test_attest_machine()
   uint8_t* txbytes = NULL;
   size_t tx_size = 0;
   uint8_t signature[64] = {0};
-  attestMachine( reference_private_key +2, reference_pubkey+2, expected_address, signature, &txbytes, &tx_size);
+  attestMachine2( reference_private_key +2, reference_pubkey+2, expected_address, signature, &txbytes, &tx_size);
   TEST_ASSERT_EQUAL_MEMORY( expected_sig, signature, 64 );
   
   char tx_bytes_b64[3000] = {0};
@@ -47,6 +47,56 @@ void test_attest_machine()
   printf( "buffer %s\n" , tx_bytes_b64);
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes, tx_bytes_b64, length );
   free( txbytes );
+}
+
+void test_attest_machine_generic()
+{
+  char * expected_tx_b64_bytes_generic = "CvcDCvQDCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLJAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EpcDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchgBIOgHKAgyQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MDpveHB1YjY2MU15TXdBcVJiY0VpZ1JTR05qenFzVWJrb3hSSFREWVhEUTZvNWtxNkVRVFNZdVh4d0Q1ek5iRVhGakNHM2hEbVlacUNFNEhGdGNQQWkzVjNNVzl0VFl3cXpMRFV0OUJtSHY3ZlBjV2FCQkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBKfAozeyJMYXRpdHVkZSI6Ii00OC44NzY2NjciLCJMb25naXR1ZGUiOiItMTIzLjM5MzMzMyJ9Eix7Ik1hbnVmYWN0dXJlciI6ICJSRERMIiwiU2VyaWFsIjoiQWRuVDJ1eXQifRoSeyJWZXJzaW9uIjogIjAuMSJ9IgNDSUQSYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkAQy2vPk5YtlGOiXcIs+fDXRNad9dfp08pKLF07aWdDoU0TkzFjcfO/YLcDySJMll3qnn8sqR0S6HsjtMhEgGCK";
+  Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
+  generateAnyAttestMachineMsg(&anyMsg, expected_address);
+
+  Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
+  coin.denom = "token";
+  coin.amount = "2";
+  
+  uint8_t* txbytes = NULL;
+  size_t tx_size = 0;
+  uint64_t sequence = 0;
+  prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
+      sequence, "planetmintgo", 8, &txbytes, &tx_size);
+  free(anyMsg.value.data);
+  char tx_bytes_b64[1000] = {0};
+  char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
+  size_t length = p - tx_bytes_b64;
+  printf( "Generic %s\n" , tx_bytes_b64);
+  free( txbytes );
+  TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
+
+}
+
+void test_attest_asset_generic()
+{
+  char * expected_tx_b64_bytes_generic = "CqcCCqQCCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQS+wEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGoABMzEzZDYwYjM3Y2EyZjE2OGQzM2I3ZDYyMzRmNmQ4NzI1ZDkxMGQwYTc0ODcyMzUwODc0YmIwYTk4ZjhjYzg1ODQyMDQwMTA3MjBiOWQxZGZlMzgwMGZkYmYwNjdkMDdiYmExM2QyOTU0ZDJlOTg5NDNlMThiOGZlMWZhZGY3N2IiQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MBJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpAmaUPM3+ie0WLZnGWxmp6pLlpPGWop8ADshJvVvz7AT9l1VhR1LRQtm6J4H9No6DG1tmkR86zCr7iFTaTOjzZzg==";
+  Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
+  gnerateAnyCIDAttestMsg(&anyMsg, expected_address);
+
+  Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
+  coin.denom = "token";
+  coin.amount = "2";
+  
+  uint8_t* txbytes = NULL;
+  size_t tx_size = 0;
+  uint64_t sequence = 1;
+  prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
+      sequence, "planetmintgo", 8, &txbytes, &tx_size);
+  free(anyMsg.value.data);
+  char tx_bytes_b64[1000] = {0};
+  char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
+  size_t length = p - tx_bytes_b64;
+  printf( "Generic %s\n" , tx_bytes_b64);
+  free( txbytes );
+  TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
+
 }
 
 
@@ -98,7 +148,9 @@ void test_from_address_to_address_string()
 
 int main(void) {
   UNITY_BEGIN();
+  RUN_TEST(test_attest_asset_generic);
   RUN_TEST(test_attest_machine);
+  RUN_TEST(test_attest_machine_generic);
   RUN_TEST(private2public_key);
   RUN_TEST(test_pubkey2address_convertion);
   RUN_TEST(test_from_address_to_address_string);

@@ -16,7 +16,9 @@ macro(do_test_c test_name sources)
         ${sources}
     )
 
-    target_include_directories(${test_name} PUBLIC .
+    target_include_directories(${test_name} PUBLIC 
+        .
+        ../libs/proto
     )
 
     target_link_libraries(${test_name}

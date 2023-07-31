@@ -1,0 +1,29 @@
+# Run unit tests using CTest
+name: Tests
+
+on:
+    schedule:
+        - cron: "0 3 * * *"
+        push:
+        branches:
+            - "*"
+        tags:
+            - "v*.*.*"
+        pull_request:
+        branches:
+            - "main"
+
+jobs:
+    unit-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run unit tests
+        uses: HorstBaerbel/action-ctest@1.1
+        
+        with:
+        sourcedir: '.'
+        builddir: 'build'
+        cmakeoptions: '--config Release'
+        ctestoptions: ''

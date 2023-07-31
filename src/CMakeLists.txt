@@ -55,5 +55,6 @@ target_include_directories(RDDLC PUBLIC
     ../libs/tiny-json
     ../libs/base64
     ../libs/proto
+    /usr/include
 )
 target_link_libraries(RDDLC PRIVATE ${ProtobufC_LIBRARIES})

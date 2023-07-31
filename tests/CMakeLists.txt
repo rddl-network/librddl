@@ -19,6 +19,7 @@ macro(do_test_c test_name sources)
     target_include_directories(${test_name} PUBLIC 
         .
         ../libs/proto
+        /usr/include
     )
 
     target_link_libraries(${test_name}

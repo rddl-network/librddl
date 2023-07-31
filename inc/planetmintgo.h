@@ -11,6 +11,7 @@ void pubkey2address( const uint8_t* pubkey, size_t key_length, uint8_t* address)
 int getAddressString( const uint8_t* address, char* stringbuffer);
 
 void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address );
+void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char *public_address );
 void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, char *public_address);
 void prepareTx( Google__Protobuf__Any* anyMsg, 
     Cosmos__Base__V1beta1__Coin* coin,

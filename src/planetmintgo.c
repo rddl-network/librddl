@@ -215,7 +215,35 @@ void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address
 
 }
 
+void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char *public_address )
+{
 
+    Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
+
+    char hex_pub_key[67] = {0};
+    toHexString(hex_pub_key, pub_key, 33);
+
+    uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
+    sha256(cid, strlen(cid), digest);
+
+    const ecdsa_curve *curve = &secp256k1;
+    //ed25519_sign((const unsigned char *)digest, SHA256_DIGEST_LENGTH, (const unsigned char *)priv_key, (const unsigned char *)pub_key + 1, signature);
+    uint8_t signature[64]= {0};
+    char signature_hex[64*2+1] = {0};
+    int res = ecdsa_sign_digest(curve, (const unsigned char *)priv_key, (const unsigned char *)digest, signature, NULL, NULL);
+    toHexString(signature_hex, signature, 64);
+
+    msg.creator = public_address;
+    msg.hash = cid;
+    msg.signature =  signature_hex;
+    msg.pubkey = hex_pub_key;
+
+    anyMsg->type_url = "/planetmintgo.asset.MsgNotarizeAsset";
+    anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);
+    anyMsg->value.data = malloc(anyMsg->value.len);
+    planetmintgo__asset__msg_notarize_asset__pack(&msg, anyMsg->value.data);
+
+}
 
 void attestMachine2(uint8_t *priv_key, uint8_t *pub_key, char *public_address, uint8_t* signature, uint8_t** tx_bytes, size_t* tx_size)
 {

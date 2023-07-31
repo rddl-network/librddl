@@ -76,9 +76,11 @@ void test_attest_machine_generic()
 
 void test_attest_asset_generic()
 {
-  char * expected_tx_b64_bytes_generic = "CqcCCqQCCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQS+wEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGoABMzEzZDYwYjM3Y2EyZjE2OGQzM2I3ZDYyMzRmNmQ4NzI1ZDkxMGQwYTc0ODcyMzUwODc0YmIwYTk4ZjhjYzg1ODQyMDQwMTA3MjBiOWQxZGZlMzgwMGZkYmYwNjdkMDdiYmExM2QyOTU0ZDJlOTg5NDNlMThiOGZlMWZhZGY3N2IiQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MBJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpAmaUPM3+ie0WLZnGWxmp6pLlpPGWop8ADshJvVvz7AT9l1VhR1LRQtm6J4H9No6DG1tmkR86zCr7iFTaTOjzZzg==";
+  char * expected_tx_b64_bytes_generic = "CsEBCr4BCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSlQEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGj5DNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMSIfMDIzMjhERTg3ODk2QjlDQkI1MTAxQzMzNUY0MDAyORJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpAbGUfFVnXobP99n4miN9wE7KiqbqN84cUSIJ8z9nCviUrG2QyeOEg/Tbzb+HWk7d/QOK7Y1gORKHi+5aCAsmwfg==";
+
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
-  gnerateAnyCIDAttestMsg(&anyMsg, expected_address);
+
+  gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address );
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
   coin.denom = "token";
@@ -87,19 +89,19 @@ void test_attest_asset_generic()
   uint8_t* txbytes = NULL;
   size_t tx_size = 0;
   uint64_t sequence = 1;
+  char* chain_id = "planetmintgo";
+  uint64_t account_id = 8;
   prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
-      sequence, "planetmintgo", 8, &txbytes, &tx_size);
+      sequence, chain_id, account_id, &txbytes, &tx_size);
   free(anyMsg.value.data);
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
-  //printf( "Generic %s\n" , tx_bytes_b64);
+
   free( txbytes );
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
 
 }
-
-
 
 // current derivation path FullFundraiserPath = "m/44'/118'/0'/0/0"
 extern uint8_t secret_seed[SEED_SIZE];

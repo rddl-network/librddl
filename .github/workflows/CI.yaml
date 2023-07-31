@@ -4,12 +4,12 @@ name: Tests
 on:
     schedule:
         - cron: "0 3 * * *"
-        push:
+    push:
         branches:
             - "*"
         tags:
             - "v*.*.*"
-        pull_request:
+    pull_request:
         branches:
             - "main"
 

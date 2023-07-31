@@ -1,3 +1,4 @@
+---
 # Run unit tests using CTest
 name: Tests
 
@@ -15,14 +16,13 @@ on:
 
 jobs:
     unit-test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run unit tests
-        uses: HorstBaerbel/action-ctest@1.1
-        with:
-            sourcedir: '.'
-            builddir: 'build'
-            cmakeoptions: '--config Release'
-            ctestoptions: ''
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Run unit tests
+              uses: HorstBaerbel/action-ctest@1.1
+              with:
+                  sourcedir: '.'
+                  builddir: 'build'
+                  cmakeoptions: '--config Release'
+                  ctestoptions: ''

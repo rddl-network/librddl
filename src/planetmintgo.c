@@ -129,7 +129,6 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     cosmos__tx__v1beta1__sign_doc__init(&signDoc);
     signDoc.body_bytes = txRaw.body_bytes;
     signDoc.auth_info_bytes = txRaw.auth_info_bytes;
-    //signDoc.chain_id = "chain-foobarbaz";
     signDoc.chain_id = chain_id;
     signDoc.account_number = account_id;
 
@@ -201,7 +200,6 @@ void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, char *public_add
 
 void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
 {
-
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
     msg.creator = public_address;
     msg.hash = "cid";
@@ -212,7 +210,6 @@ void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address
     anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);
     anyMsg->value.data = malloc(anyMsg->value.len);
     planetmintgo__asset__msg_notarize_asset__pack(&msg, anyMsg->value.data);
-
 }
 
 void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char *public_address )

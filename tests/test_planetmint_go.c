@@ -102,10 +102,13 @@ void test_attest_asset_generic()
 
 }
 
-// current derivation path FullFundraiserPath = "m/44'/118'/0'/0/0"
 extern uint8_t secret_seed[SEED_SIZE];
 void private2public_key()
 {
+
+uint8_t reference_private_key_8680[34] = {10,32,203,100,215,232,29,78,103,123,94,137,110,235,33,88,220,0,201,95,59,32,98,73,204,29,144,234,24,67,129,108,170,160};
+uint8_t reference_pubkey_8680[35] = {10,33,2,28,210,165,156,111,148,2,206,9,239,251,168,155,61,235,107,181,134,55,51,230,37,242,44,6,32,73,24,6,29,180,240};
+
   uint8_t priv_key[32]= {0};
   uint8_t pub_key[33] = {0};
   if( !mnemonic_check( mnemonic ) )
@@ -116,7 +119,7 @@ void private2public_key()
   HDNode node;
   hdnode_from_seed( secret_seed, SEED_SIZE, SECP256K1_NAME, &node);
   hdnode_private_ckd_prime(&node, 44);
-  hdnode_private_ckd_prime(&node, 118);
+  hdnode_private_ckd_prime(&node, 8680);
   hdnode_private_ckd_prime(&node, 0);
   hdnode_private_ckd(&node, 0);
   hdnode_private_ckd(&node, 0);
@@ -124,8 +127,8 @@ void private2public_key()
   memcpy(priv_key, node.private_key, 32);
   memcpy(pub_key, node.public_key, 33);
 
-  TEST_ASSERT_EQUAL_MEMORY( reference_private_key+2, priv_key, 32 );   
-  TEST_ASSERT_EQUAL_MEMORY( reference_pubkey+2, pub_key, 33 );
+  TEST_ASSERT_EQUAL_MEMORY( reference_private_key_8680+2, priv_key, 32 );   
+  TEST_ASSERT_EQUAL_MEMORY( reference_pubkey_8680+2, pub_key, 33 );
 }
 
 

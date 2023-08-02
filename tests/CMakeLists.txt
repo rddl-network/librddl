@@ -16,15 +16,23 @@ macro(do_test_c test_name sources)
         ${sources}
     )
 
-    target_include_directories(${test_name} PUBLIC .
+    target_include_directories(${test_name} PUBLIC 
+        .
+        ../libs/proto
+        /usr/include
     )
 
     target_link_libraries(${test_name}
         RDDLC
+        protobuf-c
         Unity
         gcov
         asan
+        
     )
+    target_compile_options(${test_name} PRIVATE "$<$<CONFIG:Debug>:-g>")
+    target_link_options(${test_name} PRIVATE "$<$<CONFIG:Debug>:-g>")
+
 
     target_compile_features(${test_name} PRIVATE
         c_std_99

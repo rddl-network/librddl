@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "rddl.h"
 
 char pubkey[]  = {'\x51', '\x7f', '\xb7', '\x3e', '\x19', '\x00', '\x85', '\x5e', '\xbd', '\xbc', '\x0d', '\xd8', '\xc9', '\x14', '\xa8', '\x60', '\xc0', '\xeb', '\x57', '\x2e', '\xf8', '\xd6', '\x66', '\x11', '\x38', '\xee', '\xe7', '\xaa', '\x70', '\xd8', '\xa1', '\x46'};
 char base58_pubkey[] = "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9";
@@ -13,14 +14,14 @@ void test_key_derivation(){
   
   
   mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
-  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key) );
-  printf("Private key: %s\n",priv_key);
-  printf("Public key: %s\n",pub_key);
+  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key, ED25519_NAME) );
+  //printf("Private key: %s\n",priv_key);
+  //printf("Public key: %s\n",pub_key);
 
   char obj[200] = {0};
   size_t len = 200;
   bool result = b58enc( obj, &len, pub_key, 33);
-  printf("Public key: %s\n",obj);
+  //printf("Public key: %s\n",obj);
 
   TEST_ASSERT_EQUAL_MEMORY( "MxEUHGGRdM4Q94xSM8HDwUayuE4hQz3NboY29cDkk5mV", obj, 45);
 
@@ -30,8 +31,8 @@ void test_b58_encode_decode(){
   char obj[200] = {0};
   size_t len = 200;
   bool result = b58enc( obj, &len, pubkey, 32);
-  printf("PUBKEY: %lu - %s\n", len, obj);
-  printf("PUBKEY: %s\n", base58_pubkey);
+  //printf("PUBKEY: %lu - %s\n", len, obj);
+  //printf("PUBKEY: %s\n", base58_pubkey);
   TEST_ASSERT_EQUAL_MEMORY( base58_pubkey, obj, 45);
 }
 
@@ -66,7 +67,7 @@ void tohexstring(char *hexbuf, uint8_t *str, int strlen){
 void test_challenge_signing(){
   const char * challenge = "ce25c22581bb06841fabfa44bca29f55da7a466060166fdafed33be7b6affaf528c59f23fe10502ce0bf18fd933c15ce73de1144c1803919a0637541a260b584ee1eef85ad897cb9d5501f692e712fb11f0f00e9253a4dc8717b9252aa022ab545fa9b61ed521bc9c180c70e10927809f94f2f0eff00781142d14278c58256bb";
   size_t len = strlen( challenge );
-  printf("challenge : %s\n", (char*)challenge );
+  //printf("challenge : %s\n", (char*)challenge );
   SHA256_CTX ctx;
   char hexbuf[68]={0};
 
@@ -75,7 +76,7 @@ void test_challenge_signing(){
   sha256_Update(&ctx, (const uint8_t*) challenge, len);
   sha256_Final(&ctx, hash);
   tohexstring( hexbuf,(uint8_t*)hash, 66 );
-  printf("hash in hex: %s\n", (char*)hexbuf );
+  //printf("hash in hex: %s\n", (char*)hexbuf );
 //cde3378f62d6c86bf63cc5945664a0573b079933ce4344224e233db8da5c5b7f
 //CDE3378F62D6C86BF63CC5945664A0573B079933CE4344224E233DB8DA5C5B7
 }
@@ -90,32 +91,32 @@ void rddl_auth_test(){
   
   
   mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
-  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key) );
+  TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key, ED25519_NAME) );
   
-  printf("Public key: %s\n",pub_key);
+  //printf("Public key: %s\n",pub_key);
   size_t len = 200;
   char obj[200] = {0};
   bool result = b58enc( obj, &len, pub_key+1, 32);
-  printf("Public key: %s\n",obj);
+  //printf("Public key: %s\n",obj);
   char pubkey_buf[200] = {0};
   tohexstring( pubkey_buf,(uint8_t*)pub_key+1, 64 );
-  printf("Public key in hex: %s\n", (char*)pubkey_buf );
+  //printf("Public key in hex: %s\n", (char*)pubkey_buf );
 
   len = 200;
   char obj2[200] = {0};
   result = b58enc( obj2, &len, priv_key, 32);
-  printf("Private key: %s\n",priv_key);
-  printf("Private key: %s\n",obj2);
+  //printf("Private key: %s\n",priv_key);
+  //printf("Private key: %s\n",obj2);
   char privkey_buf[200] = {0};
   tohexstring( privkey_buf,(uint8_t*)priv_key, 64 );
-  printf("Private key in hex: %s\n", (char*)privkey_buf );
+  //printf("Private key in hex: %s\n", (char*)privkey_buf );
 
 
   TEST_ASSERT_EQUAL_MEMORY( "3L5Pb63iWF4ifjNohoU6oFcanFRc1jLm5NXKj5ZXf7C6", obj, 45);
 
   const char * challenge = "5f965e52b20ec3ea2be4caf27e5c69b0aa62e94c69f005d157236c027c0f37b09178753aa85472ad62cd856bce33afc7b622e208710e4339608494f988a57801b244fdfe1ab5289d8e53434a355013a83066517b750a4b2b3bb82492f2aed94703c7d36258770b955adfa8549b35ba93452835adc451ff35d146335bb1e760f";
   len = strlen( challenge );
-  printf("challenge : %s\n", (char*)challenge );
+  //printf("challenge : %s\n", (char*)challenge );
   SHA256_CTX ctx;
   char hexbuf[68]={0};
 
@@ -124,7 +125,7 @@ void rddl_auth_test(){
   sha256_Update(&ctx, (const uint8_t*) challenge, len);
   sha256_Final(&ctx, hash);
   tohexstring( hexbuf,(uint8_t*)hash, 64 );
-  printf("hash in hex: %s\n", (char*)hexbuf );
+  //printf("hash in hex: %s\n", (char*)hexbuf );
   TEST_ASSERT_EQUAL_MEMORY( "A00E49955384802BD942C7FDDB98564EA9FBD53C151D38B196BE27B947A9C3C7", hexbuf, 64);
   
   unsigned char signature[65] = {0};
@@ -133,10 +134,10 @@ void rddl_auth_test(){
   char b58sig[200] = {0};
   b58enc( b58sig, &sig_size, signature, 64);
   TEST_ASSERT_EQUAL_MEMORY( "3LPsi2k3vP3AUBF1hNp8Ji7nthVpgM9kdjuEeVLDeYCfocLZ2bJxz64z3MKxo5aMRHSPRbejUmvo5734dnDAHVZ8", b58sig, sig_size);
-  printf("sig in b58: %s\n", b58sig);
+  //printf("sig in b58: %s\n", b58sig);
   int result_verify = ed25519_verify(signature,hash,SHA256_DIGEST_LENGTH,pub_key+1);
   TEST_ASSERT_EQUAL_INT( 0, result_verify);
-  printf("verify sig: %i\n", result_verify);
+  //printf("verify sig: %i\n", result_verify);
 }
 
 void test_derivation(){

@@ -142,7 +142,7 @@ void   planetmintgo__machine__machine_index__free_unpacked
   assert(message->base.descriptor == &planetmintgo__machine__machine_index__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_descriptors[9] =
+static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_descriptors[10] =
 {
   {
     "name",
@@ -169,8 +169,20 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "reissue",
+    "domain",
     3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__Machine, domain),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "reissue",
+    4,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
@@ -182,7 +194,7 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
   {
     "amount",
-    4,
+    5,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_UINT64,
     0,   /* quantifier_offset */
@@ -194,7 +206,7 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
   {
     "precision",
-    5,
+    6,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_UINT64,
     0,   /* quantifier_offset */
@@ -206,7 +218,7 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
   {
     "issuerPlanetmint",
-    6,
+    7,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
@@ -218,7 +230,7 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
   {
     "issuerLiquid",
-    7,
+    8,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
@@ -230,7 +242,7 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
   {
     "machineId",
-    8,
+    9,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
@@ -242,7 +254,7 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
   {
     "metadata",
-    9,
+    10,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -254,20 +266,21 @@ static const ProtobufCFieldDescriptor planetmintgo__machine__machine__field_desc
   },
 };
 static const unsigned planetmintgo__machine__machine__field_indices_by_name[] = {
-  3,   /* field[3] = amount */
-  6,   /* field[6] = issuerLiquid */
-  5,   /* field[5] = issuerPlanetmint */
-  7,   /* field[7] = machineId */
-  8,   /* field[8] = metadata */
+  4,   /* field[4] = amount */
+  2,   /* field[2] = domain */
+  7,   /* field[7] = issuerLiquid */
+  6,   /* field[6] = issuerPlanetmint */
+  8,   /* field[8] = machineId */
+  9,   /* field[9] = metadata */
   0,   /* field[0] = name */
-  4,   /* field[4] = precision */
-  2,   /* field[2] = reissue */
+  5,   /* field[5] = precision */
+  3,   /* field[3] = reissue */
   1,   /* field[1] = ticker */
 };
 static const ProtobufCIntRange planetmintgo__machine__machine__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 9 }
+  { 0, 10 }
 };
 const ProtobufCMessageDescriptor planetmintgo__machine__machine__descriptor =
 {
@@ -277,7 +290,7 @@ const ProtobufCMessageDescriptor planetmintgo__machine__machine__descriptor =
   "Planetmintgo__Machine__Machine",
   "planetmintgo.machine",
   sizeof(Planetmintgo__Machine__Machine),
-  9,
+  10,
   planetmintgo__machine__machine__field_descriptors,
   planetmintgo__machine__machine__field_indices_by_name,
   1,  planetmintgo__machine__machine__number_ranges,

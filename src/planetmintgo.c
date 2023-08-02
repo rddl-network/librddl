@@ -179,6 +179,7 @@ void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, char *public_add
     Planetmintgo__Machine__Machine machine = PLANETMINTGO__MACHINE__MACHINE__INIT;
     machine.name = "machine";
     machine.ticker = "machine_ticker";
+    machine.domain = "lab.r3c.network";
     machine.reissue = true;
     machine.amount = 1000;
     machine.precision = 8;
@@ -242,7 +243,7 @@ void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* c
 
 }
 
-void attestMachine2(uint8_t *priv_key, uint8_t *pub_key, char *public_address, uint8_t* signature, uint8_t** tx_bytes, size_t* tx_size)
+void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, uint8_t* signature, uint8_t** tx_bytes, size_t* tx_size)
 {
     //
     // create body

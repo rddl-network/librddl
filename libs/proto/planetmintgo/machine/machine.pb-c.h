@@ -30,6 +30,7 @@ struct  Planetmintgo__Machine__Machine
   ProtobufCMessage base;
   char *name;
   char *ticker;
+  char *domain;
   protobuf_c_boolean reissue;
   uint64_t amount;
   uint64_t precision;
@@ -40,7 +41,7 @@ struct  Planetmintgo__Machine__Machine
 };
 #define PLANETMINTGO__MACHINE__MACHINE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__machine__descriptor) \
-    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, NULL }
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, NULL }
 
 
 struct  Planetmintgo__Machine__Metadata

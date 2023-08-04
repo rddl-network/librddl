@@ -33,7 +33,7 @@ macro(do_test_c test_name sources)
     target_compile_options(${test_name} PRIVATE "$<$<CONFIG:Debug>:-g>")
     target_link_options(${test_name} PRIVATE "$<$<CONFIG:Debug>:-g>")
 
-
+    set(CMAKE_CXX_FLAGS "-fpermissive")
     target_compile_features(${test_name} PRIVATE
         c_std_99
     )

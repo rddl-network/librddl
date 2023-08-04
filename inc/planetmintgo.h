@@ -1,6 +1,10 @@
 #ifndef _PLANETMINT_GO_H_
 #define _PLANETMINT_GO_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PUBKEY_SIZE 35
 #define ADDRESS_TAIL 20
 #include "planetmintgo/machine/machine.pb-c.h"
@@ -24,5 +28,9 @@ void prepareTx( Google__Protobuf__Any* anyMsg,
 void attestMachine(uint8_t *priv_key, uint8_t *pub_key, 
         char *public_address, uint8_t* signature,
         uint8_t** tx_bytes, size_t* tx_size);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

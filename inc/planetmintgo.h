@@ -10,6 +10,8 @@ extern "C" {
 #include "planetmintgo/machine/machine.pb-c.h"
 #include "cosmos/tx/v1beta1/tx.pb-c.h"
 
+bool get_account_info( char * json_obj, int* account_id, int* sequence );
+bool get_address_info_from_accounts( char * json_obj, const char* address, int* account_id, int* sequence );
 
 void pubkey2address( const uint8_t* pubkey, size_t key_length, uint8_t* address);
 int getAddressString( const uint8_t* address, char* stringbuffer);

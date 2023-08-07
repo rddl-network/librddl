@@ -149,9 +149,175 @@ void test_from_address_to_address_string()
     TEST_ASSERT_EQUAL_MEMORY( expected_address, address_string, strlen(expected_address) );    
 }
 
+void parse_account_info()
+{
+ char expected_result [] = "{\\
+    \"info\": { \\
+      \"address\": \"cosmos1y9jcnxu9hwxleuf5qulr78scaewjdyqd9kchcm\", \\
+      \"pub_key\": { \\
+        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
+        \"key\": \"AoPiOdAOaaGNKuV33uP7+GpOiIUwne+KXygdHGdonqNR\" \\
+      }, \\
+      \"account_number\": \"0\", \\
+      \"sequence\": \"1\" \\
+    } \\
+  }";
+  int account_id;
+  int sequence;
+  bool f = get_account_info( expected_result, &account_id, &sequence);
+  TEST_ASSERT_TRUE( f );
+  TEST_ASSERT_EQUAL_INT32( 1, sequence);
+  TEST_ASSERT_EQUAL_INT32( 0, account_id);
+
+}
+
+char account_output []= "{ \"accounts\": [ \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.BaseAccount\", \\
+      \"address\": \"cosmos1y9jcnxu9hwxleuf5qulr78scaewjdyqd9kchcm\", \\
+      \"pub_key\": { \\
+        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
+        \"key\": \"AoPiOdAOaaGNKuV33uP7+GpOiIUwne+KXygdHGdonqNR\" \\
+      }, \\
+      \"account_number\": \"0\", \\
+      \"sequence\": \"1\" \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.BaseAccount\", \\
+      \"address\": \"cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx\", \\
+      \"pub_key\": { \\
+        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
+        \"key\": \"AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw\" \\
+      }, \\
+      \"account_number\": \"8\", \\
+      \"sequence\": \"3\" \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.ModuleAccount\", \\
+      \"base_account\": { \\
+        \"address\": \"cosmos1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\", \\
+        \"pub_key\": null, \\
+        \"account_number\": \"4\", \\
+        \"sequence\": \"0\" \\
+      }, \\
+      \"name\": \"bonded_tokens_pool\", \\
+      \"permissions\": [ \\
+        \"burner\", \\
+        \"staking\" \\
+      ] \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.ModuleAccount\", \\
+      \"base_account\": { \\
+        \"address\": \"cosmos1tygms3xhhs3yv487phx3dw4a95jn7t7lpm470r\", \\
+        \"pub_key\": null, \\
+        \"account_number\": \"5\", \\
+        \"sequence\": \"0\" \\
+      }, \\
+      \"name\": \"not_bonded_tokens_pool\", \\
+      \"permissions\": [ \\
+        \"burner\", \\
+        \"staking\" \\
+      ] \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.BaseAccount\", \\
+      \"address\": \"cosmos102a7e9vul2ryuseyhf7n3z9haczap46p2rug9m\", \\
+      \"pub_key\": null, \\
+      \"account_number\": \"9\", \\
+      \"sequence\": \"0\" \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.ModuleAccount\", \\
+      \"base_account\": { \\
+        \"address\": \"cosmos10d07y265gmmuvt4z0w9aw880jnsr700j6zn9kn\", \\
+        \"pub_key\": null, \\
+        \"account_number\": \"6\", \\
+        \"sequence\": \"0\" \\
+      }, \\
+      \"name\": \"gov\", \\
+      \"permissions\": [ \\
+        \"burner\" \\
+      ] \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.BaseAccount\", \\
+      \"address\": \"cosmos1stkj2sr8mqczjdlktg2j3dw3qcghms3kz2q89q\", \\
+      \"pub_key\": { \\
+        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
+        \"key\": \"AtdUUQdGlOiOpxjXXkQkOAyC/2ni1WH3aGlJcGIoUcjp\" \\
+      }, \\
+      \"account_number\": \"10\", \\
+      \"sequence\": \"1\" \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.ModuleAccount\", \\
+      \"base_account\": { \\
+        \"address\": \"cosmos1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\", \\
+        \"pub_key\": null, \\
+        \"account_number\": \"3\", \\
+        \"sequence\": \"0\" \\
+      }, \\
+      \"name\": \"distribution\", \\
+      \"permissions\": [] \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.BaseAccount\", \\
+      \"address\": \"cosmos1cnyfwktydskf2rcqddyjsewn8mvcvgyvaaxs7h\", \\
+      \"pub_key\": { \\
+        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
+        \"key\": \"Al1Mh7Wiy07p58hAM4mIoRw+qCMOAHnlq+Ole1LLv8Xq\" \\
+      }, \\
+      \"account_number\": \"1\", \\
+      \"sequence\": \"3\" \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.ModuleAccount\", \\
+      \"base_account\": { \\
+        \"address\": \"cosmos1m3h30wlvsf8llruxtpukdvsy0km2kum8g38c8q\", \\
+        \"pub_key\": null, \\
+        \"account_number\": \"7\", \\
+        \"sequence\": \"0\" \\
+      }, \\
+      \"name\": \"mint\", \\
+      \"permissions\": [ \\
+        \"minter\" \\
+      ] \\
+    }, \\
+    { \\
+      \"@type\": \"/cosmos.auth.v1beta1.ModuleAccount\", \\
+      \"base_account\": { \\
+        \"address\": \"cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta\", \\
+        \"pub_key\": null, \\
+        \"account_number\": \"2\", \\
+        \"sequence\": \"0\" \\
+      }, \\
+      \"name\": \"fee_collector\", \\
+      \"permissions\": [] \\
+    } \\
+  ], \\
+  \"pagination\": { \\
+    \"next_key\": null, \\
+    \"total\": \"11\" \\
+  } \\
+}";
+
+void find_accound_id()
+{
+  int account_id;
+  int sequence;
+  char * address = "cosmos1cnyfwktydskf2rcqddyjsewn8mvcvgyvaaxs7h";
+  bool f = get_address_info_from_accounts( account_output, address,  &account_id, &sequence);
+  TEST_ASSERT_TRUE( f );
+  TEST_ASSERT_EQUAL_INT32( 3, sequence);
+  TEST_ASSERT_EQUAL_INT32( 1, account_id);
+}
+
 
 int main(void) {
   UNITY_BEGIN();
+  RUN_TEST(find_accound_id);
+  RUN_TEST(parse_account_info);
   RUN_TEST(test_attest_asset_generic);
   //RUN_TEST(test_attest_machine);
   RUN_TEST(test_attest_machine_generic);
@@ -161,3 +327,4 @@ int main(void) {
 
   return UNITY_END();
 }
+

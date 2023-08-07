@@ -22,7 +22,7 @@ jobs:
               with:
                   submodules: recursive
             - name: Install Protobuf
-              run: sudo apt install libprotobuf-c-dev cmake tree gcc g++
+              run: sudo apt install libprotobuf-c-dev libprotobuf-dev protobuf-compiler cmake tree gcc g++
             - name: Build and Test
               run: |
                   mkdir build

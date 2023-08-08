@@ -52,8 +52,36 @@ void test_attest_machine()
 void test_attest_machine_generic()
 {
   char * expected_tx_b64_bytes_generic = "CogECoUECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLaAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EqgDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchoPbGFiLnIzYy5uZXR3b3JrIAEo6AcwCDpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwQm94cHViNjYxTXlNd0FxUmJjRWlnUlNHTmp6cXNVYmtveFJIVERZWERRNm81a3E2RVFUU1l1WHh3RDV6TmJFWEZqQ0czaERtWVpxQ0U0SEZ0Y1BBaTNWM01XOXRUWXdxekxEVXQ5Qm1IdjdmUGNXYUJKQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MFJ8CjN7IkxhdGl0dWRlIjoiLTQ4Ljg3NjY2NyIsIkxvbmdpdHVkZSI6Ii0xMjMuMzkzMzMzIn0SLHsiTWFudWZhY3R1cmVyIjogIlJEREwiLCJTZXJpYWwiOiJBZG5UMnV5dCJ9GhJ7IlZlcnNpb24iOiAiMC4xIn0iA0NJRBJiCk4KRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAESEAoKCgV0b2tlbhIBMhDAmgwaQMKTmzKJM1S+uh4VzblDKlSTp2Dx7log+/mq7RsFt0tHbSedwppW9KJjedhWDbx/3rFXuuYDqKuD6L/vnEEYkvM=";
+
+
+  Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
+  metadata.additionaldatacid = "CID";
+  metadata.gps = "{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}";
+  metadata.assetdefinition = "{\"Version\": \"0.1\"}";
+  metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}";
+  const char *address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
+  const char *pubKey = "AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw";
+
+  
+  Planetmintgo__Machine__Machine machine = PLANETMINTGO__MACHINE__MACHINE__INIT;
+  machine.name = "machine";
+  machine.ticker = "machine_ticker";
+  machine.domain = "lab.r3c.network";
+  machine.reissue = true;
+  machine.amount = 1000;
+  machine.precision = 8;
+  machine.issuerplanetmint = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
+  machine.issuerliquid = "xpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB";
+  machine.machineid = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
+  machine.metadata = &metadata;
+
+  Planetmintgo__Machine__MsgAttestMachine machineMsg = PLANETMINTGO__MACHINE__MSG_ATTEST_MACHINE__INIT;
+  machineMsg.creator = (char*)address;
+  machineMsg.machine = &machine;
+
+
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
-  generateAnyAttestMachineMsg(&anyMsg, expected_address);
+  generateAnyAttestMachineMsg(&anyMsg, &machineMsg);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
   coin.denom = "token";

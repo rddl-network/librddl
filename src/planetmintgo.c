@@ -167,42 +167,14 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     free(any_pub_key.value.data);
 }
 
-void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, char *public_address)
+void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Machine__MsgAttestMachine* machineMsg)
 {
-    //
-    // create body
-    //
-    Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
-    metadata.additionaldatacid = "CID";
-    metadata.gps = "{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}";
-    metadata.assetdefinition = "{\"Version\": \"0.1\"}";
-    metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}";
-    const char *address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
-    const char *pubKey = "AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw";
-
-    
-    Planetmintgo__Machine__Machine machine = PLANETMINTGO__MACHINE__MACHINE__INIT;
-    machine.name = "machine";
-    machine.ticker = "machine_ticker";
-    machine.domain = "lab.r3c.network";
-    machine.reissue = true;
-    machine.amount = 1000;
-    machine.precision = 8;
-    machine.issuerplanetmint = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
-    machine.issuerliquid = "xpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB";
-    machine.machineid = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
-    machine.metadata = &metadata;
-
-    Planetmintgo__Machine__MsgAttestMachine machineMsg = PLANETMINTGO__MACHINE__MSG_ATTEST_MACHINE__INIT;
-    machineMsg.creator = (char*)address;
-    machineMsg.machine = &machine;
-
     anyMsg->type_url = "/planetmintgo.machine.MsgAttestMachine";
-    anyMsg->value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(&machineMsg);
+    anyMsg->value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(machineMsg);
     anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
-    planetmintgo__machine__msg_attest_machine__pack(&machineMsg, anyMsg->value.data);
-
+    planetmintgo__machine__msg_attest_machine__pack(machineMsg, anyMsg->value.data);
 }
+
 
 void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
 {
@@ -419,10 +391,11 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     //return tx_envelope;
 }
 
-bool get_account_info( char * json_obj, int* account_id, int* sequence)
+bool get_account_info( const char* json_obj, int* account_id, int* sequence)
 {
-    unsigned int max_fields = 10;
+    unsigned int max_fields = 20;
     json_t pool[max_fields];
+    
     const json_t* response = json_create( json_obj, pool, max_fields);
     
     if ( response == NULL ) return false;
@@ -431,13 +404,15 @@ bool get_account_info( char * json_obj, int* account_id, int* sequence)
 
     char const* account_value = json_getPropertyValue( info_field, "account_number" );
     char const* sequence_value = json_getPropertyValue( info_field, "sequence" );
+    if( !account_value || !sequence_value )
+        return false;
 
     *account_id = atoi( account_value );
     *sequence = atoi( sequence_value );
     return true;
 }
 
-bool get_address_info_from_accounts( char * json_obj, const char* address, int* account_id, int* sequence)
+bool get_address_info_from_accounts( const char* json_obj, const char* address, int* account_id, int* sequence)
 {
     unsigned int max_fields = 1000;
     json_t pool[max_fields];

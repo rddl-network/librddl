@@ -157,6 +157,19 @@ uint8_t reference_pubkey_8680[35] = {10,33,2,28,210,165,156,111,148,2,206,9,239,
 
   TEST_ASSERT_EQUAL_MEMORY( reference_private_key_8680+2, priv_key, 32 );   
   TEST_ASSERT_EQUAL_MEMORY( reference_pubkey_8680+2, pub_key, 33 );
+
+  char str[112];
+  size_t strsize = 112;
+  uint32_t fingerprint = hdnode_fingerprint(&node);
+  int ret =   hdnode_serialize_public( &node, fingerprint, 0x03E14247, str, strsize);
+  
+  TEST_ASSERT_EQUAL_INT32( 112, ret);
+  
+  HDNode node_decoded;
+  uint32_t fingerprint_decoded = 0;
+  ret = hdnode_deserialize(str, 0x03E14247, 0, SECP256K1_NAME, &node_decoded, &fingerprint_decoded);
+  TEST_ASSERT_EQUAL_INT32( 0, ret);
+  TEST_ASSERT_EQUAL_MEMORY( node.public_key, node_decoded.public_key, 33);
 }
 
 

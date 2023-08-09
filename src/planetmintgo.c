@@ -1,9 +1,14 @@
+#include <stdio.h>
+
 #include "sha2.h"
 #include "ripemd160.h"
 #include "base32.h"
 #include "rddl.h"
+#include "rddl_cid.h"
 #include "ecdsa.h"
 #include "secp256k1.h"
+#include "segwit_addr.h"
+#include "tiny-json.h"
 
 
 #include "cosmos/crypto/secp256k1/keys.pb-c.h"
@@ -37,18 +42,18 @@ int getAddressString(const uint8_t *address, char *stringbuffer)
     uint8_t base32_enc[100] = {0};
     base32_encode_unsafe(address, 20, base32_enc);
 
-    size_t len = strlen(base32_enc);
+    size_t len = strlen((const char*)base32_enc);
     return bech32_encode(stringbuffer, hrp, base32_enc, data_len);
 }
 
 void tx_to_tw_raw(Cosmos__Tx__V1beta1__Tx *tx, Cosmos__Tx__V1beta1__TxRaw *txRaw)
 {
     txRaw->body_bytes.len = cosmos__tx__v1beta1__tx_body__get_packed_size(tx->body);
-    txRaw->body_bytes.data = malloc(txRaw->body_bytes.len);
+    txRaw->body_bytes.data = (uint8_t*)malloc(txRaw->body_bytes.len);
     cosmos__tx__v1beta1__tx_body__pack(tx->body, txRaw->body_bytes.data);
 
     txRaw->auth_info_bytes.len = cosmos__tx__v1beta1__auth_info__get_packed_size(tx->auth_info);
-    txRaw->auth_info_bytes.data = malloc(txRaw->auth_info_bytes.len);
+    txRaw->auth_info_bytes.data = (uint8_t*)malloc(txRaw->auth_info_bytes.len);
     cosmos__tx__v1beta1__auth_info__pack(tx->auth_info, txRaw->auth_info_bytes.data);
 }
 
@@ -59,9 +64,9 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
 {
     Cosmos__Tx__V1beta1__TxBody body;
     cosmos__tx__v1beta1__tx_body__init(&body);
-    Google__Protobuf__Any messages[1] = {anyMsg};
+    Google__Protobuf__Any* messages[1] = {(Google__Protobuf__Any*)anyMsg};
     body.n_messages = 1;
-    body.messages = messages;
+    body.messages = (Google__Protobuf__Any**)messages;
     body.timeout_height = 0;
 
     Cosmos__Tx__V1beta1__ModeInfo__Single mode_single= COSMOS__TX__V1BETA1__MODE_INFO__SINGLE__INIT;
@@ -75,12 +80,12 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
 
     Cosmos__Crypto__Secp256k1__PubKey pubkey = COSMOS__CRYPTO__SECP256K1__PUB_KEY__INIT;
     pubkey.key.len = 33;
-    pubkey.key.data = malloc(33);
+    pubkey.key.data = (uint8_t*)malloc(33);
     memcpy(pubkey.key.data, pub_key, 33);
     Google__Protobuf__Any any_pub_key = GOOGLE__PROTOBUF__ANY__INIT;
     any_pub_key.type_url = "/cosmos.crypto.secp256k1.PubKey";
     any_pub_key.value.len = cosmos__crypto__secp256k1__pub_key__get_packed_size(&pubkey);
-    any_pub_key.value.data = malloc(any_pub_key.value.len);
+    any_pub_key.value.data = (uint8_t*)malloc(any_pub_key.value.len);
     cosmos__crypto__secp256k1__pub_key__pack(&pubkey, any_pub_key.value.data);
 
     Cosmos__Tx__V1beta1__SignerInfo signInfo = COSMOS__TX__V1BETA1__SIGNER_INFO__INIT;
@@ -91,20 +96,20 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     
 
 
-    Cosmos__Base__V1beta1__Coin coins[1] = {coin};
+    Cosmos__Base__V1beta1__Coin* coins[1] = {(Cosmos__Base__V1beta1__Coin*)coin};
 
     Cosmos__Tx__V1beta1__Fee fee = COSMOS__TX__V1BETA1__FEE__INIT;
     cosmos__tx__v1beta1__fee__init(&fee);
-    fee.amount = &coins;
+    fee.amount = (Cosmos__Base__V1beta1__Coin**)coins;
     fee.gas_limit = 200000;
     fee.n_amount = 1;
 
 
-    Cosmos__Tx__V1beta1__SignerInfo signer_infos[1] = {&signInfo};
+    Cosmos__Tx__V1beta1__SignerInfo* signer_infos[1] = {(Cosmos__Tx__V1beta1__SignerInfo*)&signInfo};
     Cosmos__Tx__V1beta1__AuthInfo auth;
     cosmos__tx__v1beta1__auth_info__init(&auth);
     auth.n_signer_infos = 1;
-    auth.signer_infos = signer_infos;
+    auth.signer_infos = (Cosmos__Tx__V1beta1__SignerInfo**)signer_infos;
     auth.fee = &fee;
 
     //
@@ -129,16 +134,16 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     cosmos__tx__v1beta1__sign_doc__init(&signDoc);
     signDoc.body_bytes = txRaw.body_bytes;
     signDoc.auth_info_bytes = txRaw.auth_info_bytes;
-    signDoc.chain_id = chain_id;
+    signDoc.chain_id = (char*)chain_id;
     signDoc.account_number = account_id;
 
     ProtobufCBinaryData binMessage;
     binMessage.len = cosmos__tx__v1beta1__sign_doc__get_packed_size(&signDoc);
-    binMessage.data = malloc(binMessage.len);
+    binMessage.data = (uint8_t*)malloc(binMessage.len);
     cosmos__tx__v1beta1__sign_doc__pack(&signDoc, binMessage.data);
 
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
-    sha256(binMessage.data, binMessage.len, digest);
+    sha256_Raw(binMessage.data, binMessage.len, digest);
 
     unsigned char signature[64] = {0};
     const ecdsa_curve *curve = &secp256k1;
@@ -152,7 +157,7 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     txRaw.signatures=sigs;
 
     (*tx_size) = cosmos__tx__v1beta1__tx_raw__get_packed_size( &txRaw );
-    (*tx_bytes) = malloc( (*tx_size)  );
+    (*tx_bytes) = (uint8_t*)malloc( (*tx_size)  );
     cosmos__tx__v1beta1__tx_raw__pack(&txRaw, (*tx_bytes));
     
     free(binMessage.data);
@@ -162,42 +167,14 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     free(any_pub_key.value.data);
 }
 
-void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, char *public_address)
+void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Machine__MsgAttestMachine* machineMsg)
 {
-    //
-    // create body
-    //
-    Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
-    metadata.additionaldatacid = "CID";
-    metadata.gps = "{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}";
-    metadata.assetdefinition = "{\"Version\": \"0.1\"}";
-    metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}";
-    const char *address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
-    const char *pubKey = "AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw";
-
-    
-    Planetmintgo__Machine__Machine machine = PLANETMINTGO__MACHINE__MACHINE__INIT;
-    machine.name = "machine";
-    machine.ticker = "machine_ticker";
-    machine.domain = "lab.r3c.network";
-    machine.reissue = true;
-    machine.amount = 1000;
-    machine.precision = 8;
-    machine.issuerplanetmint = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
-    machine.issuerliquid = "xpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB";
-    machine.machineid = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
-    machine.metadata = &metadata;
-
-    Planetmintgo__Machine__MsgAttestMachine machineMsg = PLANETMINTGO__MACHINE__MSG_ATTEST_MACHINE__INIT;
-    machineMsg.creator = address;
-    machineMsg.machine = &machine;
-
     anyMsg->type_url = "/planetmintgo.machine.MsgAttestMachine";
-    anyMsg->value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(&machineMsg);
-    anyMsg->value.data = malloc(anyMsg->value.len);
-    planetmintgo__machine__msg_attest_machine__pack(&machineMsg, anyMsg->value.data);
-
+    anyMsg->value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(machineMsg);
+    anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
+    planetmintgo__machine__msg_attest_machine__pack(machineMsg, anyMsg->value.data);
 }
+
 
 void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
 {
@@ -209,7 +186,7 @@ void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address
 
     anyMsg->type_url = "/planetmintgo.asset.MsgNotarizeAsset";
     anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);
-    anyMsg->value.data = malloc(anyMsg->value.len);
+    anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
     planetmintgo__asset__msg_notarize_asset__pack(&msg, anyMsg->value.data);
 }
 
@@ -232,13 +209,13 @@ void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* c
     toHexString(signature_hex, signature, 64);
 
     msg.creator = public_address;
-    msg.hash = cid;
+    msg.hash = (char*)cid;
     msg.signature =  signature_hex;
     msg.pubkey = hex_pub_key;
 
     anyMsg->type_url = "/planetmintgo.asset.MsgNotarizeAsset";
     anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);
-    anyMsg->value.data = malloc(anyMsg->value.len);
+    anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
     planetmintgo__asset__msg_notarize_asset__pack(&msg, anyMsg->value.data);
 
 }
@@ -269,18 +246,18 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     machine.metadata = &metadata;
 
     Planetmintgo__Machine__MsgAttestMachine machineMsg = PLANETMINTGO__MACHINE__MSG_ATTEST_MACHINE__INIT;
-    machineMsg.creator = address;
+    machineMsg.creator = (char*)address;
     machineMsg.machine = &machine;
 
     Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
     anyMsg.type_url = "/planetmintgo.machine.MsgAttestMachine";
     anyMsg.value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(&machineMsg);
-    anyMsg.value.data = malloc(anyMsg.value.len);
+    anyMsg.value.data = (uint8_t*)malloc(anyMsg.value.len);
     planetmintgo__machine__msg_attest_machine__pack(&machineMsg, anyMsg.value.data);
 
     Cosmos__Tx__V1beta1__TxBody body;
     cosmos__tx__v1beta1__tx_body__init(&body);
-    Google__Protobuf__Any messages[1] = {&anyMsg};
+    Google__Protobuf__Any* messages[1] = {(Google__Protobuf__Any*)&anyMsg};
     body.n_messages = 1;
     body.messages = messages;
     body.timeout_height = 0;
@@ -303,12 +280,12 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
 
     Cosmos__Crypto__Secp256k1__PubKey pubkey = COSMOS__CRYPTO__SECP256K1__PUB_KEY__INIT;
     pubkey.key.len = 33;
-    pubkey.key.data = malloc(33);
+    pubkey.key.data = (uint8_t*)malloc(33);
     memcpy(pubkey.key.data, pub_key, 33);
     Google__Protobuf__Any any_pub_key = GOOGLE__PROTOBUF__ANY__INIT;
     any_pub_key.type_url = "/cosmos.crypto.secp256k1.PubKey";
     any_pub_key.value.len = cosmos__crypto__secp256k1__pub_key__get_packed_size(&pubkey);
-    any_pub_key.value.data = malloc(any_pub_key.value.len);
+    any_pub_key.value.data = (uint8_t*)malloc(any_pub_key.value.len);
     cosmos__crypto__secp256k1__pub_key__pack(&pubkey, any_pub_key.value.data);
 
     Cosmos__Tx__V1beta1__SignerInfo signInfo = COSMOS__TX__V1BETA1__SIGNER_INFO__INIT;
@@ -320,26 +297,26 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
 
 
     Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
-    Cosmos__Base__V1beta1__Coin coins[1] = {&coin};
+    Cosmos__Base__V1beta1__Coin* coins[1] = {&coin};
     coin.denom = "stake";
     coin.amount = "2";
 
     Cosmos__Tx__V1beta1__Fee fee = COSMOS__TX__V1BETA1__FEE__INIT;
     cosmos__tx__v1beta1__fee__init(&fee);
-    fee.amount = &coins;
+    fee.amount = coins;
     fee.gas_limit = 200000;
     fee.n_amount = 1;
 
     Cosmos__Base__V1beta1__Coin tip_coin = COSMOS__BASE__V1BETA1__COIN__INIT;
-    Cosmos__Base__V1beta1__Coin tip_coins[1] = {tip_coin};
+    Cosmos__Base__V1beta1__Coin* tip_coins[1] = {&tip_coin};
     tip_coin.denom="stake";
     tip_coin.amount="6";
     Cosmos__Tx__V1beta1__Tip tip = COSMOS__TX__V1BETA1__TIP__INIT;
     tip.n_amount=1;
     tip.amount= tip_coins;
-    tip.tipper=address;
+    tip.tipper=(char*)address;
 
-    Cosmos__Tx__V1beta1__SignerInfo signer_infos[1] = {&signInfo};
+    Cosmos__Tx__V1beta1__SignerInfo* signer_infos[1] = {&signInfo};
     Cosmos__Tx__V1beta1__AuthInfo auth;
     cosmos__tx__v1beta1__auth_info__init(&auth);
     auth.n_signer_infos = 1;
@@ -381,11 +358,11 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
 
     ProtobufCBinaryData binMessage;
     binMessage.len = cosmos__tx__v1beta1__sign_doc__get_packed_size(&signDoc);
-    binMessage.data = malloc(binMessage.len);
+    binMessage.data = (uint8_t*)malloc(binMessage.len);
     cosmos__tx__v1beta1__sign_doc__pack(&signDoc, binMessage.data);
 
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
-    sha256(binMessage.data, binMessage.len, digest);
+    sha256_Raw(binMessage.data, binMessage.len, digest);
 
     //unsigned char signature[64] = {0};
     const ecdsa_curve *curve = &secp256k1;
@@ -401,7 +378,7 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     txRaw.signatures=sigs;
 
     (*tx_size) = cosmos__tx__v1beta1__tx_raw__get_packed_size( &txRaw );
-    (*tx_bytes) = malloc( (*tx_size)  );
+    (*tx_bytes) = (uint8_t*)malloc( (*tx_size)  );
     //uint8_t* *tx_envelope = malloc( len );
     cosmos__tx__v1beta1__tx_raw__pack(&txRaw, (*tx_bytes));
     
@@ -412,4 +389,55 @@ void attestMachine(uint8_t *priv_key, uint8_t *pub_key, char *public_address, ui
     free(pubkey.key.data);
     free(any_pub_key.value.data);
     //return tx_envelope;
+}
+
+bool get_account_info( const char* json_obj, int* account_id, int* sequence)
+{
+    unsigned int max_fields = 20;
+    json_t pool[max_fields];
+    
+    const json_t* response = json_create( json_obj, pool, max_fields);
+    
+    if ( response == NULL ) return false;
+    json_t const* info_field = json_getProperty( response, "info" );
+    if ( info_field == NULL ) return false;
+
+    char const* account_value = json_getPropertyValue( info_field, "account_number" );
+    char const* sequence_value = json_getPropertyValue( info_field, "sequence" );
+    if( !account_value || !sequence_value )
+        return false;
+
+    *account_id = atoi( account_value );
+    *sequence = atoi( sequence_value );
+    return true;
+}
+
+bool get_address_info_from_accounts( const char* json_obj, const char* address, int* account_id, int* sequence)
+{
+    unsigned int max_fields = 1000;
+    json_t pool[max_fields];
+    const json_t* response = json_create( json_obj, pool, max_fields);
+    
+    if ( response == NULL ) return false;
+    json_t const* accounts = json_getProperty( response, "accounts" );
+    if ( accounts == NULL ) return false;
+
+    json_t const* sib = json_getChild( accounts );
+    while( true )
+    {
+        char const* address_value = json_getPropertyValue( sib, "address" );
+        if(address_value && strcmp( address_value, address) == 0)
+        {
+            char const* account_value = json_getPropertyValue( sib, "account_number" );
+            char const* sequence_value = json_getPropertyValue( sib, "sequence" );
+            *account_id = atoi( account_value );
+            *sequence = atoi( sequence_value );
+            return true;
+        }
+        sib = json_getSibling( sib );
+        if( !sib )
+            break;
+
+    }
+    return false;   
 }

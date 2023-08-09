@@ -57,4 +57,5 @@ target_include_directories(RDDLC PUBLIC
     ../libs/proto
     /usr/include
 )
+set(CMAKE_CXX_FLAGS "-fpermissive")
 target_link_libraries(RDDLC PRIVATE ${ProtobufC_LIBRARIES})

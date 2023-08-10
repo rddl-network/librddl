@@ -354,9 +354,23 @@ void find_accound_id()
   TEST_ASSERT_EQUAL_INT32( 1, account_id);
 }
 
+void test_persistence_lookup()
+{
+  char expected_value[] = "31323334";
+  char value[] = "1234";
+  size_t length = strlen(value);
+  length = length * 2;
+  char* hexstring = (char*)malloc(length+1);
+  hexstring[length] = 0;
+  toHexString( (char*)hexstring, (uint8_t*)value, length);
+  TEST_ASSERT_EQUAL_MEMORY( expected_value, hexstring, 8);
+  free( hexstring);
+}
+
 
 int main(void) {
   UNITY_BEGIN();
+  RUN_TEST(test_persistence_lookup);
   RUN_TEST(find_accound_id);
   RUN_TEST(parse_account_info);
   RUN_TEST(test_attest_asset_generic);

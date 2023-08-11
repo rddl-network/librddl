@@ -5,6 +5,7 @@
 
 #include "rddl.h"
 #include "planetmintgo.h"
+#include "rddl_types.h"
 
 #include "bip32.h"
 #include "curves.h"
@@ -32,27 +33,9 @@ uint8_t expected_sig[64]={35,187,131,58,5,149,242,90,22,45,245,9,148,237,110,120
 
 const char* expected_tx_b64_bytes = "CvcDCvQDCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLJAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EpcDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchgBIOgHKAgyQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MDpveHB1YjY2MU15TXdBcVJiY0VpZ1JTR05qenFzVWJrb3hSSFREWVhEUTZvNWtxNkVRVFNZdVh4d0Q1ek5iRVhGakNHM2hEbVlacUNFNEhGdGNQQWkzVjNNVzl0VFl3cXpMRFV0OUJtSHY3ZlBjV2FCQkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBKfAozeyJMYXRpdHVkZSI6Ii00OC44NzY2NjciLCJMb25naXR1ZGUiOiItMTIzLjM5MzMzMyJ9Eix7Ik1hbnVmYWN0dXJlciI6ICJSRERMIiwiU2VyaWFsIjoiQWRuVDJ1eXQifRoSeyJWZXJzaW9uIjogIjAuMSJ9IgNDSUQSZApQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBGAESEAoKCgVzdGFrZRIBMhDAmgwaQCO7gzoFlfJaFi31CZTtbniFivgMYb4Crm23ct0rc73iQh8kgeFolWVkBJ7Nq0w2L5h5uvzR12K3SUfenyMw6dk=";
 
-void test_attest_machine()
-{
-  
-  uint8_t* txbytes = NULL;
-  size_t tx_size = 0;
-  uint8_t signature[64] = {0};
-  attestMachine( reference_private_key +2, reference_pubkey+2, expected_address, signature, &txbytes, &tx_size);
-  TEST_ASSERT_EQUAL_MEMORY( expected_sig, signature, 64 );
-  
-  char tx_bytes_b64[3000] = {0};
-  char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
-  free( txbytes );
-  size_t length = p - tx_bytes_b64;
-
-  TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes, tx_bytes_b64, length );
-}
-
 void test_attest_machine_generic()
 {
-  char * expected_tx_b64_bytes_generic = "CogECoUECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLaAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EqgDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchoPbGFiLnIzYy5uZXR3b3JrIAEo6AcwCDpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwQm94cHViNjYxTXlNd0FxUmJjRWlnUlNHTmp6cXNVYmtveFJIVERZWERRNm81a3E2RVFUU1l1WHh3RDV6TmJFWEZqQ0czaERtWVpxQ0U0SEZ0Y1BBaTNWM01XOXRUWXdxekxEVXQ5Qm1IdjdmUGNXYUJKQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MFJ8CjN7IkxhdGl0dWRlIjoiLTQ4Ljg3NjY2NyIsIkxvbmdpdHVkZSI6Ii0xMjMuMzkzMzMzIn0SLHsiTWFudWZhY3R1cmVyIjogIlJEREwiLCJTZXJpYWwiOiJBZG5UMnV5dCJ9GhJ7IlZlcnNpb24iOiAiMC4xIn0iA0NJRBJiCk4KRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAESEAoKCgV0b2tlbhIBMhDAmgwaQMKTmzKJM1S+uh4VzblDKlSTp2Dx7log+/mq7RsFt0tHbSedwppW9KJjedhWDbx/3rFXuuYDqKuD6L/vnEEYkvM=";
-
+  char * expected_tx_b64_bytes_generic = "CooECocECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLcAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EqoDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchoPbGFiLnIzYy5uZXR3b3JrIAEo6AcwCDpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwQm94cHViNjYxTXlNd0FxUmJjRWlnUlNHTmp6cXNVYmtveFJIVERZWERRNm81a3E2RVFUU1l1WHh3RDV6TmJFWEZqQ0czaERtWVpxQ0U0SEZ0Y1BBaTNWM01XOXRUWXdxekxEVXQ5Qm1IdjdmUGNXYUJKQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MFJ8CjN7IkxhdGl0dWRlIjoiLTQ4Ljg3NjY2NyIsIkxvbmdpdHVkZSI6Ii0xMjMuMzkzMzMzIn0SLHsiTWFudWZhY3R1cmVyIjogIlJEREwiLCJTZXJpYWwiOiJBZG5UMnV5dCJ9GhJ7IlZlcnNpb24iOiAiMC4xIn0iA0NJRFgBEmIKTgpGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARIQCgoKBXRva2VuEgEyEMCaDBpAAvzEww4y5o9c/92+cbGUoou51nh7EVhPTTQ+yEIDqrUoXlqDDgHv5OGLvHFObXB0g4sUtxDNahOETtzVQXDiOw==";
 
   Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
   metadata.additionaldatacid = "CID";
@@ -74,6 +57,7 @@ void test_attest_machine_generic()
   machine.issuerliquid = "xpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB";
   machine.machineid = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470";
   machine.metadata = &metadata;
+  machine.type = RDDL_MACHINE_POWER_SWITCH;
 
   Planetmintgo__Machine__MsgAttestMachine machineMsg = PLANETMINTGO__MACHINE__MSG_ATTEST_MACHINE__INIT;
   machineMsg.creator = (char*)address;
@@ -103,7 +87,7 @@ void test_attest_machine_generic()
 
 void test_attest_asset_generic()
 {
-  char * expected_tx_b64_bytes_generic = "CsEBCr4BCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSlQEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGj5DNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMSIfMDIzMjhERTg3ODk2QjlDQkI1MTAxQzMzNUY0MDAyORJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpAbGUfFVnXobP99n4miN9wE7KiqbqN84cUSIJ8z9nCviUrG2QyeOEg/Tbzb+HWk7d/QOK7Y1gORKHi+5aCAsmwfg==";
+  char * expected_tx_b64_bytes_generic = "CsQBCsEBCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSmAEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGkBDNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMThBIiAwMjMyOERFODc4OTZCOUNCQjUxMDFDMzM1RjQwMDI5RRJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpA6u3FBtD1EZsGduKKlwae683nV/3kLLs66jLzQLleVBwb+8aYoOFm1yPUNluI+U4fWP/c+eFve3dhTMxy30ASnw==";
 
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
 
@@ -354,13 +338,26 @@ void find_accound_id()
   TEST_ASSERT_EQUAL_INT32( 1, account_id);
 }
 
+void test_persistence_lookup()
+{
+  char expected_value[] = "31323334";
+  char value[] = "1234";
+  size_t length = strlen(value);
+  length = length * 2;
+  char* hexstring = (char*)malloc(length+1);
+  hexstring[length] = 0;
+  toHexString( (char*)hexstring, (uint8_t*)value, length);
+  TEST_ASSERT_EQUAL_MEMORY( expected_value, hexstring, 8);
+  free( hexstring);
+}
+
 
 int main(void) {
   UNITY_BEGIN();
+  RUN_TEST(test_persistence_lookup);
   RUN_TEST(find_accound_id);
   RUN_TEST(parse_account_info);
   RUN_TEST(test_attest_asset_generic);
-  //RUN_TEST(test_attest_machine);
   RUN_TEST(test_attest_machine_generic);
   RUN_TEST(private2public_key);
   RUN_TEST(test_pubkey2address_convertion);

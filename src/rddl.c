@@ -61,7 +61,6 @@ void toHexString(char *hexbuf, uint8_t *str, int strlen){
     for (int i = 0 ; i < strlen/2 ; i++) {
         sprintf(&hexbuf[2*i], "%02X", str[i]);
     }
-  hexbuf[strlen-2] = '\0';
 }
 
 const char* getMnemonic()
@@ -158,9 +157,9 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
   int verified = ecdsa_verify_digest(curve, pub_key, signature, hash);
 
   // prepare and convert outputs to hex-strings
-  toHexString( pubkey_out, pub_key, 68);
-  toHexString( sig_out, signature, 130);
-  toHexString( hash_out, hash, 66);
+  toHexString( pubkey_out, pub_key, 66);
+  toHexString( sig_out, signature, 128);
+  toHexString( hash_out, hash, 64);
 
   return verified;
 }

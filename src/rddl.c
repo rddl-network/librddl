@@ -164,7 +164,7 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
   return verified;
 }
 
-int SignDataHashWithPrivKey(const char* digest, const uint8_t* priv_key, char* sig_out)
+int SignDataHashWithPrivKey(const uint8_t* digest, const uint8_t* priv_key, char* sig_out)
 {
   uint8_t signature[64] = {0};
   const ecdsa_curve *curve = &secp256k1;

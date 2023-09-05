@@ -36,7 +36,7 @@ void pubkey2address(const uint8_t *pubkey, size_t key_length, uint8_t *address)
 
 int getAddressString(const uint8_t *address, char *stringbuffer)
 {
-    const char *hrp = "cosmos";
+    const char *hrp = "plmnt";
     size_t data_len = 32;
     uint8_t paddingbuffer[32] = {0};
     uint8_t base32_enc[100] = {0};
@@ -195,7 +195,7 @@ void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* c
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
 
-    char hex_pub_key[67] = {0};
+    char hex_pub_key[66+1] = {0};
     toHexString(hex_pub_key, pub_key, 33);
 
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};

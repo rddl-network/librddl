@@ -27,6 +27,7 @@ uint8_t reference_sha[32] ={31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56
 uint8_t reference_addressbytes[20] = {46,62,250,9,104,89,242,77,48,250, 188,165,41,197,119,78,195,205,1,70};
 
 const char* expected_address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
+const char* expected_address2 = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc";
 uint8_t sha_hash[32] = {31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56,157,191,178,240,110,222,141,80,27,60,48,71,151,21,141,234};
 
 uint8_t expected_sig[64]={35,187,131,58,5,149,242,90,22,45,245,9,148,237,110,120,133,138,248,12,97,190,2,174,109,183,114,221,43,115,189,226,66,31,36,129,225,104,149,101,100,4,158,205,171,76,54,47,152,121,186,252,209,215,98,183,73,71,222,159,35,48,233,217};
@@ -171,7 +172,7 @@ void test_from_address_to_address_string()
 {
     char address_string[64]={0};
     int res = getAddressString( reference_addressbytes, address_string);
-    TEST_ASSERT_EQUAL_MEMORY( expected_address, address_string, strlen(expected_address) );    
+    TEST_ASSERT_EQUAL_MEMORY( expected_address2, address_string, strlen(expected_address2) );    
 }
 
 void parse_account_info()

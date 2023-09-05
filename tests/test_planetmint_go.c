@@ -26,8 +26,7 @@ uint8_t reference_sha[32] ={31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56
 
 uint8_t reference_addressbytes[20] = {46,62,250,9,104,89,242,77,48,250, 188,165,41,197,119,78,195,205,1,70};
 
-const char* expected_address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
-const char* expected_address2 = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc";
+const char* expected_address = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc";
 uint8_t sha_hash[32] = {31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56,157,191,178,240,110,222,141,80,27,60,48,71,151,21,141,234};
 
 uint8_t expected_sig[64]={35,187,131,58,5,149,242,90,22,45,245,9,148,237,110,120,133,138,248,12,97,190,2,174,109,183,114,221,43,115,189,226,66,31,36,129,225,104,149,101,100,4,158,205,171,76,54,47,152,121,186,252,209,215,98,183,73,71,222,159,35,48,233,217};
@@ -88,7 +87,7 @@ void test_attest_machine_generic()
 
 void test_attest_asset_generic()
 {
-  char * expected_tx_b64_bytes_generic = "CsQBCsEBCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSmAEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGkBDNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMThBIiAwMjMyOERFODc4OTZCOUNCQjUxMDFDMzM1RjQwMDI5RRJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpA6u3FBtD1EZsGduKKlwae683nV/3kLLs66jLzQLleVBwb+8aYoOFm1yPUNluI+U4fWP/c+eFve3dhTMxy30ASnw==";
+  char * expected_tx_b64_bytes_generic = "CsMBCsABCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSlwEKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQaQEM0QTZFNDMxNUFENzVBMzNGMkNFOUIzNDVBMTNDNTdENzhEMkVEQjQ0RUIzOTg2NEEwMDg5MUMzRUY2MEUxOEEiIDAyMzI4REU4Nzg5NkI5Q0JCNTEwMUMzMzVGNDAwMjlFEmQKUApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARgBEhAKCgoFdG9rZW4SATIQwJoMGkBG0KWtU8uvwYHfNb9ZL/oTf5Tib29fX2ctEXNlGTkn1AT8fsdx7rhywG1jwZjEvcC9D9evkWlY8/j0FLHSSyIB";
 
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
 
@@ -172,7 +171,7 @@ void test_from_address_to_address_string()
 {
     char address_string[64]={0};
     int res = getAddressString( reference_addressbytes, address_string);
-    TEST_ASSERT_EQUAL_MEMORY( expected_address2, address_string, strlen(expected_address2) );    
+    TEST_ASSERT_EQUAL_MEMORY( expected_address, address_string, strlen(expected_address) );    
 }
 
 void parse_account_info()

@@ -12,7 +12,6 @@
 #include "base64.h"
 
 
-
 const char* planetmint_service="http://0.0.0.0:34331";
 
 #define PUBKEY_SIZE 35
@@ -351,6 +350,21 @@ void test_persistence_lookup()
   free( hexstring);
 }
 
+void test_gps_string_parsing_adjustments()
+{
+  //{"Country":"AT","Region":"9","City":"vienna","CityLatLong":"48.208174,16.373819","User-IP":"84.112.103.218"}
+  char* gps_json_string = "{\"Country\":\"AT\",\"Region\":\"9\",\"City\":\"vienna\",\"CityLatLong\":\"48.208174,16.373819\",\"User-IP\":\"84.112.103.218\"}";
+  char* exp_gps_string =  "{\"Country\":\"AT\",\"Region\":\"9\",\"City\":\"vienna\",\"CityLatLong\":\"48.208174,16.373819\"}";
+  char* search_string = ",\"User-IP\":";
+  char* substitution_str = "}";
+  char* gps_data = malloc( strlen(gps_json_string)+1 );
+  strcpy( gps_data, gps_json_string);
+  bool ret = removeIPAddr( gps_data );
+  TEST_ASSERT_EQUAL_MEMORY( exp_gps_string, gps_data, strlen(exp_gps_string));
+  TEST_ASSERT_TRUE(ret);
+  free(gps_data);
+}
+
 
 int main(void) {
   UNITY_BEGIN();
@@ -362,6 +376,7 @@ int main(void) {
   RUN_TEST(private2public_key);
   RUN_TEST(test_pubkey2address_convertion);
   RUN_TEST(test_from_address_to_address_string);
+  RUN_TEST(test_gps_string_parsing_adjustments);
 
   return UNITY_END();
 }

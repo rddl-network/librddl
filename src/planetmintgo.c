@@ -195,7 +195,7 @@ void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* c
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
 
-    char hex_pub_key[67] = {0};
+    char hex_pub_key[66+1] = {0};
     toHexString(hex_pub_key, pub_key, 33);
 
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
@@ -203,7 +203,7 @@ void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* c
 
     const ecdsa_curve *curve = &secp256k1;
     //ed25519_sign((const unsigned char *)digest, SHA256_DIGEST_LENGTH, (const unsigned char *)priv_key, (const unsigned char *)pub_key + 1, signature);
-    uint8_t signature[64]= {0};
+    uint8_t signature[64+1]= {0};
     char signature_hex[64*2+1] = {0};
     int res = ecdsa_sign_digest(curve, (const unsigned char *)priv_key, (const unsigned char *)digest, signature, NULL, NULL);
     toHexString(signature_hex, signature, 64);
@@ -269,4 +269,16 @@ bool get_address_info_from_accounts( const char* json_obj, const char* address, 
 
     }
     return false;   
+}
+
+bool removeIPAddr( char* gps_data )
+{
+    char* search_string = ",\"User-IP\":";
+    char* substitution_str = "}";
+    char* ptr = strstr( gps_data, search_string);
+    if( !ptr )
+        return false;
+    ptr[0]= substitution_str[0];
+    ptr[1]=0;
+    return true;
 }

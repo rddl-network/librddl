@@ -27,6 +27,7 @@ extern "C" {
 #define SEED_SIZE 64
 #define SEED_SIZE_MNEMONIC_TO_SEED 16
 
+extern char * private_key_machine_id;
 extern uint8_t secret_seed[SEED_SIZE];
 
 const uint8_t *fromHexString(const char *str);
@@ -43,6 +44,8 @@ int validateSignature();
 bool getKeyFromSeed( const uint8_t* seed, uint8_t* priv_key, uint8_t* pub_key, const char* curve_name);
 
 bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, char* sig_out, char* hash_out);
+
+bool getMachineIDSignature(  uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature, uint8_t* hash);
 
 #ifdef __cplusplus
 }

@@ -35,7 +35,10 @@
 #include "esp_random.h"
 #endif
 
+
+
 uint8_t secret_seed[SEED_SIZE] = {0};
+char* private_key_machine_id = "THISISTHEPRIVATEKEYOFTHEMACHINE23THISISTHEPRIVATEKEYOFTHEMACHINE";
 
 const uint8_t *fromHexString(const char *str) {
   static uint8_t buf[FROMHEX_MAXLEN] = {0};
@@ -163,3 +166,28 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
 
   return verified;
 }
+
+bool getMachineIDSignature(  uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature, uint8_t* hash)
+{
+
+  //uint8_t hash[32] = {0};
+  //uint8_t signature[64] = {0};
+
+  const ecdsa_curve *curve = &secp256k1;
+  
+  SHA256_CTX ctx;
+  sha256_Init(&ctx);
+  // Hash the string
+  sha256_Update(&ctx, (const uint8_t*) pub_key, 33);
+  sha256_Final(&ctx, hash);
+
+  int res = ecdsa_sign_digest(curve, priv_key, hash, signature, NULL, NULL);
+  int verified = ecdsa_verify_digest(curve, pub_key, signature, hash);
+  if( res == 0 && verified == 0)
+    return true;
+  else
+    return false;
+}
+
+
+

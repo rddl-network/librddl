@@ -1,4 +1,7 @@
 #include "tests.h"
+#include "hmac_drbg.h"
+#include "secp256k1.h"
+#include "rddl.h"
 
 #define TEST_ASSET_ID "c81699a3713b36ac7b06b48bd0dbe2fb394428e1600d7e60c41207a3dae7ae53"
 #define TEST_OPERATION_CREATE 'C'
@@ -195,9 +198,34 @@ void fatih_test(){
 
 }
 
+void test_machineID_challenge_reponse()
+{
+  uint8_t seed[64];
+  memcpy( seed, private_key_machine_id, 64);
+  random_buffer(seed, 64);
+// 
+  // Initialize the HMAC-DRBG
+  HMAC_DRBG_CTX ctx;
+  hmac_drbg_init(&ctx, seed, 64, NULL, 0);
+// 
+  // Generate a private key (32 bytes for secp256k1)
+  uint8_t private_key[32];
+  hmac_drbg_generate(&ctx, private_key, 32);
+    // Derive the public key from the private key
+  uint8_t public_key[33];
+  ecdsa_get_public_key33(&secp256k1, private_key, public_key);
+
+  uint8_t signature[65]={0};
+  uint8_t hash[33]={0};
+  bool ret = getMachineIDSignature(  private_key,  public_key, signature, hash);
+
+  TEST_ASSERT_TRUE( ret );
+}
+
 int main(void) {
 
   UNITY_BEGIN();
+  RUN_TEST(test_machineID_challenge_reponse);
   RUN_TEST(fatih_test);
   RUN_TEST(test_sig);
   RUN_TEST(test_planetmint_build_json_inputs);

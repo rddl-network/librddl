@@ -38,7 +38,11 @@
 
 
 uint8_t secret_seed[SEED_SIZE] = {0};
-char* private_key_machine_id = "THISISTHEPRIVATEKEYOFTHEMACHINE23THISISTHEPRIVATEKEYOFTHEMACHINE";
+
+// the below mentioned array contains 8 times RDDL: "RDDLRDDLRDDLRDDLRDDLRDDLRDDLRDDL";
+uint8_t private_key_machine_id[32] = { 0x52, 0x44, 0x44, 0x4c, 0x52, 0x44, 0x44, 0x4c, 0x52, 0x44, 0x44, 0x4c,\
+                                       0x52, 0x44, 0x44, 0x4c, 0x52, 0x44, 0x44, 0x4c, 0x52, 0x44, 0x44, 0x4c,\
+                                       0x52, 0x44, 0x44, 0x4c, 0x52, 0x44, 0x44, 0x4c };
 
 const uint8_t *fromHexString(const char *str) {
   static uint8_t buf[FROMHEX_MAXLEN] = {0};
@@ -169,10 +173,6 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
 
 bool getMachineIDSignature(  uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature, uint8_t* hash)
 {
-
-  //uint8_t hash[32] = {0};
-  //uint8_t signature[64] = {0};
-
   const ecdsa_curve *curve = &secp256k1;
   
   SHA256_CTX ctx;

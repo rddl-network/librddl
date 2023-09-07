@@ -254,13 +254,22 @@ void test_machine_challenge_response_equal_to_planetmint_load_local_machine_id()
   TEST_ASSERT_TRUE( ret );
 }
 
+void test_getMachineIDSignaturePublicKey()
+{
+  uint8_t signature[64]={0};
+  uint8_t public_key[33] = {0};
+  bool ret = getMachineIDSignaturePublicKey( private_key_machine_id, public_key, signature );
+  TEST_ASSERT_TRUE( ret );
+}
+
 
 int main(void) {
 
   UNITY_BEGIN();
   RUN_TEST(test_machineID_challenge_reponse);
   RUN_TEST(test_machine_challenge_response_equal_to_planetmint);
-RUN_TEST(test_machine_challenge_response_equal_to_planetmint_load_local_machine_id);
+  RUN_TEST(test_machine_challenge_response_equal_to_planetmint_load_local_machine_id);
+  RUN_TEST(test_getMachineIDSignaturePublicKey);
   RUN_TEST(fatih_test);
   RUN_TEST(test_sig);
   RUN_TEST(test_planetmint_build_json_inputs);

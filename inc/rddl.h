@@ -47,6 +47,8 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
 
 bool getMachineIDSignature(  uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature, uint8_t* hash);
 
+bool getMachineIDSignaturePublicKey( uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature);
+
 #ifdef __cplusplus
 }
 #endif

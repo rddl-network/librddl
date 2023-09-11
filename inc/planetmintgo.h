@@ -36,9 +36,14 @@ int prepareTx( Google__Protobuf__Any* anyMsg,
         uint64_t sequence, const char *chain_id, uint64_t account_id,
         uint8_t** tx_bytes, size_t* tx_size);
 
-uint8_t* getStack( size_t size );
+bool removeIPAddr( char* gps_data );
 
+#define MY_STACK_LIMIT 5120
+
+uint8_t* getStack( size_t size );
 void clearStack();
+extern volatile uint8_t myStack[MY_STACK_LIMIT];
+
 
 #ifdef __cplusplus
 }

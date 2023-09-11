@@ -36,7 +36,7 @@ void pubkey2address(const uint8_t *pubkey, size_t key_length, uint8_t *address)
 
 int getAddressString(const uint8_t *address, char *stringbuffer)
 {
-    const char *hrp = "plmnt";
+    const char *hrp = "cosmos";
     size_t data_len = 32;
     uint8_t paddingbuffer[32] = {0};
     uint8_t base32_enc[100] = {0};
@@ -46,13 +46,8 @@ int getAddressString(const uint8_t *address, char *stringbuffer)
     return bech32_encode(stringbuffer, hrp, base32_enc, data_len);
 }
 
-#define MY_STACK_LIMIT 4096
 size_t myStackSize = 0;
-void setStack( uint8_t* stack)
-{
-    
-}
-static volatile uint8_t myStack[MY_STACK_LIMIT] = {0};
+volatile uint8_t myStack[MY_STACK_LIMIT] = {0};
 
 uint8_t* getStack( size_t size )
 {
@@ -195,13 +190,6 @@ int prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin,
     if( !(*tx_bytes) )
         return -1;
     cosmos__tx__v1beta1__tx_raw__pack(&txRaw, (*tx_bytes));
-    
-    //free(binMessage.data);
-    //free(txRaw.body_bytes.data);
-    //free(txRaw.auth_info_bytes.data);
-    //free(pubkey.key.data);
-    //free(any_pub_key.value.data);
-    
     return 0;
 }
 
@@ -316,3 +304,16 @@ bool get_address_info_from_accounts( const char* json_obj, const char* address, 
     }
     return false;   
 }
+
+bool removeIPAddr( char* gps_data )
+{
+    char* search_string = ",\"User-IP\":";
+    char* substitution_str = "}";
+    char* ptr = strstr( gps_data, search_string);
+    if( !ptr )
+        return false;
+    ptr[0]= substitution_str[0];
+    ptr[1]=0;
+    return true;
+}
+

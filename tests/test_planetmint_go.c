@@ -35,6 +35,7 @@ const char* expected_tx_b64_bytes = "CvcDCvQDCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXN
 
 void test_attest_machine_generic()
 {
+  clearStack();
   char* expected_tx_b64_bytes_generic = "CokECoYECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLbAwoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSqgMKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAESYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkBIArsZaFJp/BUiIcETm3DRiY76XFy8P6CdrmAFg0UCtC3Q0f4NcSsNU1TcaD7GwzoBlSoAMe6JXpP6TseZcmQJ";
 
   Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
@@ -66,7 +67,8 @@ void test_attest_machine_generic()
 
 
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
-  generateAnyAttestMachineMsg(&anyMsg, &machineMsg);
+  int ret = generateAnyAttestMachineMsg(&anyMsg, &machineMsg);
+  TEST_ASSERT_EQUAL_INT(0, ret);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
   coin.denom = "token";
@@ -75,24 +77,27 @@ void test_attest_machine_generic()
   uint8_t* txbytes = NULL;
   size_t tx_size = 0;
   uint64_t sequence = 0;
-  prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
+  ret = prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
       sequence, "planetmintgo", 8, &txbytes, &tx_size);
-  free(anyMsg.value.data);
+  TEST_ASSERT_EQUAL_INT(0, ret);
+  //free(anyMsg.value.data);
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
 
-  free( txbytes );
+  //free( txbytes );
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
 }
 
 void test_attest_asset_generic()
 {
+  clearStack();
   char * expected_tx_b64_bytes_generic = "CsMBCsABCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSlwEKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQaQEM0QTZFNDMxNUFENzVBMzNGMkNFOUIzNDVBMTNDNTdENzhEMkVEQjQ0RUIzOTg2NEEwMDg5MUMzRUY2MEUxOEEiIDAyMzI4REU4Nzg5NkI5Q0JCNTEwMUMzMzVGNDAwMjlFEmQKUApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARgBEhAKCgoFdG9rZW4SATIQwJoMGkBG0KWtU8uvwYHfNb9ZL/oTf5Tib29fX2ctEXNlGTkn1AT8fsdx7rhywG1jwZjEvcC9D9evkWlY8/j0FLHSSyIB";
 
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
 
-  gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address );
+  int ret = gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address );
+  TEST_ASSERT_EQUAL_INT(0, ret);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
   coin.denom = "token";
@@ -103,14 +108,15 @@ void test_attest_asset_generic()
   uint64_t sequence = 1;
   char* chain_id = "planetmintgo";
   uint64_t account_id = 8;
-  prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
+  ret = prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
       sequence, chain_id, account_id, &txbytes, &tx_size);
-  free(anyMsg.value.data);
+  TEST_ASSERT_EQUAL_INT(0, ret);
+  //free(anyMsg.value.data);
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
 
-  free( txbytes );
+  //free( txbytes );
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
 
 }

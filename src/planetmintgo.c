@@ -46,18 +46,47 @@ int getAddressString(const uint8_t *address, char *stringbuffer)
     return bech32_encode(stringbuffer, hrp, base32_enc, data_len);
 }
 
-void tx_to_tw_raw(Cosmos__Tx__V1beta1__Tx *tx, Cosmos__Tx__V1beta1__TxRaw *txRaw)
+#define MY_STACK_LIMIT 4096
+size_t myStackSize = 0;
+void setStack( uint8_t* stack)
+{
+    
+}
+static volatile uint8_t myStack[MY_STACK_LIMIT] = {0};
+
+uint8_t* getStack( size_t size )
+{
+    if (myStackSize + size > MY_STACK_LIMIT)
+        return NULL;
+
+    uint8_t* current_ptr = &myStack[myStackSize];
+    myStackSize += size;
+    return current_ptr;
+}
+
+void clearStack()
+{
+    myStackSize = 0;
+}
+
+
+int tx_to_tw_raw(Cosmos__Tx__V1beta1__Tx *tx, Cosmos__Tx__V1beta1__TxRaw *txRaw)
 {
     txRaw->body_bytes.len = cosmos__tx__v1beta1__tx_body__get_packed_size(tx->body);
-    txRaw->body_bytes.data = (uint8_t*)malloc(txRaw->body_bytes.len);
+    txRaw->body_bytes.data = (uint8_t*)getStack(txRaw->body_bytes.len);
+    if( !txRaw->body_bytes.data)
+        return -1;
     cosmos__tx__v1beta1__tx_body__pack(tx->body, txRaw->body_bytes.data);
 
     txRaw->auth_info_bytes.len = cosmos__tx__v1beta1__auth_info__get_packed_size(tx->auth_info);
-    txRaw->auth_info_bytes.data = (uint8_t*)malloc(txRaw->auth_info_bytes.len);
+    txRaw->auth_info_bytes.data = (uint8_t*)getStack(txRaw->auth_info_bytes.len);
+    if( !txRaw->auth_info_bytes.data )
+        return -1;
     cosmos__tx__v1beta1__auth_info__pack(tx->auth_info, txRaw->auth_info_bytes.data);
+    return 0;
 }
 
-void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin, 
+int prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin, 
         uint8_t *priv_key, uint8_t *pub_key,
         uint64_t sequence, const char *chain_id, uint64_t account_id,
         uint8_t** tx_bytes, size_t* tx_size)
@@ -80,12 +109,14 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
 
     Cosmos__Crypto__Secp256k1__PubKey pubkey = COSMOS__CRYPTO__SECP256K1__PUB_KEY__INIT;
     pubkey.key.len = 33;
-    pubkey.key.data = (uint8_t*)malloc(33);
-    memcpy(pubkey.key.data, pub_key, 33);
+    pubkey.key.data = pub_key;
+
     Google__Protobuf__Any any_pub_key = GOOGLE__PROTOBUF__ANY__INIT;
     any_pub_key.type_url = "/cosmos.crypto.secp256k1.PubKey";
     any_pub_key.value.len = cosmos__crypto__secp256k1__pub_key__get_packed_size(&pubkey);
-    any_pub_key.value.data = (uint8_t*)malloc(any_pub_key.value.len);
+    any_pub_key.value.data = (uint8_t*)getStack(any_pub_key.value.len);
+    if( !any_pub_key.value.data )
+        return -1;
     cosmos__crypto__secp256k1__pub_key__pack(&pubkey, any_pub_key.value.data);
 
     Cosmos__Tx__V1beta1__SignerInfo signInfo = COSMOS__TX__V1BETA1__SIGNER_INFO__INIT;
@@ -124,7 +155,8 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
 
     Cosmos__Tx__V1beta1__TxRaw txRaw;
     cosmos__tx__v1beta1__tx_raw__init(&txRaw);
-    tx_to_tw_raw(&tx, &txRaw);
+    if( tx_to_tw_raw(&tx, &txRaw) < 0 )
+        return -1;
     txRaw.n_signatures = tx.n_signatures;
 
 
@@ -139,7 +171,9 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
 
     ProtobufCBinaryData binMessage;
     binMessage.len = cosmos__tx__v1beta1__sign_doc__get_packed_size(&signDoc);
-    binMessage.data = (uint8_t*)malloc(binMessage.len);
+    binMessage.data = (uint8_t*)getStack(binMessage.len);
+    if( !binMessage.data )
+        return -1;
     cosmos__tx__v1beta1__sign_doc__pack(&signDoc, binMessage.data);
 
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
@@ -157,26 +191,33 @@ void prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin
     txRaw.signatures=sigs;
 
     (*tx_size) = cosmos__tx__v1beta1__tx_raw__get_packed_size( &txRaw );
-    (*tx_bytes) = (uint8_t*)malloc( (*tx_size)  );
+    (*tx_bytes) = (uint8_t*)getStack(*tx_size);
+    if( !(*tx_bytes) )
+        return -1;
     cosmos__tx__v1beta1__tx_raw__pack(&txRaw, (*tx_bytes));
     
-    free(binMessage.data);
-    free(txRaw.body_bytes.data);
-    free(txRaw.auth_info_bytes.data);
-    free(pubkey.key.data);
-    free(any_pub_key.value.data);
+    //free(binMessage.data);
+    //free(txRaw.body_bytes.data);
+    //free(txRaw.auth_info_bytes.data);
+    //free(pubkey.key.data);
+    //free(any_pub_key.value.data);
+    
+    return 0;
 }
 
-void generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Machine__MsgAttestMachine* machineMsg)
+int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Machine__MsgAttestMachine* machineMsg)
 {
     anyMsg->type_url = "/planetmintgo.machine.MsgAttestMachine";
     anyMsg->value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(machineMsg);
-    anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
+    anyMsg->value.data = getStack(anyMsg->value.len);
+    if( !anyMsg->value.data )
+        return -1;
     planetmintgo__machine__msg_attest_machine__pack(machineMsg, anyMsg->value.data);
+    return 0;
 }
 
 
-void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
+int gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
 {
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
     msg.creator = public_address;
@@ -186,11 +227,14 @@ void gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address
 
     anyMsg->type_url = "/planetmintgo.asset.MsgNotarizeAsset";
     anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);
-    anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
+    anyMsg->value.data = getStack(anyMsg->value.len);
+    if( !anyMsg->value.data )
+        return -1;
     planetmintgo__asset__msg_notarize_asset__pack(&msg, anyMsg->value.data);
+    return 0;
 }
 
-void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char *public_address )
+int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char *public_address )
 {
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
@@ -215,9 +259,11 @@ void gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* c
 
     anyMsg->type_url = "/planetmintgo.asset.MsgNotarizeAsset";
     anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);
-    anyMsg->value.data = (uint8_t*)malloc(anyMsg->value.len);
+    anyMsg->value.data = (uint8_t*)getStack(anyMsg->value.len);
+    if( !anyMsg->value.data )
+        return -1;
     planetmintgo__asset__msg_notarize_asset__pack(&msg, anyMsg->value.data);
-
+    return 0;
 }
 
 bool get_account_info( const char* json_obj, int* account_id, int* sequence)

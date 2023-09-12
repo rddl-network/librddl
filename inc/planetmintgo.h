@@ -23,8 +23,9 @@ bool get_address_info_from_accounts( const char* json_obj, const char* address, 
 void pubkey2address( const uint8_t* pubkey, size_t key_length, uint8_t* address);
 int getAddressString( const uint8_t* address, char* stringbuffer);
 
-int gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address );
-int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, 
+int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address );
+
+int generateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, 
         uint8_t* priv_key, uint8_t* pub_key,
         char *public_address, const char* ext_pub_key);
 

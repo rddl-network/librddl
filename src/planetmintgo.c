@@ -36,7 +36,7 @@ void pubkey2address(const uint8_t *pubkey, size_t key_length, uint8_t *address)
 
 int getAddressString(const uint8_t *address, char *stringbuffer)
 {
-    const char *hrp = "cosmos";
+    const char *hrp = "plmnt";
     size_t data_len = 32;
     uint8_t paddingbuffer[32] = {0};
     uint8_t base32_enc[100] = {0};
@@ -256,22 +256,31 @@ int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* ci
 
 bool get_account_info( const char* json_obj, int* account_id, int* sequence)
 {
-    unsigned int max_fields = 20;
-    json_t pool[max_fields];
-    
-    const json_t* response = json_create( json_obj, pool, max_fields);
-    
-    if ( response == NULL ) return false;
-    json_t const* info_field = json_getProperty( response, "info" );
-    if ( info_field == NULL ) return false;
 
-    char const* account_value = json_getPropertyValue( info_field, "account_number" );
-    char const* sequence_value = json_getPropertyValue( info_field, "sequence" );
-    if( !account_value || !sequence_value )
+    char* end_str = "\"";
+    char* search_string = "\"account_number\":\"";
+
+    char account_memory[10]= {0};
+    char sequence_memory[10]= {0};
+
+    char* ptr = strstr( json_obj, search_string);
+    if( !ptr )
         return false;
+    size_t len = strlen(search_string);
+    char* endptr = strstr( ptr+ len, end_str );
+    memcpy( (void*)account_memory, ptr+ len,endptr-(ptr+len) );
 
-    *account_id = atoi( account_value );
-    *sequence = atoi( sequence_value );
+
+    search_string = "\"sequence\":\"";
+    ptr = strstr( json_obj, search_string);
+    if( !ptr )
+        return false;
+    len = strlen(search_string);
+    endptr = strstr( ptr+ len, end_str );
+    memcpy( (void*)sequence_memory, ptr+ len,endptr-(ptr+len) );
+
+    *account_id = atoi( account_memory );
+    *sequence = atoi( sequence_memory );
     return true;
 }
 

@@ -183,22 +183,28 @@ void test_from_address_to_address_string()
 
 void parse_account_info()
 {
- char expected_result [] = "{\\
-    \"info\": { \\
-      \"address\": \"cosmos1y9jcnxu9hwxleuf5qulr78scaewjdyqd9kchcm\", \\
-      \"pub_key\": { \\
-        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
-        \"key\": \"AoPiOdAOaaGNKuV33uP7+GpOiIUwne+KXygdHGdonqNR\" \\
-      }, \\
-      \"account_number\": \"0\", \\
-      \"sequence\": \"1\" \\
-    } \\
-  }";
+  char expected_result [] = "{\"info\":{\"address\":\"cosmos18pmruqqx370lvdnufcjs55ntt74y38844pkjqn\",\"pub_key\":{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"Ai6QqpR/xwvwoKd19AYrz/t9v5jEQbwwkaWSya08W1sY\"},\"account_number\":\"21\",\"sequence\":\"11\"}}";
   int account_id;
   int sequence;
   bool f = get_account_info( expected_result, &account_id, &sequence);
   TEST_ASSERT_TRUE( f );
-  TEST_ASSERT_EQUAL_INT32( 1, sequence);
+  TEST_ASSERT_EQUAL_INT32( 11, sequence);
+  TEST_ASSERT_EQUAL_INT32( 21, account_id);
+
+}
+
+void parse_account_info_invalid()
+{
+ char expected_result [] = "{ \\
+    \"code\": 13, \\
+    \"message\": \"Expecting non nil value to create a new Any: failed packing protobuf message to Any\", \\
+    \"details\": [] \\
+  }";
+  int account_id = 0;
+  int sequence = 0;
+  bool f = get_account_info( expected_result, &account_id, &sequence);
+  TEST_ASSERT_FALSE( f );
+  TEST_ASSERT_EQUAL_INT32( 0, sequence);
   TEST_ASSERT_EQUAL_INT32( 0, account_id);
 
 }
@@ -364,6 +370,7 @@ int main(void) {
   RUN_TEST(test_persistence_lookup);
   RUN_TEST(find_accound_id);
   RUN_TEST(parse_account_info);
+  RUN_TEST(parse_account_info_invalid);
   RUN_TEST(test_attest_asset_generic);
   RUN_TEST(test_attest_machine_generic);
   RUN_TEST(private2public_key);

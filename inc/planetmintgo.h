@@ -26,7 +26,7 @@ int getAddressString( const uint8_t* address, char* stringbuffer);
 int gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address );
 int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, 
         uint8_t* priv_key, uint8_t* pub_key,
-        char *public_address );
+        char *public_address, const char* ext_pub_key);
 
 int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Machine__MsgAttestMachine* machineMsg);
 

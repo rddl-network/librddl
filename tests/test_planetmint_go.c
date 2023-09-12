@@ -89,14 +89,36 @@ void test_attest_machine_generic()
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
 }
 
+
+const char* get_ext_pub_key()
+{
+  uint8_t priv_key[32]= {0};
+  uint8_t pub_key[33] = {0};
+  HDNode node;
+  hdnode_from_seed( secret_seed, SEED_SIZE, SECP256K1_NAME, &node);
+  hdnode_private_ckd_prime(&node, 44);
+  hdnode_private_ckd_prime(&node, 8680);
+  hdnode_private_ckd_prime(&node, 0);
+  hdnode_private_ckd(&node, 0);
+  hdnode_private_ckd(&node, 0);
+  hdnode_fill_public_key(&node);
+  memcpy(priv_key, node.private_key, 32);
+  memcpy(pub_key, node.public_key, 33);
+
+  static char str[112+1] = {0};
+  size_t strsize = 112;
+  uint32_t fingerprint = hdnode_fingerprint(&node);
+  int ret =   hdnode_serialize_public( &node, fingerprint, 0x03E14247, str, strsize);
+  return (const char*) str;
+}
+
 void test_attest_asset_generic()
 {
   clearStack();
-  char * expected_tx_b64_bytes_generic = "CsMBCsABCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSlwEKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQaQEM0QTZFNDMxNUFENzVBMzNGMkNFOUIzNDVBMTNDNTdENzhEMkVEQjQ0RUIzOTg2NEEwMDg5MUMzRUY2MEUxOEEiIDAyMzI4REU4Nzg5NkI5Q0JCNTEwMUMzMzVGNDAwMjlFEmQKUApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARgBEhAKCgoFdG9rZW4SATIQwJoMGkBG0KWtU8uvwYHfNb9ZL/oTf5Tib29fX2ctEXNlGTkn1AT8fsdx7rhywG1jwZjEvcC9D9evkWlY8/j0FLHSSyIB";
-
+  char * expected_tx_b64_bytes_generic = "CtMCCtACCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSpwIKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQagAFDNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMThBNTVENTRFQjAzNTcyRjYwRUZFMjc0QjZENzU2RThCMEVBQ0FBNkNGRTVGMzE0RjZDNjdFQUE1MjBFQTdENjM1RiJvcG1wYjd2QTFKSFNuendySDdnM1VXVmVxM2I0NUNaNWY1Y0dwZ1dWdmpONDh5MUJKVVdnMW9ZZFBteUV2YjRLQzZBc05TRHltdjZTanJuR0EzeGZOZmJnNFhqVnZ6UlVZQmRlMlI2QlpMZXV2ejM0EmQKUApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARgBEhAKCgoFdG9rZW4SATIQwJoMGkDCRxxznWLdV6Gx6lSFwjkS7P6iwk1H88geEkVWjQBYC2MN777/HidasK29lx3IGdK66w/3BMg5lKfaNPMPr80K";
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
 
-  int ret = gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address );
+  int ret = gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address, get_ext_pub_key() );
   TEST_ASSERT_EQUAL_INT(0, ret);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
@@ -111,14 +133,11 @@ void test_attest_asset_generic()
   ret = prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
       sequence, chain_id, account_id, &txbytes, &tx_size);
   TEST_ASSERT_EQUAL_INT(0, ret);
-  //free(anyMsg.value.data);
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
-
-  //free( txbytes );
+  
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
-
 }
 
 extern uint8_t secret_seed[SEED_SIZE];

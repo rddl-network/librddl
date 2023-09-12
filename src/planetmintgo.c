@@ -222,28 +222,26 @@ int gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address 
     return 0;
 }
 
-int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char *public_address )
+int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char* public_address, const char* ext_pub_key)
 {
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
 
-    char hex_pub_key[66+1] = {0};
-    toHexString(hex_pub_key, pub_key, 33);
 
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
     sha256(cid, strlen(cid), digest);
 
     const ecdsa_curve *curve = &secp256k1;
-    //ed25519_sign((const unsigned char *)digest, SHA256_DIGEST_LENGTH, (const unsigned char *)priv_key, (const unsigned char *)pub_key + 1, signature);
+
     uint8_t signature[64]= {0};
     char signature_hex[64*2+1] = {0};
     int res = ecdsa_sign_digest(curve, (const unsigned char *)priv_key, (const unsigned char *)digest, signature, NULL, NULL);
-    toHexString(signature_hex, signature, 64);
+    toHexString(signature_hex, signature, 128);
 
     msg.creator = public_address;
     msg.hash = (char*)cid;
     msg.signature =  signature_hex;
-    msg.pubkey = hex_pub_key;
+    msg.pubkey = ext_pub_key;
 
     anyMsg->type_url = "/planetmintgo.asset.MsgNotarizeAsset";
     anyMsg->value.len = planetmintgo__asset__msg_notarize_asset__get_packed_size(&msg);

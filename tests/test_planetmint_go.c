@@ -117,7 +117,7 @@ void test_attest_asset_generic()
   char * expected_tx_b64_bytes_generic = "CtMCCtACCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSpwIKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQagAFDNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMThBNTVENTRFQjAzNTcyRjYwRUZFMjc0QjZENzU2RThCMEVBQ0FBNkNGRTVGMzE0RjZDNjdFQUE1MjBFQTdENjM1RiJvcG1wYjd2QTFKSFNuendySDdnM1VXVmVxM2I0NUNaNWY1Y0dwZ1dWdmpONDh5MUJKVVdnMW9ZZFBteUV2YjRLQzZBc05TRHltdjZTanJuR0EzeGZOZmJnNFhqVnZ6UlVZQmRlMlI2QlpMZXV2ejM0EmQKUApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARgBEhAKCgoFdG9rZW4SATIQwJoMGkDCRxxznWLdV6Gx6lSFwjkS7P6iwk1H88geEkVWjQBYC2MN777/HidasK29lx3IGdK66w/3BMg5lKfaNPMPr80K";
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
 
-  int ret = gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address, get_ext_pub_key() );
+  int ret = generateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address, get_ext_pub_key() );
   TEST_ASSERT_EQUAL_INT(0, ret);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;

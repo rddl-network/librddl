@@ -205,7 +205,7 @@ int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Mac
 }
 
 
-int gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
+int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address )
 {
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
     msg.creator = public_address;
@@ -222,7 +222,7 @@ int gnerateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, char *public_address 
     return 0;
 }
 
-int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char* public_address, const char* ext_pub_key)
+int generateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char* public_address, const char* ext_pub_key)
 {
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;

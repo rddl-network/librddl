@@ -227,7 +227,6 @@ int gnerateAnyCIDAttestMsgGeneric( Google__Protobuf__Any* anyMsg, const char* ci
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
 
-
     uint8_t digest[SHA256_DIGEST_LENGTH] = {0};
     sha256(cid, strlen(cid), digest);
 
@@ -323,4 +322,3 @@ bool removeIPAddr( char* gps_data )
     ptr[1]=0;
     return true;
 }
-

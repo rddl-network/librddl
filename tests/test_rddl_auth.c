@@ -201,7 +201,6 @@ void test_mnemonic_creation(){
 }
 
 
-
 int main(void) {
   UNITY_BEGIN();
 

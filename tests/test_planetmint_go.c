@@ -25,7 +25,7 @@ uint8_t reference_sha[32] ={31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56
 
 uint8_t reference_addressbytes[20] = {46,62,250,9,104,89,242,77,48,250, 188,165,41,197,119,78,195,205,1,70};
 
-const char* expected_address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
+const char* expected_address = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc";
 uint8_t sha_hash[32] = {31,236,15,94,16,55,101,147,213,70,37,62,34,135,62,56,157,191,178,240,110,222,141,80,27,60,48,71,151,21,141,234};
 
 uint8_t expected_sig[64]={35,187,131,58,5,149,242,90,22,45,245,9,148,237,110,120,133,138,248,12,97,190,2,174,109,183,114,221,43,115,189,226,66,31,36,129,225,104,149,101,100,4,158,205,171,76,54,47,152,121,186,252,209,215,98,183,73,71,222,159,35,48,233,217};
@@ -34,14 +34,16 @@ const char* expected_tx_b64_bytes = "CvcDCvQDCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXN
 
 void test_attest_machine_generic()
 {
-  char * expected_tx_b64_bytes_generic = "CooECocECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLcAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EqoDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchoPbGFiLnIzYy5uZXR3b3JrIAEo6AcwCDpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwQm94cHViNjYxTXlNd0FxUmJjRWlnUlNHTmp6cXNVYmtveFJIVERZWERRNm81a3E2RVFUU1l1WHh3RDV6TmJFWEZqQ0czaERtWVpxQ0U0SEZ0Y1BBaTNWM01XOXRUWXdxekxEVXQ5Qm1IdjdmUGNXYUJKQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MFJ8CjN7IkxhdGl0dWRlIjoiLTQ4Ljg3NjY2NyIsIkxvbmdpdHVkZSI6Ii0xMjMuMzkzMzMzIn0SLHsiTWFudWZhY3R1cmVyIjogIlJEREwiLCJTZXJpYWwiOiJBZG5UMnV5dCJ9GhJ7IlZlcnNpb24iOiAiMC4xIn0iA0NJRFgBEmIKTgpGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARIQCgoKBXRva2VuEgEyEMCaDBpAAvzEww4y5o9c/92+cbGUoou51nh7EVhPTTQ+yEIDqrUoXlqDDgHv5OGLvHFObXB0g4sUtxDNahOETtzVQXDiOw==";
+  clearStack();
+  char* expected_tx_b64_bytes_generic = "CokECoYECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLbAwoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSqgMKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAESYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkBIArsZaFJp/BUiIcETm3DRiY76XFy8P6CdrmAFg0UCtC3Q0f4NcSsNU1TcaD7GwzoBlSoAMe6JXpP6TseZcmQJ";
 
   Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
   metadata.additionaldatacid = "CID";
   metadata.gps = "{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}";
   metadata.assetdefinition = "{\"Version\": \"0.1\"}";
   metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}";
-  const char *address = "cosmos19cl05ztgt8ey6v86hjjjn3thfmpu6q2xqmsuyx";
+
+  const char *address = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc";
   const char *pubKey = "AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw";
 
   
@@ -64,7 +66,8 @@ void test_attest_machine_generic()
 
 
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
-  generateAnyAttestMachineMsg(&anyMsg, &machineMsg);
+  int ret = generateAnyAttestMachineMsg(&anyMsg, &machineMsg);
+  TEST_ASSERT_EQUAL_INT(0, ret);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
   coin.denom = "token";
@@ -73,24 +76,49 @@ void test_attest_machine_generic()
   uint8_t* txbytes = NULL;
   size_t tx_size = 0;
   uint64_t sequence = 0;
-  prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
+  ret = prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
       sequence, "planetmintgo", 8, &txbytes, &tx_size);
-  free(anyMsg.value.data);
+  TEST_ASSERT_EQUAL_INT(0, ret);
+  //free(anyMsg.value.data);
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
 
-  free( txbytes );
+  //free( txbytes );
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
+}
+
+
+const char* get_ext_pub_key()
+{
+  uint8_t priv_key[32]= {0};
+  uint8_t pub_key[33] = {0};
+  HDNode node;
+  hdnode_from_seed( secret_seed, SEED_SIZE, SECP256K1_NAME, &node);
+  hdnode_private_ckd_prime(&node, 44);
+  hdnode_private_ckd_prime(&node, 8680);
+  hdnode_private_ckd_prime(&node, 0);
+  hdnode_private_ckd(&node, 0);
+  hdnode_private_ckd(&node, 0);
+  hdnode_fill_public_key(&node);
+  memcpy(priv_key, node.private_key, 32);
+  memcpy(pub_key, node.public_key, 33);
+
+  static char str[112+1] = {0};
+  size_t strsize = 112;
+  uint32_t fingerprint = hdnode_fingerprint(&node);
+  int ret =   hdnode_serialize_public( &node, fingerprint, 0x03E14247, str, strsize);
+  return (const char*) str;
 }
 
 void test_attest_asset_generic()
 {
-  char * expected_tx_b64_bytes_generic = "CsQBCsEBCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSmAEKLWNvc21vczE5Y2wwNXp0Z3Q4ZXk2djg2aGpqam4zdGhmbXB1NnEyeHFtc3V5eBIDY2lkGkBDNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMThBIiAwMjMyOERFODc4OTZCOUNCQjUxMDFDMzM1RjQwMDI5RRJkClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiECMo3oeJa5y7UQHDNfQAKeS+iYmItHCrv2g/GgsxjXNHASBAoCCAEYARIQCgoKBXRva2VuEgEyEMCaDBpA6u3FBtD1EZsGduKKlwae683nV/3kLLs66jLzQLleVBwb+8aYoOFm1yPUNluI+U4fWP/c+eFve3dhTMxy30ASnw==";
-
+  clearStack();
+  char * expected_tx_b64_bytes_generic = "CtMCCtACCiQvcGxhbmV0bWludGdvLmFzc2V0Lk1zZ05vdGFyaXplQXNzZXQSpwIKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQagAFDNEE2RTQzMTVBRDc1QTMzRjJDRTlCMzQ1QTEzQzU3RDc4RDJFREI0NEVCMzk4NjRBMDA4OTFDM0VGNjBFMThBNTVENTRFQjAzNTcyRjYwRUZFMjc0QjZENzU2RThCMEVBQ0FBNkNGRTVGMzE0RjZDNjdFQUE1MjBFQTdENjM1RiJvcG1wYjd2QTFKSFNuendySDdnM1VXVmVxM2I0NUNaNWY1Y0dwZ1dWdmpONDh5MUJKVVdnMW9ZZFBteUV2YjRLQzZBc05TRHltdjZTanJuR0EzeGZOZmJnNFhqVnZ6UlVZQmRlMlI2QlpMZXV2ejM0EmQKUApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIECgIIARgBEhAKCgoFdG9rZW4SATIQwJoMGkDCRxxznWLdV6Gx6lSFwjkS7P6iwk1H88geEkVWjQBYC2MN777/HidasK29lx3IGdK66w/3BMg5lKfaNPMPr80K";
   Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
 
-  gnerateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address );
+  int ret = generateAnyCIDAttestMsgGeneric(& anyMsg, "cid", reference_private_key +2, reference_pubkey+2, expected_address, get_ext_pub_key() );
+  TEST_ASSERT_EQUAL_INT(0, ret);
 
   Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
   coin.denom = "token";
@@ -101,16 +129,14 @@ void test_attest_asset_generic()
   uint64_t sequence = 1;
   char* chain_id = "planetmintgo";
   uint64_t account_id = 8;
-  prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
+  ret = prepareTx( &anyMsg, &coin, reference_private_key +2, reference_pubkey+2, 
       sequence, chain_id, account_id, &txbytes, &tx_size);
-  free(anyMsg.value.data);
+  TEST_ASSERT_EQUAL_INT(0, ret);
   char tx_bytes_b64[1000] = {0};
   char * p = bintob64( tx_bytes_b64, txbytes, tx_size);
   size_t length = p - tx_bytes_b64;
-
-  free( txbytes );
+  
   TEST_ASSERT_EQUAL_MEMORY( expected_tx_b64_bytes_generic, tx_bytes_b64, length );
-
 }
 
 extern uint8_t secret_seed[SEED_SIZE];
@@ -175,22 +201,28 @@ void test_from_address_to_address_string()
 
 void parse_account_info()
 {
- char expected_result [] = "{\\
-    \"info\": { \\
-      \"address\": \"cosmos1y9jcnxu9hwxleuf5qulr78scaewjdyqd9kchcm\", \\
-      \"pub_key\": { \\
-        \"@type\": \"/cosmos.crypto.secp256k1.PubKey\", \\
-        \"key\": \"AoPiOdAOaaGNKuV33uP7+GpOiIUwne+KXygdHGdonqNR\" \\
-      }, \\
-      \"account_number\": \"0\", \\
-      \"sequence\": \"1\" \\
-    } \\
-  }";
+  char expected_result [] = "{\"info\":{\"address\":\"cosmos18pmruqqx370lvdnufcjs55ntt74y38844pkjqn\",\"pub_key\":{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"Ai6QqpR/xwvwoKd19AYrz/t9v5jEQbwwkaWSya08W1sY\"},\"account_number\":\"21\",\"sequence\":\"11\"}}";
   int account_id;
   int sequence;
   bool f = get_account_info( expected_result, &account_id, &sequence);
   TEST_ASSERT_TRUE( f );
-  TEST_ASSERT_EQUAL_INT32( 1, sequence);
+  TEST_ASSERT_EQUAL_INT32( 11, sequence);
+  TEST_ASSERT_EQUAL_INT32( 21, account_id);
+
+}
+
+void parse_account_info_invalid()
+{
+ char expected_result [] = "{ \\
+    \"code\": 13, \\
+    \"message\": \"Expecting non nil value to create a new Any: failed packing protobuf message to Any\", \\
+    \"details\": [] \\
+  }";
+  int account_id = 0;
+  int sequence = 0;
+  bool f = get_account_info( expected_result, &account_id, &sequence);
+  TEST_ASSERT_FALSE( f );
+  TEST_ASSERT_EQUAL_INT32( 0, sequence);
   TEST_ASSERT_EQUAL_INT32( 0, account_id);
 
 }
@@ -371,6 +403,7 @@ int main(void) {
   RUN_TEST(test_persistence_lookup);
   RUN_TEST(find_accound_id);
   RUN_TEST(parse_account_info);
+  RUN_TEST(parse_account_info_invalid);
   RUN_TEST(test_attest_asset_generic);
   RUN_TEST(test_attest_machine_generic);
   RUN_TEST(private2public_key);

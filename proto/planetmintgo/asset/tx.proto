@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package planetmintgo.asset;
 
-option go_package = "planetmint-go/x/asset/types";
+option go_package = "github.com/planetmint/planetmint-go/x/asset/types";
 
 // Msg defines the Msg service.
 service Msg {
@@ -10,9 +10,7 @@ service Msg {
 }
 message MsgNotarizeAsset {
   string creator   = 1;
-  string hash      = 2;
-  string signature = 3;
-  string pubKey    = 4;
+  string cid       = 2;
 }
 
 message MsgNotarizeAssetResponse {}

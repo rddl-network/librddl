@@ -1,7 +1,7 @@
 # librddl
 A library containing support for RDDL network designed to be integrated into embedded devices.
 
-# Prerequests
+# Prerequisites
 Need following libraries
 
   ```

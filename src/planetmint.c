@@ -1,29 +1,32 @@
-#include "memzero.h"
 #include "planetmint.h"
+#include "memzero.h"
 
 #ifndef MIN
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-#define DEFAULT_URI "ni:///sha-256;WVm8YmcTjv05Osmho-Hc7o6N2Hg0YvgsKdaidCaRb0Q?fpt=ed25519-sha-256&cost=131072"
+#define DEFAULT_URI                                                            \
+  "ni:///"                                                                     \
+  "sha-256;WVm8YmcTjv05Osmho-Hc7o6N2Hg0YvgsKdaidCaRb0Q?fpt=ed25519-sha-256&"   \
+  "cost=131072"
 #define DEFAULT_CONDITION_TYPE "ed25519-sha-256"
 
-static char* chtoa(char* dest, char ch) {
-  *dest   = ch;
+static char *chtoa(char *dest, char ch) {
+  *dest = ch;
   *++dest = '\0';
   return dest;
 }
 
-static char* atoa(char* dest, const char * src) {
-  for( ; *src != '\0'; ++dest, ++src )
+static char *atoa(char *dest, const char *src) {
+  for (; *src != '\0'; ++dest, ++src)
     *dest = *src;
   *dest = '\0';
   return dest;
 }
 
-static char* strname(char* dest, const char * name) {
-  dest = chtoa( dest, '\"' );
-  if ( NULL != name ) {
+static char *strname(char *dest, const char *name) {
+  dest = chtoa(dest, '\"');
+  if (NULL != name) {
     dest = atoa(dest, name);
     dest = atoa(dest, "\":\"");
   }
@@ -31,7 +34,7 @@ static char* strname(char* dest, const char * name) {
 }
 
 /** override `json_str` from json maker with no escaping */
-static char* bcdb_json_str(char* dest, char const* name, char const* value) {
+static char *bcdb_json_str(char *dest, char const *name, char const *value) {
   dest = strname(dest, name);
   dest = atoa(dest, value);
   dest = atoa(dest, "\",");
@@ -39,21 +42,22 @@ static char* bcdb_json_str(char* dest, char const* name, char const* value) {
 }
 
 /*
-* parse_json_invalid
-* Called when a string cannot be opened as JSON
-* Print parsing error to stderr
-*/
+ * parse_json_invalid
+ * Called when a string cannot be opened as JSON
+ * Print parsing error to stderr
+ */
 static void parse_json_invalid(const char *object_name) {
   fprintf(stderr, "%s%s%s\n", "Error while parsing ", object_name, " .");
 }
 
 /*
-* parse_json_property_missing
-* Called when a required property is missing
-* Print parsing error to stderr
-*/
+ * parse_json_property_missing
+ * Called when a required property is missing
+ * Print parsing error to stderr
+ */
 static void parse_json_property_missing(const char *property) {
-  fprintf(stderr, "%s%s%s\n", "Error the ", property, " property is not found..");
+  fprintf(stderr, "%s%s%s\n", "Error the ", property,
+          " property is not found..");
 }
 
 static void parse_json_invalid_length(int len, int max_len) {
@@ -76,7 +80,8 @@ void der_encode_fulfill(uint8_t *pub_key, uint8_t *sig, uint8_t *fulfill) {
   memcpy(fulfill + offset, sig, 64);
 }
 
-void planetmint_fulfill(PLANETMINT_TX *tx, uint8_t *sig, uint8_t *pub_key, uint8_t input_index) {
+void planetmint_fulfill(PLANETMINT_TX *tx, uint8_t *sig, uint8_t *pub_key,
+                        uint8_t input_index) {
   char fulfillment[256] = {0};
   uint8_t der[256] = {0};
 
@@ -101,27 +106,33 @@ void planetmint_fulfill(PLANETMINT_TX *tx, uint8_t *sig, uint8_t *pub_key, uint8
   memcpy(tx->inputs[input_index].fulfillment, fulfillment, strlen(fulfillment));
 }
 
-void planetmint_serialize(PLANETMINT_TX *tx, uint8_t *json_tx, uint16_t maxlen) {
+void planetmint_serialize(PLANETMINT_TX *tx, uint8_t *json_tx,
+                          uint16_t maxlen) {
   memset(json_tx, 0, maxlen);
-  planetmint_build_json_tx(tx, (char*)json_tx);
+  planetmint_build_json_tx(tx, (char *)json_tx);
 
   uint8_t tx_id[32] = {0};
-  sha3_256((const unsigned char *)json_tx, MIN(maxlen, strlen((char*)json_tx)), tx_id);
+  sha3_256((const unsigned char *)json_tx, MIN(maxlen, strlen((char *)json_tx)),
+           tx_id);
 
   for (uint8_t i = 0; i < 32; i++) {
     sprintf(tx->id + i * 2, "%02x", tx_id[i]);
   }
 
   memset(json_tx, 0, maxlen);
-  planetmint_build_json_tx(tx, (char*)json_tx);
+  planetmint_build_json_tx(tx, (char *)json_tx);
 }
 
-void planetmint_fulfill_and_serialize(PLANETMINT_TX *tx, uint8_t *json_tx, uint16_t maxlen, uint8_t *sig, uint8_t *pub_key) {
+void planetmint_fulfill_and_serialize(PLANETMINT_TX *tx, uint8_t *json_tx,
+                                      uint16_t maxlen, uint8_t *sig,
+                                      uint8_t *pub_key) {
   planetmint_fulfill(tx, sig, pub_key, 0);
   planetmint_serialize(tx, json_tx, maxlen);
 }
 
-void planetmint_sign_transaction(uint8_t *json_tx, uint16_t len, uint8_t *priv_key, uint8_t *pub_key, uint8_t *sig) {
+void planetmint_sign_transaction(uint8_t *json_tx, uint16_t len,
+                                 uint8_t *priv_key, uint8_t *pub_key,
+                                 uint8_t *sig) {
   uint8_t hash[32] = {0};
   sha3_256((const unsigned char *)json_tx, len, hash);
   ed25519_sign(hash, 32, priv_key, pub_key, sig);
@@ -132,14 +143,14 @@ char *planetmint_build_condition_uri(char *public_key_base58, char *uri) {
   uint8_t hash[32] = {0};
   char fingerp_base64[50] = {0};
   uint8_t pubkey[32] = {0};
-  size_t binsz = 32 ;
+  size_t binsz = 32;
   strcpy(uri, "ni:///sha-256;");
   b58tobin(pubkey, &binsz, public_key_base58);
 
   der[0] = 0x30;
   der[1] = 0x22;
   der[2] = 0x80;
-  der[3] = 0x20; //content-length = 32
+  der[3] = 0x20; // content-length = 32
   memcpy(der + 4, pubkey, 32);
   sha256_Raw(der, 36, hash);
   bintob64(fingerp_base64, hash, 32);
@@ -162,7 +173,8 @@ char *planetmint_build_condition_uri(char *public_key_base58, char *uri) {
   return uri;
 }
 
-char *planetmint_build_json_outputs(PLANETMINT_OUTPUT *outputs, uint8_t num_outputs, char *json_obj) {
+char *planetmint_build_json_outputs(PLANETMINT_OUTPUT *outputs,
+                                    uint8_t num_outputs, char *json_obj) {
   char *p = json_obj;
   p = json_arrOpen(p, "outputs");
   char uri_str[90] = {0};
@@ -176,7 +188,9 @@ char *planetmint_build_json_outputs(PLANETMINT_OUTPUT *outputs, uint8_t num_outp
     p = json_str(p, "type", outputs[i].condition.details.type);
     p = json_objClose(p);
 
-    p = bcdb_json_str(p, "uri", planetmint_build_condition_uri(outputs[i].condition.details.public_key, uri_str));
+    p = bcdb_json_str(p, "uri",
+                      planetmint_build_condition_uri(
+                          outputs[i].condition.details.public_key, uri_str));
     p = json_objClose(p);
 
     p = json_arrOpen(p, "public_keys");
@@ -190,7 +204,8 @@ char *planetmint_build_json_outputs(PLANETMINT_OUTPUT *outputs, uint8_t num_outp
   return p;
 }
 
-char *planetmint_build_json_inputs(PLANETMINT_INPUT *inputs, uint8_t num_inputs, char *json_obj) {
+char *planetmint_build_json_inputs(PLANETMINT_INPUT *inputs, uint8_t num_inputs,
+                                   char *json_obj) {
   char *p = json_obj;
 
   p = json_arrOpen(p, "inputs");
@@ -227,8 +242,8 @@ void planetmint_build_json_tx(PLANETMINT_TX *tx, char *json_tx) {
   p = json_objOpen(p, NULL);
 
   // ASSET
-  p = json_arrOpen(p, "assets");   
-  p = json_objOpen(p, NULL);   
+  p = json_arrOpen(p, "assets");
+  p = json_objOpen(p, NULL);
   p = json_str(p, "data", tx->asset);
   p = json_objClose(p);
   p = json_arrClose(p);
@@ -264,11 +279,12 @@ void planetmint_build_json_tx(PLANETMINT_TX *tx, char *json_tx) {
   p = json_end(p);
 }
 
-bool prepare_tx(PLANETMINT_TX *tx, const char operation, char *asset, char *metadata, char *base_pubkey) {
+bool prepare_tx(PLANETMINT_TX *tx, const char operation, char *asset,
+                char *metadata, char *base_pubkey) {
   memzero(tx, sizeof(PLANETMINT_TX));
 
   // ASSET
-  if(strlen(asset) > sizeof(tx->asset)){
+  if (strlen(asset) > sizeof(tx->asset)) {
     parse_json_invalid_length(strlen(asset), sizeof(tx->asset));
     return false;
   }
@@ -287,7 +303,7 @@ bool prepare_tx(PLANETMINT_TX *tx, const char operation, char *asset, char *meta
   }
 
   // METADATA
-  if(metadata)
+  if (metadata)
     strcpy(tx->metadata, metadata);
 
   // VERSION
@@ -298,8 +314,10 @@ bool prepare_tx(PLANETMINT_TX *tx, const char operation, char *asset, char *meta
   tx->outputs[0].amount[0] = '1';
   memset(&tx->outputs[0].condition, 0, sizeof(PLANETMINT_CONDITION));
   memset(&tx->outputs[0].condition.details, 0, sizeof(CC));
-  memcpy(tx->outputs[0].condition.details.public_key, base_pubkey, strlen(base_pubkey));
-  memcpy(tx->outputs[0].condition.details.type, DEFAULT_CONDITION_TYPE, sizeof(DEFAULT_CONDITION_TYPE));
+  memcpy(tx->outputs[0].condition.details.public_key, base_pubkey,
+         strlen(base_pubkey));
+  memcpy(tx->outputs[0].condition.details.type, DEFAULT_CONDITION_TYPE,
+         sizeof(DEFAULT_CONDITION_TYPE));
   memcpy(tx->outputs[0].public_keys[0], base_pubkey, strlen(base_pubkey));
   tx->outputs[0].num_public_keys = 1;
   tx->num_outputs = 1;
@@ -307,36 +325,44 @@ bool prepare_tx(PLANETMINT_TX *tx, const char operation, char *asset, char *meta
   return true;
 }
 
-void fulfill_tx(PLANETMINT_TX *tx, uint8_t *priv_key, uint8_t *pub_key, uint8_t *json, uint16_t maxlen) {
+void fulfill_tx(PLANETMINT_TX *tx, uint8_t *priv_key, uint8_t *pub_key,
+                uint8_t *json, uint16_t maxlen) {
   uint8_t sig[140] = {0};
   uint8_t input_index = 0;
-  planetmint_build_json_tx(tx, (char*)json);
+  planetmint_build_json_tx(tx, (char *)json);
   if (strcmp(tx->operation, "TRANSFER") == 0) {
-    // For TRANSFER the json string must be concatenated with the input tx_id and the output_index
+    // For TRANSFER the json string must be concatenated with the input tx_id
+    // and the output_index
     char output_index[10];
     sprintf(output_index, "%d", tx->inputs[input_index].fulfills.output_index);
-    strcat((char*)json, tx->inputs[input_index].fulfills.transaction_id);
-    strcat((char*)json, output_index);
+    strcat((char *)json, tx->inputs[input_index].fulfills.transaction_id);
+    strcat((char *)json, output_index);
   }
 
-  planetmint_sign_transaction((uint8_t *)json, strlen((char*)json), (uint8_t *)priv_key, (uint8_t *)pub_key, (uint8_t *)sig);
-  planetmint_fulfill_and_serialize(tx, (uint8_t *)json, maxlen, (uint8_t *)sig, (uint8_t *)pub_key);
+  planetmint_sign_transaction((uint8_t *)json, strlen((char *)json),
+                              (uint8_t *)priv_key, (uint8_t *)pub_key,
+                              (uint8_t *)sig);
+  planetmint_fulfill_and_serialize(tx, (uint8_t *)json, maxlen, (uint8_t *)sig,
+                                   (uint8_t *)pub_key);
 }
 
-void partial_fulfill_tx(PLANETMINT_TX *tx, uint8_t *priv_key, uint8_t *pub_key, uint8_t *json, uint16_t maxlen, uint8_t input_index) {
+void partial_fulfill_tx(PLANETMINT_TX *tx, uint8_t *priv_key, uint8_t *pub_key,
+                        uint8_t *json, uint16_t maxlen, uint8_t input_index) {
   uint8_t sig[140] = {0};
-  planetmint_build_json_tx(tx, (char*)json);
+  planetmint_build_json_tx(tx, (char *)json);
   if (strcmp(tx->operation, "TRANSFER") == 0) {
     char output_index[10];
     sprintf(output_index, "%d", tx->inputs[input_index].fulfills.output_index);
-    strcat((char*)json, tx->inputs[input_index].fulfills.transaction_id);
-    strcat((char*)json, output_index);
+    strcat((char *)json, tx->inputs[input_index].fulfills.transaction_id);
+    strcat((char *)json, output_index);
   }
-  planetmint_sign_transaction((uint8_t *)json, strlen((char*)json), (uint8_t *)priv_key, (uint8_t *)pub_key, (uint8_t *)sig);
+  planetmint_sign_transaction((uint8_t *)json, strlen((char *)json),
+                              (uint8_t *)priv_key, (uint8_t *)pub_key,
+                              (uint8_t *)sig);
   planetmint_fulfill(tx, sig, pub_key, input_index);
 }
 
-int planetmint_parse_inputs(const json_t* json_obj, PLANETMINT_INPUT *inputs) {
+int planetmint_parse_inputs(const json_t *json_obj, PLANETMINT_INPUT *inputs) {
   const json_t *inputs_field = json_getProperty(json_obj, "inputs");
   if (!inputs_field || JSON_ARRAY != json_getType(inputs_field)) {
     return 0;
@@ -346,10 +372,11 @@ int planetmint_parse_inputs(const json_t* json_obj, PLANETMINT_INPUT *inputs) {
   uint8_t i = 0;
   const json_t *input;
 
-  for (input = json_getChild(inputs_field); input != 0; input = json_getSibling(input) ) {
+  for (input = json_getChild(inputs_field); input != 0;
+       input = json_getSibling(input)) {
     if (JSON_OBJ == json_getType(input)) {
       // FULFILLEMENT
-      const char* fulfillment = json_getPropertyValue(input, "fulfillment");
+      const char *fulfillment = json_getPropertyValue(input, "fulfillment");
       if (fulfillment) {
         memcpy(inputs[i].fulfillment, fulfillment, strlen(fulfillment));
       }
@@ -358,27 +385,33 @@ int planetmint_parse_inputs(const json_t* json_obj, PLANETMINT_INPUT *inputs) {
       memset(&inputs[i].fulfills, 0, sizeof(PLANETMINT_INPUT_FULFILLS));
       const json_t *fulfills_obj = json_getProperty(input, "fulfills");
       if (fulfills_obj && JSON_OBJ == json_getType(fulfills_obj)) {
-        const json_t *output_index_field = json_getProperty(fulfills_obj, "output_index");
-        int output_index =  json_getInteger(output_index_field);
-        const char *transaction_id = json_getPropertyValue(fulfills_obj, "transaction_id");
+        const json_t *output_index_field =
+            json_getProperty(fulfills_obj, "output_index");
+        int output_index = json_getInteger(output_index_field);
+        const char *transaction_id =
+            json_getPropertyValue(fulfills_obj, "transaction_id");
         if (transaction_id) {
           inputs[i].fulfills.output_index = output_index;
-          memcpy(inputs[i].fulfills.transaction_id, transaction_id, strlen(transaction_id));
+          memcpy(inputs[i].fulfills.transaction_id, transaction_id,
+                 strlen(transaction_id));
         }
       }
 
       // OWNERS_BEFORE
       const json_t *owners_before = json_getProperty(input, "owners_before");
-      if (!owners_before || JSON_ARRAY != json_getType(owners_before) ) {
+      if (!owners_before || JSON_ARRAY != json_getType(owners_before)) {
         parse_json_property_missing("owners_before list");
         return 0;
       }
       uint8_t j = 0;
       const json_t *owner_before_key;
-      for (owner_before_key = json_getChild(owners_before); owner_before_key != 0; owner_before_key = json_getSibling(owner_before_key) ) {
+      for (owner_before_key = json_getChild(owners_before);
+           owner_before_key != 0;
+           owner_before_key = json_getSibling(owner_before_key)) {
         if (JSON_TEXT == json_getType(owner_before_key)) {
-          const char* owner_before = json_getValue(owner_before_key);
-          memcpy(inputs[i].owners_before[j], owner_before, strlen(owner_before));
+          const char *owner_before = json_getValue(owner_before_key);
+          memcpy(inputs[i].owners_before[j], owner_before,
+                 strlen(owner_before));
         }
         j++;
       }
@@ -389,8 +422,8 @@ int planetmint_parse_inputs(const json_t* json_obj, PLANETMINT_INPUT *inputs) {
   return i;
 }
 
-
-int planetmint_parse_outputs(const json_t *json_obj, PLANETMINT_OUTPUT *outputs) {
+int planetmint_parse_outputs(const json_t *json_obj,
+                             PLANETMINT_OUTPUT *outputs) {
   const json_t *outputs_field = json_getProperty(json_obj, "outputs");
   if (!outputs_field || JSON_ARRAY != json_getType(outputs_field)) {
     return 0;
@@ -399,10 +432,11 @@ int planetmint_parse_outputs(const json_t *json_obj, PLANETMINT_OUTPUT *outputs)
   memset(outputs, 0, sizeof(PLANETMINT_OUTPUT));
   uint8_t i = 0;
   const json_t *output;
-  for (output = json_getChild(outputs_field); output != 0; output = json_getSibling(output)) {
+  for (output = json_getChild(outputs_field); output != 0;
+       output = json_getSibling(output)) {
     if (JSON_OBJ == json_getType(output)) {
       // AMOUNT
-      const char* amount = json_getPropertyValue(output, "amount");
+      const char *amount = json_getPropertyValue(output, "amount");
       if (amount) {
         memcpy(outputs[i].amount, amount, strlen(amount));
       }
@@ -421,18 +455,21 @@ int planetmint_parse_outputs(const json_t *json_obj, PLANETMINT_OUTPUT *outputs)
         return 0;
       }
 
-      const char* details_type = json_getPropertyValue(details, "type");
+      const char *details_type = json_getPropertyValue(details, "type");
       if (details_type) {
-        memcpy(outputs[i].condition.details.type, details_type, strlen(details_type));
+        memcpy(outputs[i].condition.details.type, details_type,
+               strlen(details_type));
       }
 
-      const char* details_public_key = json_getPropertyValue(details, "public_key");
+      const char *details_public_key =
+          json_getPropertyValue(details, "public_key");
       if (details_public_key) {
-        memcpy(outputs[i].condition.details.public_key, details_public_key, strlen(details_public_key));
+        memcpy(outputs[i].condition.details.public_key, details_public_key,
+               strlen(details_public_key));
       }
 
       // CONDITION->uri
-      const char* uri = json_getPropertyValue(details, "uri");
+      const char *uri = json_getPropertyValue(details, "uri");
       if (uri) {
         memcpy(outputs[i].condition.uri, uri, strlen(uri));
       }
@@ -445,9 +482,10 @@ int planetmint_parse_outputs(const json_t *json_obj, PLANETMINT_OUTPUT *outputs)
       }
       uint8_t j = 0;
       const json_t *public_key_key;
-      for (public_key_key = json_getChild(public_keys); public_key_key != 0; public_key_key = json_getSibling(public_key_key) ) {
+      for (public_key_key = json_getChild(public_keys); public_key_key != 0;
+           public_key_key = json_getSibling(public_key_key)) {
         if (JSON_TEXT == json_getType(public_key_key)) {
-          const char* public_key = json_getValue(public_key_key);
+          const char *public_key = json_getValue(public_key_key);
           memcpy(outputs[i].public_keys[j], public_key, strlen(public_key));
         }
         j++;
@@ -459,7 +497,8 @@ int planetmint_parse_outputs(const json_t *json_obj, PLANETMINT_OUTPUT *outputs)
   return i;
 }
 
-static char *planetmint_parse_object(const json_t *json, char *str, const char *name) {
+static char *planetmint_parse_object(const json_t *json, char *str,
+                                     const char *name) {
   const jsonType_t type = json_getType(json);
   char *p = str;
   if (type != JSON_OBJ && type != JSON_ARRAY) {
@@ -469,7 +508,8 @@ static char *planetmint_parse_object(const json_t *json, char *str, const char *
   p = type == JSON_OBJ ? json_objOpen(p, name) : json_arrOpen(p, name);
 
   const json_t *child;
-  for (child = json_getChild(json); child != 0; child = json_getSibling(child)) {
+  for (child = json_getChild(json); child != 0;
+       child = json_getSibling(child)) {
     jsonType_t propertyType = json_getType(child);
     const char *child_name = json_getName(child);
     if (propertyType == JSON_OBJ || propertyType == JSON_ARRAY) {
@@ -491,7 +531,8 @@ static char *planetmint_parse_object(const json_t *json, char *str, const char *
   return p;
 }
 
-int planetmint_parse_field(const json_t *json_obj, const char *field_name, char *output) {
+int planetmint_parse_field(const json_t *json_obj, const char *field_name,
+                           char *output) {
   const json_t *field = json_getProperty(json_obj, field_name);
   const jsonType_t type = json_getType(field);
   if (type != JSON_OBJ && type != JSON_ARRAY) {
@@ -503,11 +544,12 @@ int planetmint_parse_field(const json_t *json_obj, const char *field_name, char 
   return p - output;
 }
 
-bool planetmint_parse_json(char* json_tx, PLANETMINT_TX *tx) {
+bool planetmint_parse_json(char *json_tx, PLANETMINT_TX *tx) {
   //? TODO: add max fields, max asset and metadata sizes arguments
   memzero(tx, sizeof(PLANETMINT_TX));
   json_t mem[128];
-  const json_t *json_obj = json_create((char*)json_tx, mem, sizeof mem / sizeof *mem);
+  const json_t *json_obj =
+      json_create((char *)json_tx, mem, sizeof mem / sizeof *mem);
   if (!json_obj) {
     parse_json_invalid("Transaction");
     return false;
@@ -523,7 +565,7 @@ bool planetmint_parse_json(char* json_tx, PLANETMINT_TX *tx) {
   memcpy(tx->asset, asset, len);
 
   // ID
-  const char* id = json_getPropertyValue(json_obj, "id");
+  const char *id = json_getPropertyValue(json_obj, "id");
   if (id) {
     memcpy(tx->id, id, strlen(id));
   }
@@ -542,7 +584,7 @@ bool planetmint_parse_json(char* json_tx, PLANETMINT_TX *tx) {
   memcpy(tx->metadata, metadata, len);
 
   // OPERATION
-  const char* operation = json_getPropertyValue(json_obj, "operation");
+  const char *operation = json_getPropertyValue(json_obj, "operation");
   // TODO: validate operation
   if (!operation) {
     parse_json_property_missing("operation");
@@ -555,7 +597,7 @@ bool planetmint_parse_json(char* json_tx, PLANETMINT_TX *tx) {
   tx->num_outputs = num_outputs;
 
   // VERSION
-  const char* version = json_getPropertyValue(json_obj, "version");
+  const char *version = json_getPropertyValue(json_obj, "version");
   //? TODO: validate version
   if (!version) {
     parse_json_property_missing("version");

@@ -8,7 +8,6 @@
 #include "sha3.h"
 #include "base58.h"
 #include "hmac.h"
-#include "tiny-json.h"
 #include "sha3.h"
 #include "bip32.h"
 #include "curves.h"

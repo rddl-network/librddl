@@ -6,7 +6,20 @@
 #include <string.h>
 
 #include "sha3.h"
-#include "planetmint.h"
+#include "base58.h"
+#include "hmac.h"
+#include "sha3.h"
+#include "bip32.h"
+#include "curves.h"
+
+#ifdef TASMOTA
+#include "base64_plntmnt.h"
+#include "ed25519.h"
+#else
+#include "base64.h"
+#include "ed25519-donna/ed25519.h"
+#endif
+
 #include "ed25519-donna/ed25519.h"
 
 

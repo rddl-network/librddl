@@ -1,3 +1,221 @@
+diff --git a/aes/aes.h b/aes/aes.h
+index 878943b..caa6640 100644
+--- a/aes/aes.h
++++ b/aes/aes.h
+@@ -135,7 +135,7 @@ AES_RETURN aes_encrypt_key256(const unsigned char *key, aes_encrypt_ctx cx[1]);
+ AES_RETURN aes_encrypt_key(const unsigned char *key, int key_len, aes_encrypt_ctx cx[1]);
+ #endif
+ 
+-AES_RETURN aes_encrypt(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1]);
++AES_RETURN trzr_aes_encrypt(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1]);
+ 
+ #endif
+ 
+@@ -157,7 +157,7 @@ AES_RETURN aes_decrypt_key256(const unsigned char *key, aes_decrypt_ctx cx[1]);
+ AES_RETURN aes_decrypt_key(const unsigned char *key, int key_len, aes_decrypt_ctx cx[1]);
+ #endif
+ 
+-AES_RETURN aes_decrypt(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1]);
++AES_RETURN trzr_aes_decrypt(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1]);
+ 
+ #endif
+ 
+diff --git a/aes/aes_modes.c b/aes/aes_modes.c
+index 352752e..af7b5a0 100644
+--- a/aes/aes_modes.c
++++ b/aes/aes_modes.c
+@@ -187,7 +187,7 @@ AES_RETURN aes_ecb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+ #if !defined( ASSUME_VIA_ACE_PRESENT )
+     while(nb--)
+     {
+-        if(aes_encrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
++        if(trzr_aes_encrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
+             return EXIT_FAILURE;
+         ibuf += AES_BLOCK_SIZE;
+         obuf += AES_BLOCK_SIZE;
+@@ -249,7 +249,7 @@ AES_RETURN aes_ecb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+ #if !defined( ASSUME_VIA_ACE_PRESENT )
+     while(nb--)
+     {
+-        if(aes_decrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
++        if(trzr_aes_decrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
+             return EXIT_FAILURE;
+         ibuf += AES_BLOCK_SIZE;
+         obuf += AES_BLOCK_SIZE;
+@@ -327,7 +327,7 @@ AES_RETURN aes_cbc_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+             lp32(iv)[1] ^= lp32(ibuf)[1];
+             lp32(iv)[2] ^= lp32(ibuf)[2];
+             lp32(iv)[3] ^= lp32(ibuf)[3];
+-            if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++            if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                 return EXIT_FAILURE;
+             memcpy(obuf, iv, AES_BLOCK_SIZE);
+             ibuf += AES_BLOCK_SIZE;
+@@ -345,7 +345,7 @@ AES_RETURN aes_cbc_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+             iv[10] ^= ibuf[10]; iv[11] ^= ibuf[11];
+             iv[12] ^= ibuf[12]; iv[13] ^= ibuf[13];
+             iv[14] ^= ibuf[14]; iv[15] ^= ibuf[15];
+-            if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++            if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                 return EXIT_FAILURE;
+             memcpy(obuf, iv, AES_BLOCK_SIZE);
+             ibuf += AES_BLOCK_SIZE;
+@@ -421,7 +421,7 @@ AES_RETURN aes_cbc_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+         while(nb--)
+         {
+             memcpy(tmp, ibuf, AES_BLOCK_SIZE);
+-            if(aes_decrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
++            if(trzr_aes_decrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
+                 return EXIT_FAILURE;
+             lp32(obuf)[0] ^= lp32(iv)[0];
+             lp32(obuf)[1] ^= lp32(iv)[1];
+@@ -436,7 +436,7 @@ AES_RETURN aes_cbc_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+         while(nb--)
+         {
+             memcpy(tmp, ibuf, AES_BLOCK_SIZE);
+-            if(aes_decrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
++            if(trzr_aes_decrypt(ibuf, obuf, ctx) != EXIT_SUCCESS)
+                 return EXIT_FAILURE;
+             obuf[ 0] ^= iv[ 0]; obuf[ 1] ^= iv[ 1];
+             obuf[ 2] ^= iv[ 2]; obuf[ 3] ^= iv[ 3];
+@@ -529,7 +529,7 @@ AES_RETURN aes_cfb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+             while(cnt + AES_BLOCK_SIZE <= len)
+             {
+                 assert(b_pos == 0);
+-                if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++                if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                     return EXIT_FAILURE;
+                 lp32(obuf)[0] = lp32(iv)[0] ^= lp32(ibuf)[0];
+                 lp32(obuf)[1] = lp32(iv)[1] ^= lp32(ibuf)[1];
+@@ -544,7 +544,7 @@ AES_RETURN aes_cfb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+             while(cnt + AES_BLOCK_SIZE <= len)
+             {
+                 assert(b_pos == 0);
+-                if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++                if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                     return EXIT_FAILURE;
+                 obuf[ 0] = iv[ 0] ^= ibuf[ 0]; obuf[ 1] = iv[ 1] ^= ibuf[ 1];
+                 obuf[ 2] = iv[ 2] ^= ibuf[ 2]; obuf[ 3] = iv[ 3] ^= ibuf[ 3];
+@@ -563,7 +563,7 @@ AES_RETURN aes_cfb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+ 
+     while(cnt < len)
+     {
+-        if(!b_pos && aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++        if(!b_pos && trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+             return EXIT_FAILURE;
+ 
+         while(cnt < len && b_pos < AES_BLOCK_SIZE)
+@@ -658,7 +658,7 @@ AES_RETURN aes_cfb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+             {   uint32_t t;
+ 
+                 assert(b_pos == 0);
+-                if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++                if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                     return EXIT_FAILURE;
+                 t = lp32(ibuf)[0], lp32(obuf)[0] = t ^ lp32(iv)[0], lp32(iv)[0] = t;
+                 t = lp32(ibuf)[1], lp32(obuf)[1] = t ^ lp32(iv)[1], lp32(iv)[1] = t;
+@@ -674,7 +674,7 @@ AES_RETURN aes_cfb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+             {   uint8_t t;
+ 
+                 assert(b_pos == 0);
+-                if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++                if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                     return EXIT_FAILURE;
+                 t = ibuf[ 0], obuf[ 0] = t ^ iv[ 0], iv[ 0] = t;
+                 t = ibuf[ 1], obuf[ 1] = t ^ iv[ 1], iv[ 1] = t;
+@@ -702,7 +702,7 @@ AES_RETURN aes_cfb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+     while(cnt < len)
+     {   uint8_t t;
+ 
+-        if(!b_pos && aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++        if(!b_pos && trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+             return EXIT_FAILURE;
+ 
+         while(cnt < len && b_pos < AES_BLOCK_SIZE)
+@@ -795,7 +795,7 @@ AES_RETURN aes_ofb_crypt(const unsigned char *ibuf, unsigned char *obuf,
+             while(cnt + AES_BLOCK_SIZE <= len)
+             {
+                 assert(b_pos == 0);
+-                if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++                if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                     return EXIT_FAILURE;
+                 lp32(obuf)[0] = lp32(iv)[0] ^ lp32(ibuf)[0];
+                 lp32(obuf)[1] = lp32(iv)[1] ^ lp32(ibuf)[1];
+@@ -810,7 +810,7 @@ AES_RETURN aes_ofb_crypt(const unsigned char *ibuf, unsigned char *obuf,
+             while(cnt + AES_BLOCK_SIZE <= len)
+             {
+                 assert(b_pos == 0);
+-                if(aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++                if(trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+                     return EXIT_FAILURE;
+                 obuf[ 0] = iv[ 0] ^ ibuf[ 0]; obuf[ 1] = iv[ 1] ^ ibuf[ 1];
+                 obuf[ 2] = iv[ 2] ^ ibuf[ 2]; obuf[ 3] = iv[ 3] ^ ibuf[ 3];
+@@ -829,7 +829,7 @@ AES_RETURN aes_ofb_crypt(const unsigned char *ibuf, unsigned char *obuf,
+ 
+     while(cnt < len)
+     {
+-        if(!b_pos && aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
++        if(!b_pos && trzr_aes_encrypt(iv, iv, ctx) != EXIT_SUCCESS)
+             return EXIT_FAILURE;
+ 
+         while(cnt < len && b_pos < AES_BLOCK_SIZE)
+diff --git a/aes/aesopt.h b/aes/aesopt.h
+index 4fa9841..d0e49da 100644
+--- a/aes/aesopt.h
++++ b/aes/aesopt.h
+@@ -48,13 +48,13 @@ Issue Date: 20/12/2007
+   AES_RETURN aes_encrypt_key128(const unsigned char *key, aes_encrypt_ctx cx[1]);
+   AES_RETURN aes_encrypt_key192(const unsigned char *key, aes_encrypt_ctx cx[1]);
+   AES_RETURN aes_encrypt_key256(const unsigned char *key, aes_encrypt_ctx cx[1]);
+-  AES_RETURN aes_encrypt(const unsigned char *in, unsigned char *out,
++  AES_RETURN trzr_aes_encrypt(const unsigned char *in, unsigned char *out,
+                                                   const aes_encrypt_ctx cx[1]);
+ 
+   AES_RETURN aes_decrypt_key128(const unsigned char *key, aes_decrypt_ctx cx[1]);
+   AES_RETURN aes_decrypt_key192(const unsigned char *key, aes_decrypt_ctx cx[1]);
+   AES_RETURN aes_decrypt_key256(const unsigned char *key, aes_decrypt_ctx cx[1]);
+-  AES_RETURN aes_decrypt(const unsigned char *in, unsigned char *out,
++  AES_RETURN trzr_aes_decrypt(const unsigned char *in, unsigned char *out,
+                                                   const aes_decrypt_ctx cx[1]);
+ 
+  IMPORTANT NOTE: If you are using this C interface with dynamic tables make sure that
+diff --git a/aes/aestst.h b/aes/aestst.h
+index 3c5461c..107cafb 100644
+--- a/aes/aestst.h
++++ b/aes/aestst.h
+@@ -32,14 +32,14 @@ Issue Date: 20/12/2007
+ #define f_enc_key192(a,b)       aes_encrypt_key192((b),(a))
+ #define f_enc_key256(a,b)       aes_encrypt_key256((b),(a))
+ #define f_enc_key(a,b,c)        aes_encrypt_key((b),(c),(a))
+-#define f_enc_blk(a,b,c)        aes_encrypt((b),(c),(a))
++#define f_enc_blk(a,b,c)        trzr_aes_encrypt((b),(c),(a))
+ 
+ #define f_dctx                  aes_decrypt_ctx
+ #define f_dec_key128(a,b)       aes_decrypt_key128((b),(a))
+ #define f_dec_key192(a,b)       aes_decrypt_key192((b),(a))
+ #define f_dec_key256(a,b)       aes_decrypt_key256((b),(a))
+ #define f_dec_key(a,b,c)        aes_decrypt_key((b),(c),(a))
+-#define f_dec_blk(a,b,c)        aes_decrypt((b),(c),(a))
++#define f_dec_blk(a,b,c)        trzr_aes_decrypt((b),(c),(a))
+ 
+ #define f_talign(a,b)			aes_test_alignment_detection(b)
+ #define f_mode_reset(a)         aes_mode_reset(a)
+@@ -56,13 +56,13 @@ Issue Date: 20/12/2007
+ #define ek_name192          "aes_encrypt_key192"
+ #define ek_name256          "aes_encrypt_key256"
+ #define ek_name             "aes_encrypt_key"
+-#define eb_name             "aes_encrypt"
++#define eb_name             "trzr_aes_encrypt"
+ 
+ #define dk_name128          "aes_decrypt_key128"
+ #define dk_name192          "aes_decrypt_key192"
+ #define dk_name256          "aes_decrypt_key256"
+ #define dk_name             "aes_decrypt_key"
+-#define db_name             "aes_decrypt"
++#define db_name             "trzr_aes_decrypt"
+ 
+ #define eres_name           "aes_mode_reset"
+ #define ecbe_name           "aes_ecb_encrypt"
 diff --git a/hmac.c b/hmac.c
 index fa2b689..198c1e5 100644
 --- a/hmac.c

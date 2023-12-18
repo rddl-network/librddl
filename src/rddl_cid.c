@@ -27,7 +27,7 @@ char* create_cid_v1_from_string(const char* data) {
     size_t input_length = SHA256_DIGEST_LENGTH + 4;  // calculate the length of the actual content to be encoded
     size_t buffer_size = (input_length + 4) / 5 * 8 + 1;  // calculate the buffer size for the base32-encoded string
 
-    char* base32_cid = (char*)malloc(buffer_size + 2);  // Allocate 2 extra bytes: one for the 'b' prefix and one for the null terminator
+    char* base32_cid = (char*)getStack(buffer_size + 2);  // Allocate 2 extra bytes: one for the 'b' prefix and one for the null terminator
     base32_cid[0] = 'b';  // Add 'b' prefix
     base32_encode(pre_encoded_cid, input_length, base32_cid + 1, buffer_size, BASE32_ALPHABET_RFC4648);
     string_to_lowercase(base32_cid);
@@ -43,7 +43,7 @@ uint8_t* decode_cid_v1(const char* base32_cid) {
     size_t input_length = strlen(base32_cid) - 1;  // Calculate the length of the base32-encoded string without the 'b' prefix
     size_t buffer_size = (input_length * 5 + 7) / 8;  // Calculate the buffer size for the decoded string
 
-    uint8_t* decoded_cid = (uint8_t*)malloc(buffer_size);
+    uint8_t* decoded_cid = (uint8_t*)getStack(buffer_size);
     if (!decoded_cid) {
         return NULL;  // Memory allocation failed
     }
@@ -66,7 +66,7 @@ uint8_t* decode_cid_v1(const char* base32_cid) {
     }
 
     // Allocate a separate buffer for the multihash
-    uint8_t* multihash = (uint8_t*)malloc(SHA256_DIGEST_LENGTH);
+    uint8_t* multihash = (uint8_t*)getStack(SHA256_DIGEST_LENGTH);
     if (!multihash) {
         free(decoded_cid);
         return NULL;  // Memory allocation failed
@@ -74,10 +74,10 @@ uint8_t* decode_cid_v1(const char* base32_cid) {
 
     // Copy the multihash from the decoded CID
     memcpy(multihash, decoded_cid + 4, SHA256_DIGEST_LENGTH);
-
+#ifdef LINUX_MACHINE
     // Free the decoded CID buffer
     free(decoded_cid);
-
+#endif
     // Return the multihash
     return multihash;
 }

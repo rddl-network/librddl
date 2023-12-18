@@ -50,12 +50,16 @@ volatile uint8_t myStack[MY_STACK_LIMIT] = {0};
 
 uint8_t* getStack( size_t size )
 {
+#ifndef LINUX_MACHINE
     if (myStackSize + size > MY_STACK_LIMIT)
         return NULL;
 
     uint8_t* current_ptr = &myStack[myStackSize];
     myStackSize += size;
     return current_ptr;
+#else
+    return malloc(size);
+#endif
 }
 
 void clearStack()

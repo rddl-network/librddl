@@ -50,7 +50,6 @@ uint8_t* decode_cid_v1(const char* base32_cid) {
 
     uint8_t* end = base32_decode(base32_cid + 1, input_length, decoded_cid, buffer_size, BASE32_ALPHABET_RFC4648);
     if (!end) {
-        free(decoded_cid);
         return NULL;  // base32 decoding failed
     }
 
@@ -61,23 +60,18 @@ uint8_t* decode_cid_v1(const char* base32_cid) {
 
     // Check that the CID version, multicodec, and multihash are as expected
     if (cid_version != 0x01 || multicodec != 0x55 || sha265_version != 0x12 || digest_length != 0x20) {
-        free(decoded_cid);
         return NULL;  // Incorrect CID version, multicodec, or multihash
     }
 
     // Allocate a separate buffer for the multihash
     uint8_t* multihash = (uint8_t*)getStack(SHA256_DIGEST_LENGTH);
     if (!multihash) {
-        free(decoded_cid);
         return NULL;  // Memory allocation failed
     }
 
     // Copy the multihash from the decoded CID
     memcpy(multihash, decoded_cid + 4, SHA256_DIGEST_LENGTH);
-#ifdef LINUX_MACHINE
-    // Free the decoded CID buffer
-    free(decoded_cid);
-#endif
+
     // Return the multihash
     return multihash;
 }

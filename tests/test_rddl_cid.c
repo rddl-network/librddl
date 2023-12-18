@@ -14,13 +14,9 @@ void test_cid_create_from_string(void) {
 
     // Call create_from_string
     char* result = create_cid_v1_from_string(DATA);
-    // free(result);
 
     TEST_ASSERT_EQUAL_INT(strlen(result), 59);
     TEST_ASSERT_EQUAL_STRING(result, EXPECTED_BASE32_CID);
-
-    // Free the result after the assertion
-    free(result);
 }
 
 
@@ -35,8 +31,6 @@ void test_decode_cid_v1(void) {
     // Check that the decoded hash matches the original hash
     TEST_ASSERT_EQUAL_UINT8_ARRAY(original_hash, decoded_hash, SHA256_DIGEST_LENGTH);
 
-    // Free the result after the assertion
-    free(decoded_hash);
 }
 
 

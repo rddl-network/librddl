@@ -367,6 +367,96 @@ void   planetmintgo__machine__query_get_machine_by_address_response__free_unpack
   assert(message->base.descriptor == &planetmintgo__machine__query_get_machine_by_address_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_request__init
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest         *message)
+{
+  static const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest init_value = PLANETMINTGO__MACHINE__QUERY_GET_LIQUID_ASSETS_BY_MACHINEID_REQUEST__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_request__get_packed_size
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *message)
+{
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_request__pack
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_request__pack_to_buffer
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *
+       planetmintgo__machine__query_get_liquid_assets_by_machineid_request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *)
+     protobuf_c_message_unpack (&planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_request__free_unpacked
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_response__init
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse         *message)
+{
+  static const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse init_value = PLANETMINTGO__MACHINE__QUERY_GET_LIQUID_ASSETS_BY_MACHINEID_RESPONSE__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_response__get_packed_size
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *message)
+{
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_response__pack
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_response__pack_to_buffer
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *
+       planetmintgo__machine__query_get_liquid_assets_by_machineid_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *)
+     protobuf_c_message_unpack (&planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_response__free_unpacked
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 #define planetmintgo__machine__query_params_request__field_descriptors NULL
 #define planetmintgo__machine__query_params_request__field_indices_by_name NULL
 #define planetmintgo__machine__query_params_request__number_ranges NULL
@@ -664,14 +754,92 @@ const ProtobufCMessageDescriptor planetmintgo__machine__query_get_machine_by_add
   (ProtobufCMessageInit) planetmintgo__machine__query_get_machine_by_address_response__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCMethodDescriptor planetmintgo__machine__query__method_descriptors[4] =
+static const ProtobufCFieldDescriptor planetmintgo__machine__query_get_liquid_assets_by_machineid_request__field_descriptors[1] =
+{
+  {
+    "machineID",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest, machineid),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__machine__query_get_liquid_assets_by_machineid_request__field_indices_by_name[] = {
+  0,   /* field[0] = machineID */
+};
+static const ProtobufCIntRange planetmintgo__machine__query_get_liquid_assets_by_machineid_request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.machine.QueryGetLiquidAssetsByMachineidRequest",
+  "QueryGetLiquidAssetsByMachineidRequest",
+  "Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest",
+  "planetmintgo.machine",
+  sizeof(Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest),
+  1,
+  planetmintgo__machine__query_get_liquid_assets_by_machineid_request__field_descriptors,
+  planetmintgo__machine__query_get_liquid_assets_by_machineid_request__field_indices_by_name,
+  1,  planetmintgo__machine__query_get_liquid_assets_by_machineid_request__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__machine__query_get_liquid_assets_by_machineid_request__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor planetmintgo__machine__query_get_liquid_assets_by_machineid_response__field_descriptors[1] =
+{
+  {
+    "liquidAssetEntry",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse, liquidassetentry),
+    &planetmintgo__machine__liquid_asset__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__machine__query_get_liquid_assets_by_machineid_response__field_indices_by_name[] = {
+  0,   /* field[0] = liquidAssetEntry */
+};
+static const ProtobufCIntRange planetmintgo__machine__query_get_liquid_assets_by_machineid_response__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.machine.QueryGetLiquidAssetsByMachineidResponse",
+  "QueryGetLiquidAssetsByMachineidResponse",
+  "Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse",
+  "planetmintgo.machine",
+  sizeof(Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse),
+  1,
+  planetmintgo__machine__query_get_liquid_assets_by_machineid_response__field_descriptors,
+  planetmintgo__machine__query_get_liquid_assets_by_machineid_response__field_indices_by_name,
+  1,  planetmintgo__machine__query_get_liquid_assets_by_machineid_response__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__machine__query_get_liquid_assets_by_machineid_response__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCMethodDescriptor planetmintgo__machine__query__method_descriptors[5] =
 {
   { "Params", &planetmintgo__machine__query_params_request__descriptor, &planetmintgo__machine__query_params_response__descriptor },
   { "GetMachineByPublicKey", &planetmintgo__machine__query_get_machine_by_public_key_request__descriptor, &planetmintgo__machine__query_get_machine_by_public_key_response__descriptor },
   { "GetTrustAnchorStatus", &planetmintgo__machine__query_get_trust_anchor_status_request__descriptor, &planetmintgo__machine__query_get_trust_anchor_status_response__descriptor },
   { "GetMachineByAddress", &planetmintgo__machine__query_get_machine_by_address_request__descriptor, &planetmintgo__machine__query_get_machine_by_address_response__descriptor },
+  { "GetLiquidAssetsByMachineid", &planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor, &planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor },
 };
 const unsigned planetmintgo__machine__query__method_indices_by_name[] = {
+  4,        /* GetLiquidAssetsByMachineid */
   3,        /* GetMachineByAddress */
   1,        /* GetMachineByPublicKey */
   2,        /* GetTrustAnchorStatus */
@@ -684,7 +852,7 @@ const ProtobufCServiceDescriptor planetmintgo__machine__query__descriptor =
   "Query",
   "Planetmintgo__Machine__Query",
   "planetmintgo.machine",
-  4,
+  5,
   planetmintgo__machine__query__method_descriptors,
   planetmintgo__machine__query__method_indices_by_name
 };
@@ -719,6 +887,14 @@ void planetmintgo__machine__query__get_machine_by_address(ProtobufCService *serv
 {
   assert(service->descriptor == &planetmintgo__machine__query__descriptor);
   service->invoke(service, 3, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void planetmintgo__machine__query__get_liquid_assets_by_machineid(ProtobufCService *service,
+                                                                  const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *input,
+                                                                  Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse_Closure closure,
+                                                                  void *closure_data)
+{
+  assert(service->descriptor == &planetmintgo__machine__query__descriptor);
+  service->invoke(service, 4, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
 void planetmintgo__machine__query__init (Planetmintgo__Machine__Query_Service *service,
                                          Planetmintgo__Machine__Query_ServiceDestroy destroy)

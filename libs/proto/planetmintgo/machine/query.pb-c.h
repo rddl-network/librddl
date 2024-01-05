@@ -19,6 +19,7 @@ PROTOBUF_C__BEGIN_DECLS
 #include "cosmos/base/query/v1beta1/pagination.pb-c.h"
 #include "planetmintgo/machine/params.pb-c.h"
 #include "planetmintgo/machine/machine.pb-c.h"
+#include "planetmintgo/machine/liquid_asset.pb-c.h"
 
 typedef struct Planetmintgo__Machine__QueryParamsRequest Planetmintgo__Machine__QueryParamsRequest;
 typedef struct Planetmintgo__Machine__QueryParamsResponse Planetmintgo__Machine__QueryParamsResponse;
@@ -28,6 +29,8 @@ typedef struct Planetmintgo__Machine__QueryGetTrustAnchorStatusRequest Planetmin
 typedef struct Planetmintgo__Machine__QueryGetTrustAnchorStatusResponse Planetmintgo__Machine__QueryGetTrustAnchorStatusResponse;
 typedef struct Planetmintgo__Machine__QueryGetMachineByAddressRequest Planetmintgo__Machine__QueryGetMachineByAddressRequest;
 typedef struct Planetmintgo__Machine__QueryGetMachineByAddressResponse Planetmintgo__Machine__QueryGetMachineByAddressResponse;
+typedef struct Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest;
+typedef struct Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse;
 
 
 /* --- enums --- */
@@ -121,6 +124,26 @@ struct  Planetmintgo__Machine__QueryGetMachineByAddressResponse
 };
 #define PLANETMINTGO__MACHINE__QUERY_GET_MACHINE_BY_ADDRESS_RESPONSE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__query_get_machine_by_address_response__descriptor) \
+    , NULL }
+
+
+struct  Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest
+{
+  ProtobufCMessage base;
+  char *machineid;
+};
+#define PLANETMINTGO__MACHINE__QUERY_GET_LIQUID_ASSETS_BY_MACHINEID_REQUEST__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor) \
+    , (char *)protobuf_c_empty_string }
+
+
+struct  Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse
+{
+  ProtobufCMessage base;
+  Planetmintgo__Machine__LiquidAsset *liquidassetentry;
+};
+#define PLANETMINTGO__MACHINE__QUERY_GET_LIQUID_ASSETS_BY_MACHINEID_RESPONSE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor) \
     , NULL }
 
 
@@ -276,6 +299,44 @@ Planetmintgo__Machine__QueryGetMachineByAddressResponse *
 void   planetmintgo__machine__query_get_machine_by_address_response__free_unpacked
                      (Planetmintgo__Machine__QueryGetMachineByAddressResponse *message,
                       ProtobufCAllocator *allocator);
+/* Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest methods */
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_request__init
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest         *message);
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_request__get_packed_size
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest   *message);
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_request__pack
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest   *message,
+                      uint8_t             *out);
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_request__pack_to_buffer
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *
+       planetmintgo__machine__query_get_liquid_assets_by_machineid_request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_request__free_unpacked
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse methods */
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_response__init
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse         *message);
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_response__get_packed_size
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse   *message);
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_response__pack
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse   *message,
+                      uint8_t             *out);
+size_t planetmintgo__machine__query_get_liquid_assets_by_machineid_response__pack_to_buffer
+                     (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *
+       planetmintgo__machine__query_get_liquid_assets_by_machineid_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__machine__query_get_liquid_assets_by_machineid_response__free_unpacked
+                     (Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*Planetmintgo__Machine__QueryParamsRequest_Closure)
@@ -302,6 +363,12 @@ typedef void (*Planetmintgo__Machine__QueryGetMachineByAddressRequest_Closure)
 typedef void (*Planetmintgo__Machine__QueryGetMachineByAddressResponse_Closure)
                  (const Planetmintgo__Machine__QueryGetMachineByAddressResponse *message,
                   void *closure_data);
+typedef void (*Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest_Closure)
+                 (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse_Closure)
+                 (const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse *message,
+                  void *closure_data);
 
 /* --- services --- */
 
@@ -325,6 +392,10 @@ struct Planetmintgo__Machine__Query_Service
                                  const Planetmintgo__Machine__QueryGetMachineByAddressRequest *input,
                                  Planetmintgo__Machine__QueryGetMachineByAddressResponse_Closure closure,
                                  void *closure_data);
+  void (*get_liquid_assets_by_machineid)(Planetmintgo__Machine__Query_Service *service,
+                                         const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *input,
+                                         Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse_Closure closure,
+                                         void *closure_data);
 };
 typedef void (*Planetmintgo__Machine__Query_ServiceDestroy)(Planetmintgo__Machine__Query_Service *);
 void planetmintgo__machine__query__init (Planetmintgo__Machine__Query_Service *service,
@@ -336,7 +407,8 @@ void planetmintgo__machine__query__init (Planetmintgo__Machine__Query_Service *s
       function_prefix__ ## params,\
       function_prefix__ ## get_machine_by_public_key,\
       function_prefix__ ## get_trust_anchor_status,\
-      function_prefix__ ## get_machine_by_address  }
+      function_prefix__ ## get_machine_by_address,\
+      function_prefix__ ## get_liquid_assets_by_machineid  }
 void planetmintgo__machine__query__params(ProtobufCService *service,
                                           const Planetmintgo__Machine__QueryParamsRequest *input,
                                           Planetmintgo__Machine__QueryParamsResponse_Closure closure,
@@ -353,6 +425,10 @@ void planetmintgo__machine__query__get_machine_by_address(ProtobufCService *serv
                                                           const Planetmintgo__Machine__QueryGetMachineByAddressRequest *input,
                                                           Planetmintgo__Machine__QueryGetMachineByAddressResponse_Closure closure,
                                                           void *closure_data);
+void planetmintgo__machine__query__get_liquid_assets_by_machineid(ProtobufCService *service,
+                                                                  const Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidRequest *input,
+                                                                  Planetmintgo__Machine__QueryGetLiquidAssetsByMachineidResponse_Closure closure,
+                                                                  void *closure_data);
 
 /* --- descriptors --- */
 
@@ -364,6 +440,8 @@ extern const ProtobufCMessageDescriptor planetmintgo__machine__query_get_trust_a
 extern const ProtobufCMessageDescriptor planetmintgo__machine__query_get_trust_anchor_status_response__descriptor;
 extern const ProtobufCMessageDescriptor planetmintgo__machine__query_get_machine_by_address_request__descriptor;
 extern const ProtobufCMessageDescriptor planetmintgo__machine__query_get_machine_by_address_response__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__machine__query_get_liquid_assets_by_machineid_request__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__machine__query_get_liquid_assets_by_machineid_response__descriptor;
 extern const ProtobufCServiceDescriptor planetmintgo__machine__query__descriptor;
 
 PROTOBUF_C__END_DECLS

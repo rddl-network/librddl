@@ -13,6 +13,7 @@
 #include "cosmos/crypto/secp256k1/keys.pb-c.h"
 #include "planetmintgo/machine/tx.pb-c.h"
 #include "planetmintgo/asset/tx.pb-c.h"
+#include "planetmintgo/dao/tx.pb-c.h"
 
 #include "planetmintgo.h"
 
@@ -200,6 +201,17 @@ int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Mac
     if( !anyMsg->value.data )
         return -1;
     planetmintgo__machine__msg_attest_machine__pack(machineMsg, anyMsg->value.data);
+    return 0;
+}
+
+int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__MsgReportPopResult* popResultMsg)
+{
+    anyMsg->type_url = "/planetmintgo.dao.MsgReportPopResult";
+    anyMsg->value.len = planetmintgo__dao__msg_report_pop_result__get_packed_size( popResultMsg );
+    anyMsg->value.data = (uint8_t*)getStack(anyMsg->value.len);
+    if( !anyMsg->value.data )
+        return -1;
+    planetmintgo__dao__msg_report_pop_result__pack(popResultMsg, anyMsg->value.data);
     return 0;
 }
 

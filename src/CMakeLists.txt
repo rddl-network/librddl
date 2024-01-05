@@ -11,6 +11,7 @@ file(GLOB PROTO_GOGO "../libs/proto/gogoproto/*.c")
 file(GLOB_RECURSE PROTO_GOOGLE "../libs/proto/google/*.c")
 file(GLOB PROTO_PLANETMINT_MACHINE "../libs/proto/planetmintgo/machine/*.c")
 file(GLOB PROTO_PLANETMINT_ASSET "../libs/proto/planetmintgo/asset/*.c")
+file(GLOB PROTO_PLANETMINT_DAO "../libs/proto/planetmintgo/dao/*.c")
 file(GLOB_RECURSE PROTO_TENDERMINT "../libs/proto/tendermint/*.c")
 
 add_library(RDDLC STATIC
@@ -28,6 +29,7 @@ add_library(RDDLC STATIC
     ${PROTO_GOOGLE}
     ${PROTO_PLANETMINT_MACHINE}
     ${PROTO_PLANETMINT_ASSET}
+    ${PROTO_PLANETMINT_DAO}
     ${PROTO_TENDERMINT}
         )
 
@@ -43,6 +45,7 @@ add_library(RDDLC STATIC
     set_source_files_properties(${PROTO_GOOGLE} PROPERTIES LANGUAGE C)
     set_source_files_properties(${PROTO_PLANETMINT_MACHINE} PROPERTIES LANGUAGE C)
     set_source_files_properties(${PROTO_PLANETMINT_ASSET} PROPERTIES LANGUAGE C)
+    set_source_files_properties(${PROTO_PLANETMINT_DAO} PROPERTIES LANGUAGE C)
 
 target_include_directories(RDDLC PUBLIC
     ../inc

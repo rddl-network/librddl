@@ -4,3 +4,6 @@
 [submodule "libs/base64"]
 	path = libs/base64
 	url = https://github.com/rafagafe/base64
+[submodule "libs/nanopb"]
+	path = libs/nanopb
+	url = git@github.com:nanopb/nanopb.git

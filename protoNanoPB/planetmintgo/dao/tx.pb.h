@@ -3,6 +3,7 @@
 
 #ifndef PB_PLANETMINTGO_DAO_PLANETMINTGO_DAO_TX_PB_H_INCLUDED
 #define PB_PLANETMINTGO_DAO_PLANETMINTGO_DAO_TX_PB_H_INCLUDED
+#define PB_NO_STATIC_ASSERT 1 
 #include <pb.h>
 #include "planetmintgo/dao/challenge.pb.h"
 #include "planetmintgo/dao/mint_request.pb.h"

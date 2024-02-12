@@ -3,6 +3,7 @@
 
 #ifndef PB_COSMOS_BASE_V1BETA1_COSMOS_BASE_V1BETA1_COIN_PB_H_INCLUDED
 #define PB_COSMOS_BASE_V1BETA1_COSMOS_BASE_V1BETA1_COIN_PB_H_INCLUDED
+#define PB_NO_STATIC_ASSERT 1 
 #include <pb.h>
 #include "gogoproto/gogo.pb.h"
 #include "cosmos_proto/cosmos.pb.h"

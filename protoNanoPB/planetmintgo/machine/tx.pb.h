@@ -3,6 +3,7 @@
 
 #ifndef PB_PLANETMINTGO_MACHINE_PLANETMINTGO_MACHINE_TX_PB_H_INCLUDED
 #define PB_PLANETMINTGO_MACHINE_PLANETMINTGO_MACHINE_TX_PB_H_INCLUDED
+#define PB_NO_STATIC_ASSERT 1 
 #include <pb.h>
 #include "planetmintgo/machine/machine.pb.h"
 #include "planetmintgo/machine/trust_anchor.pb.h"

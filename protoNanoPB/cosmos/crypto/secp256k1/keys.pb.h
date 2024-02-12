@@ -3,6 +3,7 @@
 
 #ifndef PB_COSMOS_CRYPTO_SECP256K1_COSMOS_CRYPTO_SECP256K1_KEYS_PB_H_INCLUDED
 #define PB_COSMOS_CRYPTO_SECP256K1_COSMOS_CRYPTO_SECP256K1_KEYS_PB_H_INCLUDED
+#define PB_NO_STATIC_ASSERT 1 
 #include <pb.h>
 #include "amino/amino.pb.h"
 #include "gogoproto/gogo.pb.h"

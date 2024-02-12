@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <sys/random.h>
 
 #include "address.h"
 #include "options.h"

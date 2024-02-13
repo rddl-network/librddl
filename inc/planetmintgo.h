@@ -25,9 +25,6 @@ int generateAnyCIDAttestMsg( void* anyMsg, const char* cid,
 // int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, 
 //         Planetmintgo__Machine__MsgAttestMachine* machineMsg);
 
-// int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, 
-//         Planetmintgo__Dao__MsgReportPopResult* popResultMsg);
-
 int prepareTx( void* anyMsg, 
         void* coin,
         uint8_t *priv_key, uint8_t *pub_key,

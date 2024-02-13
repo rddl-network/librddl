@@ -116,17 +116,6 @@ int prepareTx( void* anyMsg, void* coin,
 }
 
 
-// int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__MsgReportPopResult* popResultMsg)
-// {
-//     anyMsg->type_url = "/planetmintgo.dao.MsgReportPopResult";
-//     anyMsg->value.len = planetmintgo__dao__msg_report_pop_result__get_packed_size( popResultMsg );
-//     anyMsg->value.data = (uint8_t*)getStack(anyMsg->value.len);
-//     if( !anyMsg->value.data )
-//         return -1;
-//     planetmintgo__dao__msg_report_pop_result__pack(popResultMsg, anyMsg->value.data);
-//     return 0;
-// }
-
 int generateAnyCIDAttestMsg( void* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char* public_address, const char* ext_pub_key)
 {
     void* msg = fullfill_planetmintgo_asset_msgnotarizeasset(cid, public_address);
@@ -136,6 +125,7 @@ int generateAnyCIDAttestMsg( void* anyMsg, const char* cid, uint8_t* priv_key, u
 
     return 0;
 }
+
 
 bool get_account_info( const char* json_obj, int* account_id, int* sequence)
 {

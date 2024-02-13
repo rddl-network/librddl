@@ -50,6 +50,16 @@ bool getMachineIDSignature(  uint8_t* priv_key,  uint8_t* pub_key, uint8_t* sign
 
 bool getMachineIDSignaturePublicKey( uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature);
 
+typedef struct PoPInfo {
+    int64_t blockHeight;
+    char initiator[64];
+    char challenger[64];
+    char challengee[64];
+    bool finished;
+} PoPInfo;
+
+extern PoPInfo popParticipation;
+
 #ifdef __cplusplus
 }
 #endif

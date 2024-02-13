@@ -115,16 +115,6 @@ int prepareTx( void* anyMsg, void* coin,
     return 0;
 }
 
-// int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Machine__MsgAttestMachine* machineMsg)
-// {
-//     anyMsg->type_url = "/planetmintgo.machine.MsgAttestMachine";
-//     anyMsg->value.len = planetmintgo__machine__msg_attest_machine__get_packed_size(machineMsg);
-//     anyMsg->value.data = getStack(anyMsg->value.len);
-//     if( !anyMsg->value.data )
-//         return -1;
-//     planetmintgo__machine__msg_attest_machine__pack(machineMsg, anyMsg->value.data);
-//     return 0;
-// }
 
 // int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__MsgReportPopResult* popResultMsg)
 // {

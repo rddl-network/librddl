@@ -35,7 +35,7 @@
 #endif
 
 
-
+PoPInfo popParticipation;
 uint8_t secret_seed[SEED_SIZE] = {0};
 
 // the below mentioned array contains 8 times RDDL: "RDDLRDDLRDDLRDDLRDDLRDDLRDDLRDDL";

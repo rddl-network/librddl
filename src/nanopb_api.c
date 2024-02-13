@@ -4,6 +4,7 @@
 #include <stdint.h> 
 #include <stdlib.h>
 #include <stdarg.h>
+#include "rddl.h"
 #include "rddl_types.h"
 #include "configFile.h"
 #include "rddlSDKAbst.h"
@@ -12,13 +13,17 @@
 #include <planetmintgo/machine/machine.pb.h>
 #include <planetmintgo/machine/tx.pb.h>
 #include <planetmintgo/asset/tx.pb.h>
+#include <planetmintgo/dao/challenge.pb.h>
+#include <planetmintgo/dao/tx.pb.h>
 #include <google/protobuf/any.pb.h>
 #include <cosmos/base/v1beta1/coin.pb.h>
 #include <cosmos/tx/v1beta1/tx.pb.h>
 #include <cosmos/crypto/secp256k1/keys.pb.h>
 
 
-char mBuff[2048];
+char msgAttestMachine_url[] = "/planetmintgo.machine.MsgAttestMachine";
+char daoMsgReportPopR_url[] = "/planetmintgo.dao.MsgReportPopResult";
+
 
 typedef struct call_back_contexts_s{
     int         len;
@@ -55,8 +60,6 @@ void* Create_AnyMsg(){
     return (void*)anyMsg;
 }
 
-
-char tbuffer[2048];
 
 void* fullfill_planetmintgo_machine_metadata(char* cid, char* gps, char* assetdef, char* device){
     planetmintgo_machine_Metadata* metadata = (planetmintgo_machine_Metadata*)getStack( sizeof(planetmintgo_machine_Metadata) );
@@ -130,7 +133,7 @@ int bind_msgAttestMachine_to_anyMsg(void* anyMsg, void* machineMsg){
     value_context->len                 = machineMsg_stream.bytes_written;
     value_context->data                = tempBuff;
     anyMsg_ptr->value.arg              = value_context;
-    anyMsg_ptr->type_url.arg           = "/planetmintgo.machine.MsgAttestMachine";
+    anyMsg_ptr->type_url.arg           = msgAttestMachine_url;
     anyMsg_ptr->value.funcs.encode     = &encode_array;
     anyMsg_ptr->type_url.funcs.encode  = &encode_string;
 
@@ -395,3 +398,41 @@ int bind_planetmintgo_asset_notarizeMsg_to_anyMsg(void* anyMsg, void* msg){
 
     return 0;
 }
+
+
+int bind_planetmintgo_dao_msgReport_to_anyMsg(void* anyMsg, bool PoPSuccess, char* creator){
+    int  ret = 0;
+    planetmintgo_dao_Challenge challenge = planetmintgo_dao_Challenge_init_zero;
+    challenge.initiator.arg  = popParticipation.initiator;
+    challenge.challenger.arg = popParticipation.challenger;
+    challenge.challengee.arg = popParticipation.challengee;
+    challenge.height         = popParticipation.blockHeight;
+    challenge.success        = PoPSuccess;
+    challenge.finished       = true;
+    challenge.initiator.funcs.encode  = &encode_string;
+    challenge.challenger.funcs.encode = &encode_string;
+    challenge.challengee.funcs.encode = &encode_string;
+
+    planetmintgo_dao_MsgReportPopResult popResultMsg = planetmintgo_dao_MsgReportPopResult_init_zero;
+    popResultMsg.creator.arg            = creator;
+    popResultMsg.creator.funcs.encode   = &encode_string;
+    popResultMsg.has_challenge          = true;
+    memcpy(&popResultMsg.challenge, (char*)&challenge, sizeof(planetmintgo_dao_Challenge));
+
+    char* streamBuff = (char*)getStack(1024);
+    pb_ostream_t pkStream    = pb_ostream_from_buffer((pb_byte_t *)streamBuff, 1024);
+    if (!pb_encode(&pkStream, planetmintgo_dao_MsgReportPopResult_fields, &popResultMsg))
+        ret = -1;
+
+    google_protobuf_Any* anyMsg_ptr   = (google_protobuf_Any*)anyMsg;
+    call_back_contexts* value_context = (char*)getStack(sizeof(call_back_contexts));
+    value_context->len                = pkStream.bytes_written;
+    value_context->data               = streamBuff;
+    anyMsg_ptr->value.arg             = value_context;
+    anyMsg_ptr->type_url.arg          = daoMsgReportPopR_url;
+    anyMsg_ptr->value.funcs.encode    = &encode_array;
+    anyMsg_ptr->type_url.funcs.encode = &encode_string;
+
+    return ret;
+}
+

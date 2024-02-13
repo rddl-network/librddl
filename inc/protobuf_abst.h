@@ -16,4 +16,5 @@ void* fullfill_binMessage(void* txRaw, const char *chain_id, uint64_t account_id
 void* prepare_txRaw_data(uint8_t** tx_bytes, size_t* tx_size, void* txRaw, unsigned char* signature, int signLen);
 void* fullfill_planetmintgo_asset_msgnotarizeasset(const char* cid, char* public_address);
 int bind_planetmintgo_asset_notarizeMsg_to_anyMsg(void* anyMsg, void* msg);
+int bind_planetmintgo_dao_msgReport_to_anyMsg(void* anyMsg, bool PoPSuccess, char* creator);
 

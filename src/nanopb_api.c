@@ -355,13 +355,13 @@ void* prepare_txRaw_data(uint8_t** tx_bytes, size_t* tx_size, void* txRaw, unsig
     if (!pb_encode(&Sstream, cosmos_tx_v1beta1_TxRaw_fields, txRawPtr))
         return NULL;
 
-    sprintf(responseArr, "DataSize: %d\n", Sstream.bytes_written);
-    printMsg(responseArr);
-    unsigned char* x = *tx_bytes;
-    for(uint32_t i=0; i<Sstream.bytes_written; ++i){
-        sprintf(responseArr, "%02x ", x[i]);
-        printMsg(responseArr);
-    }
+    // sprintf(responseArr, "DataSize: %d\n", Sstream.bytes_written);
+    // printMsg(responseArr);
+    // unsigned char* x = *tx_bytes;
+    // for(uint32_t i=0; i<Sstream.bytes_written; ++i){
+    //     sprintf(responseArr, "%02x ", x[i]);
+    //     printMsg(responseArr);
+    // }
 
     *tx_size = Sstream.bytes_written;
     return *tx_bytes;

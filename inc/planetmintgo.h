@@ -33,6 +33,9 @@ int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg,
 int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, 
         Planetmintgo__Dao__MsgReportPopResult* popResultMsg);
 
+int generateRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
+        Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg);
+
 int prepareTx( Google__Protobuf__Any* anyMsg, 
         Cosmos__Base__V1beta1__Coin* coin,
         uint8_t *priv_key, uint8_t *pub_key,

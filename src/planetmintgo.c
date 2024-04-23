@@ -215,6 +215,18 @@ int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__Ms
     return 0;
 }
 
+int generateRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
+    Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg){
+    anyMsg->type_url = "/planetmintgo.dao.MsgRedeemClaim";
+    anyMsg->value.len = planetmintgo__dao__redeem_claim__get_packed_size( redeemClaimMsg );
+    anyMsg->value.data = (uint8_t*)getStack(anyMsg->value.len);
+    if( !anyMsg->value.data )
+        return -1;
+
+    planetmintgo__dao__redeem_claim__pack(redeemClaimMsg,anyMsg->value.data);
+    return 0;
+}
+
 int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char* public_address, const char* ext_pub_key)
 {
 

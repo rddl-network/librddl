@@ -33,7 +33,7 @@ int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg,
 int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, 
         Planetmintgo__Dao__MsgReportPopResult* popResultMsg);
 
-int generateRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
+int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
         Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg);
 
 int prepareTx( Google__Protobuf__Any* anyMsg, 

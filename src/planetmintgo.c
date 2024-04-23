@@ -215,7 +215,7 @@ int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__Ms
     return 0;
 }
 
-int generateRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
+int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
     Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg){
     anyMsg->type_url = "/planetmintgo.dao.MsgRedeemClaim";
     anyMsg->value.len = planetmintgo__dao__redeem_claim__get_packed_size( redeemClaimMsg );

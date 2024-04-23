@@ -31,10 +31,25 @@ struct  Planetmintgo__Dao__Params
 {
   ProtobufCMessage base;
   char *mint_address;
+  char *token_denom;
+  char *staged_denom;
+  char *claim_denom;
+  char *reissuance_asset;
+  int64_t reissuance_epochs;
+  int64_t pop_epochs;
+  int64_t distribution_offset;
+  char *distribution_address_early_inv;
+  char *distribution_address_investor;
+  char *distribution_address_strategic;
+  char *distribution_address_dao;
+  char *distribution_address_pop;
+  int64_t mqtt_response_timeout;
+  char *claim_address;
+  uint64_t tx_gas_limit;
 };
 #define PLANETMINTGO__DAO__PARAMS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__params__descriptor) \
-    , (char *)protobuf_c_empty_string }
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string, 0 }
 
 
 /* Planetmintgo__Dao__Params methods */

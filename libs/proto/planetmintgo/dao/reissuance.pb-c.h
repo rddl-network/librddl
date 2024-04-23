@@ -27,7 +27,7 @@ struct  Planetmintgo__Dao__Reissuance
 {
   ProtobufCMessage base;
   char *proposer;
-  char *rawtx;
+  char *command;
   char *txid;
   int64_t blockheight;
   int64_t firstincludedpop;

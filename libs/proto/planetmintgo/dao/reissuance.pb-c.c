@@ -67,12 +67,12 @@ static const ProtobufCFieldDescriptor planetmintgo__dao__reissuance__field_descr
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "rawTx",
+    "command",
     2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
-    offsetof(Planetmintgo__Dao__Reissuance, rawtx),
+    offsetof(Planetmintgo__Dao__Reissuance, command),
     NULL,
     &protobuf_c_empty_string,
     0,             /* flags */
@@ -129,10 +129,10 @@ static const ProtobufCFieldDescriptor planetmintgo__dao__reissuance__field_descr
 };
 static const unsigned planetmintgo__dao__reissuance__field_indices_by_name[] = {
   3,   /* field[3] = blockHeight */
+  1,   /* field[1] = command */
   4,   /* field[4] = firstIncludedPop */
   5,   /* field[5] = lastIncludedPop */
   0,   /* field[0] = proposer */
-  1,   /* field[1] = rawTx */
   2,   /* field[2] = txID */
 };
 static const ProtobufCIntRange planetmintgo__dao__reissuance__number_ranges[1 + 1] =

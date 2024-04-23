@@ -52,7 +52,7 @@ void   planetmintgo__dao__distribution_order__free_unpacked
   assert(message->base.descriptor == &planetmintgo__dao__distribution_order__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor planetmintgo__dao__distribution_order__field_descriptors[12] =
+static const ProtobufCFieldDescriptor planetmintgo__dao__distribution_order__field_descriptors[18] =
 {
   {
     "daoAddr",
@@ -198,11 +198,86 @@ static const ProtobufCFieldDescriptor planetmintgo__dao__distribution_order__fie
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "earlyInvAddr",
+    13,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__DistributionOrder, earlyinvaddr),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "earlyInvAmount",
+    14,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__DistributionOrder, earlyinvamount),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "earlyInvTxID",
+    15,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__DistributionOrder, earlyinvtxid),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "strategicAddr",
+    16,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__DistributionOrder, strategicaddr),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "strategicAmount",
+    17,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__DistributionOrder, strategicamount),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "strategicTxID",
+    18,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__DistributionOrder, strategictxid),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned planetmintgo__dao__distribution_order__field_indices_by_name[] = {
   0,   /* field[0] = daoAddr */
   1,   /* field[1] = daoAmount */
   2,   /* field[2] = daoTxID */
+  12,   /* field[12] = earlyInvAddr */
+  13,   /* field[13] = earlyInvAmount */
+  14,   /* field[14] = earlyInvTxID */
   9,   /* field[9] = firstPop */
   3,   /* field[3] = investorAddr */
   4,   /* field[4] = investorAmount */
@@ -212,11 +287,14 @@ static const unsigned planetmintgo__dao__distribution_order__field_indices_by_na
   7,   /* field[7] = popAmount */
   8,   /* field[8] = popTxID */
   11,   /* field[11] = proposer */
+  15,   /* field[15] = strategicAddr */
+  16,   /* field[16] = strategicAmount */
+  17,   /* field[17] = strategicTxID */
 };
 static const ProtobufCIntRange planetmintgo__dao__distribution_order__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 12 }
+  { 0, 18 }
 };
 const ProtobufCMessageDescriptor planetmintgo__dao__distribution_order__descriptor =
 {
@@ -226,7 +304,7 @@ const ProtobufCMessageDescriptor planetmintgo__dao__distribution_order__descript
   "Planetmintgo__Dao__DistributionOrder",
   "planetmintgo.dao",
   sizeof(Planetmintgo__Dao__DistributionOrder),
-  12,
+  18,
   planetmintgo__dao__distribution_order__field_descriptors,
   planetmintgo__dao__distribution_order__field_indices_by_name,
   1,  planetmintgo__dao__distribution_order__number_ranges,

@@ -10,6 +10,7 @@ import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 import "cosmos/msg/v1/msg.proto";
+import "planetmintgo/dao/redeem_claim.proto";
 
 option go_package = "github.com/planetmint/planetmint-go/x/dao/types";
 
@@ -23,6 +24,9 @@ service Msg {
   rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
   rpc ReportPopResult     (MsgReportPopResult    ) returns (MsgReportPopResultResponse    );
   rpc InitPop             (MsgInitPop            ) returns (MsgInitPopResponse            );
+  rpc CreateRedeemClaim   (MsgCreateRedeemClaim  ) returns (MsgCreateRedeemClaimResponse  );
+  rpc UpdateRedeemClaim   (MsgUpdateRedeemClaim  ) returns (MsgUpdateRedeemClaimResponse  );
+  rpc ConfirmRedeemClaim  (MsgConfirmRedeemClaim ) returns (MsgConfirmRedeemClaimResponse );
 }
 message MsgReportPopResult {
   string    creator   = 1;
@@ -34,7 +38,7 @@ message MsgReportPopResultResponse {}
 message MsgReissueRDDLProposal {
   string creator          = 1;
   string proposer         = 2;
-  string tx               = 3;
+  string command          = 3;
   int64  blockHeight      = 4;
   int64  firstIncludedPop = 5;
   int64  lastIncludedPop  = 6;
@@ -59,11 +63,13 @@ message MsgReissueRDDLResult {
 message MsgReissueRDDLResultResponse {}
 
 message MsgDistributionResult {
-  string creator      = 1;
-  int64  lastPop      = 2;
-  string daoTxID      = 3;
-  string investorTxID = 4;
-  string popTxID      = 5;
+  string creator           = 1;
+  int64  lastPop           = 2;
+  string daoTxID           = 3;
+  string investorTxID      = 4;
+  string popTxID           = 5;
+  string earlyInvestorTxID = 6;
+  string strategicTxID     = 7;
 }
 
 message MsgDistributionResultResponse {}
@@ -98,4 +104,28 @@ message MsgInitPop {
 }
 
 message MsgInitPopResponse {}
+
+message MsgCreateRedeemClaim {
+  string creator     = 1;
+  string beneficiary = 2;
+}
+
+message MsgCreateRedeemClaimResponse {}
+
+message MsgUpdateRedeemClaim {
+  string creator      = 1;
+  uint64 id           = 2;
+  string beneficiary  = 3;
+  string liquidTxHash = 4;
+}
+
+message MsgUpdateRedeemClaimResponse {}
+
+message MsgConfirmRedeemClaim {
+  string creator     = 1;
+  uint64 id          = 2;
+  string beneficiary = 3;
+}
+
+message MsgConfirmRedeemClaimResponse {}
 

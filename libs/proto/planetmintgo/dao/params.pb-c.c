@@ -52,7 +52,7 @@ void   planetmintgo__dao__params__free_unpacked
   assert(message->base.descriptor == &planetmintgo__dao__params__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor planetmintgo__dao__params__field_descriptors[1] =
+static const ProtobufCFieldDescriptor planetmintgo__dao__params__field_descriptors[16] =
 {
   {
     "mint_address",
@@ -66,14 +66,209 @@ static const ProtobufCFieldDescriptor planetmintgo__dao__params__field_descripto
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "token_denom",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, token_denom),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "staged_denom",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, staged_denom),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "claim_denom",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, claim_denom),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "reissuance_asset",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, reissuance_asset),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "reissuance_epochs",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, reissuance_epochs),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pop_epochs",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, pop_epochs),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "distribution_offset",
+    8,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, distribution_offset),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "distribution_address_early_inv",
+    9,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, distribution_address_early_inv),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "distribution_address_investor",
+    10,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, distribution_address_investor),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "distribution_address_strategic",
+    11,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, distribution_address_strategic),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "distribution_address_dao",
+    12,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, distribution_address_dao),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "distribution_address_pop",
+    13,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, distribution_address_pop),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mqtt_response_timeout",
+    14,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, mqtt_response_timeout),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "claim_address",
+    15,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, claim_address),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "tx_gas_limit",
+    16,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__Params, tx_gas_limit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned planetmintgo__dao__params__field_indices_by_name[] = {
+  14,   /* field[14] = claim_address */
+  3,   /* field[3] = claim_denom */
+  11,   /* field[11] = distribution_address_dao */
+  8,   /* field[8] = distribution_address_early_inv */
+  9,   /* field[9] = distribution_address_investor */
+  12,   /* field[12] = distribution_address_pop */
+  10,   /* field[10] = distribution_address_strategic */
+  7,   /* field[7] = distribution_offset */
   0,   /* field[0] = mint_address */
+  13,   /* field[13] = mqtt_response_timeout */
+  6,   /* field[6] = pop_epochs */
+  4,   /* field[4] = reissuance_asset */
+  5,   /* field[5] = reissuance_epochs */
+  2,   /* field[2] = staged_denom */
+  1,   /* field[1] = token_denom */
+  15,   /* field[15] = tx_gas_limit */
 };
 static const ProtobufCIntRange planetmintgo__dao__params__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 1 }
+  { 0, 16 }
 };
 const ProtobufCMessageDescriptor planetmintgo__dao__params__descriptor =
 {
@@ -83,7 +278,7 @@ const ProtobufCMessageDescriptor planetmintgo__dao__params__descriptor =
   "Planetmintgo__Dao__Params",
   "planetmintgo.dao",
   sizeof(Planetmintgo__Dao__Params),
-  1,
+  16,
   planetmintgo__dao__params__field_descriptors,
   planetmintgo__dao__params__field_indices_by_name,
   1,  planetmintgo__dao__params__number_ranges,

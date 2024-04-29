@@ -16,6 +16,7 @@ PROTOBUF_C__BEGIN_DECLS
 
 #include "gogoproto/gogo.pb-c.h"
 #include "planetmintgo/dao/params.pb-c.h"
+#include "planetmintgo/dao/redeem_claim.pb-c.h"
 
 typedef struct Planetmintgo__Dao__GenesisState Planetmintgo__Dao__GenesisState;
 

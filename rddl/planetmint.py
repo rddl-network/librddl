@@ -27,7 +27,7 @@ def getAnyAsset(creator: str, cid: str) -> any_pb2.Any:
 
     # Construct the Any message
     any_message = any_pb2.Any()
-    any_message.type_url = "planetmintgo.asset.MsgNotarizeAsset"
+    any_message.type_url = "/planetmintgo.asset.MsgNotarizeAsset"
     any_message.value = message_data
     return any_message
     
@@ -37,7 +37,7 @@ def getAnyMachineAttestation(msg: MachineTx.MsgAttestMachine) -> any_pb2.Any:
 
     # Construct the Any message
     any_message = any_pb2.Any()
-    any_message.type_url = "planetmintgo.asset.MsgNotarizeAsset"
+    any_message.type_url = "/planetmintgo.machine.MsgAttestMachine"
     any_message.value = message_data
     return any_message
     

@@ -30,10 +30,15 @@ typedef struct Planetmintgo__Machine__Params Planetmintgo__Machine__Params;
 struct  Planetmintgo__Machine__Params
 {
   ProtobufCMessage base;
+  char *asset_registry_scheme;
+  char *asset_registry_domain;
+  char *asset_registry_path;
+  uint64_t dao_machine_funding_amount;
+  char *dao_machine_funding_denom;
 };
 #define PLANETMINTGO__MACHINE__PARAMS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__params__descriptor) \
-     }
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string }
 
 
 /* Planetmintgo__Machine__Params methods */

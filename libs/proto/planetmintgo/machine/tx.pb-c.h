@@ -17,6 +17,11 @@ PROTOBUF_C__BEGIN_DECLS
 #include "planetmintgo/machine/machine.pb-c.h"
 #include "planetmintgo/machine/trust_anchor.pb-c.h"
 #include "planetmintgo/machine/liquid_asset.pb-c.h"
+#include "planetmintgo/machine/params.pb-c.h"
+#include "amino/amino.pb-c.h"
+#include "gogoproto/gogo.pb-c.h"
+#include "cosmos_proto/cosmos.pb-c.h"
+#include "cosmos/msg/v1/msg.pb-c.h"
 
 typedef struct Planetmintgo__Machine__MsgAttestMachine Planetmintgo__Machine__MsgAttestMachine;
 typedef struct Planetmintgo__Machine__MsgAttestMachineResponse Planetmintgo__Machine__MsgAttestMachineResponse;
@@ -24,6 +29,8 @@ typedef struct Planetmintgo__Machine__MsgRegisterTrustAnchor Planetmintgo__Machi
 typedef struct Planetmintgo__Machine__MsgRegisterTrustAnchorResponse Planetmintgo__Machine__MsgRegisterTrustAnchorResponse;
 typedef struct Planetmintgo__Machine__MsgNotarizeLiquidAsset Planetmintgo__Machine__MsgNotarizeLiquidAsset;
 typedef struct Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse;
+typedef struct Planetmintgo__Machine__MsgUpdateParams Planetmintgo__Machine__MsgUpdateParams;
+typedef struct Planetmintgo__Machine__MsgUpdateParamsResponse Planetmintgo__Machine__MsgUpdateParamsResponse;
 
 
 /* --- enums --- */
@@ -88,6 +95,32 @@ struct  Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse
 };
 #define PLANETMINTGO__MACHINE__MSG_NOTARIZE_LIQUID_ASSET_RESPONSE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__msg_notarize_liquid_asset_response__descriptor) \
+     }
+
+
+struct  Planetmintgo__Machine__MsgUpdateParams
+{
+  ProtobufCMessage base;
+  /*
+   * authority is the address that controls the module (defaults to x/gov unless overwritten).
+   */
+  char *authority;
+  /*
+   * NOTE: All parameters must be supplied.
+   */
+  Planetmintgo__Machine__Params *params;
+};
+#define PLANETMINTGO__MACHINE__MSG_UPDATE_PARAMS__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__msg_update_params__descriptor) \
+    , (char *)protobuf_c_empty_string, NULL }
+
+
+struct  Planetmintgo__Machine__MsgUpdateParamsResponse
+{
+  ProtobufCMessage base;
+};
+#define PLANETMINTGO__MACHINE__MSG_UPDATE_PARAMS_RESPONSE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__machine__msg_update_params_response__descriptor) \
      }
 
 
@@ -205,6 +238,44 @@ Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse *
 void   planetmintgo__machine__msg_notarize_liquid_asset_response__free_unpacked
                      (Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse *message,
                       ProtobufCAllocator *allocator);
+/* Planetmintgo__Machine__MsgUpdateParams methods */
+void   planetmintgo__machine__msg_update_params__init
+                     (Planetmintgo__Machine__MsgUpdateParams         *message);
+size_t planetmintgo__machine__msg_update_params__get_packed_size
+                     (const Planetmintgo__Machine__MsgUpdateParams   *message);
+size_t planetmintgo__machine__msg_update_params__pack
+                     (const Planetmintgo__Machine__MsgUpdateParams   *message,
+                      uint8_t             *out);
+size_t planetmintgo__machine__msg_update_params__pack_to_buffer
+                     (const Planetmintgo__Machine__MsgUpdateParams   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Machine__MsgUpdateParams *
+       planetmintgo__machine__msg_update_params__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__machine__msg_update_params__free_unpacked
+                     (Planetmintgo__Machine__MsgUpdateParams *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Machine__MsgUpdateParamsResponse methods */
+void   planetmintgo__machine__msg_update_params_response__init
+                     (Planetmintgo__Machine__MsgUpdateParamsResponse         *message);
+size_t planetmintgo__machine__msg_update_params_response__get_packed_size
+                     (const Planetmintgo__Machine__MsgUpdateParamsResponse   *message);
+size_t planetmintgo__machine__msg_update_params_response__pack
+                     (const Planetmintgo__Machine__MsgUpdateParamsResponse   *message,
+                      uint8_t             *out);
+size_t planetmintgo__machine__msg_update_params_response__pack_to_buffer
+                     (const Planetmintgo__Machine__MsgUpdateParamsResponse   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Machine__MsgUpdateParamsResponse *
+       planetmintgo__machine__msg_update_params_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__machine__msg_update_params_response__free_unpacked
+                     (Planetmintgo__Machine__MsgUpdateParamsResponse *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*Planetmintgo__Machine__MsgAttestMachine_Closure)
@@ -225,6 +296,12 @@ typedef void (*Planetmintgo__Machine__MsgNotarizeLiquidAsset_Closure)
 typedef void (*Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse_Closure)
                  (const Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse *message,
                   void *closure_data);
+typedef void (*Planetmintgo__Machine__MsgUpdateParams_Closure)
+                 (const Planetmintgo__Machine__MsgUpdateParams *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Machine__MsgUpdateParamsResponse_Closure)
+                 (const Planetmintgo__Machine__MsgUpdateParamsResponse *message,
+                  void *closure_data);
 
 /* --- services --- */
 
@@ -244,6 +321,10 @@ struct Planetmintgo__Machine__Msg_Service
                                 const Planetmintgo__Machine__MsgNotarizeLiquidAsset *input,
                                 Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse_Closure closure,
                                 void *closure_data);
+  void (*update_params)(Planetmintgo__Machine__Msg_Service *service,
+                        const Planetmintgo__Machine__MsgUpdateParams *input,
+                        Planetmintgo__Machine__MsgUpdateParamsResponse_Closure closure,
+                        void *closure_data);
 };
 typedef void (*Planetmintgo__Machine__Msg_ServiceDestroy)(Planetmintgo__Machine__Msg_Service *);
 void planetmintgo__machine__msg__init (Planetmintgo__Machine__Msg_Service *service,
@@ -254,7 +335,8 @@ void planetmintgo__machine__msg__init (Planetmintgo__Machine__Msg_Service *servi
     { PLANETMINTGO__MACHINE__MSG__BASE_INIT,\
       function_prefix__ ## attest_machine,\
       function_prefix__ ## register_trust_anchor,\
-      function_prefix__ ## notarize_liquid_asset  }
+      function_prefix__ ## notarize_liquid_asset,\
+      function_prefix__ ## update_params  }
 void planetmintgo__machine__msg__attest_machine(ProtobufCService *service,
                                                 const Planetmintgo__Machine__MsgAttestMachine *input,
                                                 Planetmintgo__Machine__MsgAttestMachineResponse_Closure closure,
@@ -267,6 +349,10 @@ void planetmintgo__machine__msg__notarize_liquid_asset(ProtobufCService *service
                                                        const Planetmintgo__Machine__MsgNotarizeLiquidAsset *input,
                                                        Planetmintgo__Machine__MsgNotarizeLiquidAssetResponse_Closure closure,
                                                        void *closure_data);
+void planetmintgo__machine__msg__update_params(ProtobufCService *service,
+                                               const Planetmintgo__Machine__MsgUpdateParams *input,
+                                               Planetmintgo__Machine__MsgUpdateParamsResponse_Closure closure,
+                                               void *closure_data);
 
 /* --- descriptors --- */
 
@@ -276,6 +362,8 @@ extern const ProtobufCMessageDescriptor planetmintgo__machine__msg_register_trus
 extern const ProtobufCMessageDescriptor planetmintgo__machine__msg_register_trust_anchor_response__descriptor;
 extern const ProtobufCMessageDescriptor planetmintgo__machine__msg_notarize_liquid_asset__descriptor;
 extern const ProtobufCMessageDescriptor planetmintgo__machine__msg_notarize_liquid_asset_response__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__machine__msg_update_params__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__machine__msg_update_params_response__descriptor;
 extern const ProtobufCServiceDescriptor planetmintgo__machine__msg__descriptor;
 
 PROTOBUF_C__END_DECLS

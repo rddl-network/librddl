@@ -52,9 +52,81 @@ void   planetmintgo__machine__params__free_unpacked
   assert(message->base.descriptor == &planetmintgo__machine__params__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-#define planetmintgo__machine__params__field_descriptors NULL
-#define planetmintgo__machine__params__field_indices_by_name NULL
-#define planetmintgo__machine__params__number_ranges NULL
+static const ProtobufCFieldDescriptor planetmintgo__machine__params__field_descriptors[5] =
+{
+  {
+    "asset_registry_scheme",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__Params, asset_registry_scheme),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "asset_registry_domain",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__Params, asset_registry_domain),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "asset_registry_path",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__Params, asset_registry_path),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "dao_machine_funding_amount",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__Params, dao_machine_funding_amount),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "dao_machine_funding_denom",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Machine__Params, dao_machine_funding_denom),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__machine__params__field_indices_by_name[] = {
+  1,   /* field[1] = asset_registry_domain */
+  2,   /* field[2] = asset_registry_path */
+  0,   /* field[0] = asset_registry_scheme */
+  3,   /* field[3] = dao_machine_funding_amount */
+  4,   /* field[4] = dao_machine_funding_denom */
+};
+static const ProtobufCIntRange planetmintgo__machine__params__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
 const ProtobufCMessageDescriptor planetmintgo__machine__params__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
@@ -63,10 +135,10 @@ const ProtobufCMessageDescriptor planetmintgo__machine__params__descriptor =
   "Planetmintgo__Machine__Params",
   "planetmintgo.machine",
   sizeof(Planetmintgo__Machine__Params),
-  0,
+  5,
   planetmintgo__machine__params__field_descriptors,
   planetmintgo__machine__params__field_indices_by_name,
-  0,  planetmintgo__machine__params__number_ranges,
+  1,  planetmintgo__machine__params__number_ranges,
   (ProtobufCMessageInit) planetmintgo__machine__params__init,
   NULL,NULL,NULL    /* reserved[123] */
 };

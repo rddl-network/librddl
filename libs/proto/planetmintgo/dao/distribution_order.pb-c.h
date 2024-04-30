@@ -38,10 +38,16 @@ struct  Planetmintgo__Dao__DistributionOrder
   int64_t firstpop;
   int64_t lastpop;
   char *proposer;
+  char *earlyinvaddr;
+  char *earlyinvamount;
+  char *earlyinvtxid;
+  char *strategicaddr;
+  char *strategicamount;
+  char *strategictxid;
 };
 #define PLANETMINTGO__DAO__DISTRIBUTION_ORDER__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__distribution_order__descriptor) \
-    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, (char *)protobuf_c_empty_string }
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string }
 
 
 /* Planetmintgo__Dao__DistributionOrder methods */

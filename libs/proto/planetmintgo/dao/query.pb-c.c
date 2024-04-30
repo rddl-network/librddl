@@ -727,6 +727,276 @@ void   planetmintgo__dao__query_get_distribution_response__free_unpacked
   assert(message->base.descriptor == &planetmintgo__dao__query_get_distribution_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   planetmintgo__dao__query_get_redeem_claim_request__init
+                     (Planetmintgo__Dao__QueryGetRedeemClaimRequest         *message)
+{
+  static const Planetmintgo__Dao__QueryGetRedeemClaimRequest init_value = PLANETMINTGO__DAO__QUERY_GET_REDEEM_CLAIM_REQUEST__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__dao__query_get_redeem_claim_request__get_packed_size
+                     (const Planetmintgo__Dao__QueryGetRedeemClaimRequest *message)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_request__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__dao__query_get_redeem_claim_request__pack
+                     (const Planetmintgo__Dao__QueryGetRedeemClaimRequest *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_request__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__dao__query_get_redeem_claim_request__pack_to_buffer
+                     (const Planetmintgo__Dao__QueryGetRedeemClaimRequest *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_request__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Dao__QueryGetRedeemClaimRequest *
+       planetmintgo__dao__query_get_redeem_claim_request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Dao__QueryGetRedeemClaimRequest *)
+     protobuf_c_message_unpack (&planetmintgo__dao__query_get_redeem_claim_request__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__dao__query_get_redeem_claim_request__free_unpacked
+                     (Planetmintgo__Dao__QueryGetRedeemClaimRequest *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_request__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   planetmintgo__dao__query_get_redeem_claim_response__init
+                     (Planetmintgo__Dao__QueryGetRedeemClaimResponse         *message)
+{
+  static const Planetmintgo__Dao__QueryGetRedeemClaimResponse init_value = PLANETMINTGO__DAO__QUERY_GET_REDEEM_CLAIM_RESPONSE__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__dao__query_get_redeem_claim_response__get_packed_size
+                     (const Planetmintgo__Dao__QueryGetRedeemClaimResponse *message)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_response__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__dao__query_get_redeem_claim_response__pack
+                     (const Planetmintgo__Dao__QueryGetRedeemClaimResponse *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_response__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__dao__query_get_redeem_claim_response__pack_to_buffer
+                     (const Planetmintgo__Dao__QueryGetRedeemClaimResponse *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_response__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Dao__QueryGetRedeemClaimResponse *
+       planetmintgo__dao__query_get_redeem_claim_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Dao__QueryGetRedeemClaimResponse *)
+     protobuf_c_message_unpack (&planetmintgo__dao__query_get_redeem_claim_response__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__dao__query_get_redeem_claim_response__free_unpacked
+                     (Planetmintgo__Dao__QueryGetRedeemClaimResponse *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__dao__query_get_redeem_claim_response__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   planetmintgo__dao__query_all_redeem_claim_request__init
+                     (Planetmintgo__Dao__QueryAllRedeemClaimRequest         *message)
+{
+  static const Planetmintgo__Dao__QueryAllRedeemClaimRequest init_value = PLANETMINTGO__DAO__QUERY_ALL_REDEEM_CLAIM_REQUEST__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__dao__query_all_redeem_claim_request__get_packed_size
+                     (const Planetmintgo__Dao__QueryAllRedeemClaimRequest *message)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_request__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__dao__query_all_redeem_claim_request__pack
+                     (const Planetmintgo__Dao__QueryAllRedeemClaimRequest *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_request__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__dao__query_all_redeem_claim_request__pack_to_buffer
+                     (const Planetmintgo__Dao__QueryAllRedeemClaimRequest *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_request__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Dao__QueryAllRedeemClaimRequest *
+       planetmintgo__dao__query_all_redeem_claim_request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Dao__QueryAllRedeemClaimRequest *)
+     protobuf_c_message_unpack (&planetmintgo__dao__query_all_redeem_claim_request__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__dao__query_all_redeem_claim_request__free_unpacked
+                     (Planetmintgo__Dao__QueryAllRedeemClaimRequest *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_request__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   planetmintgo__dao__query_all_redeem_claim_response__init
+                     (Planetmintgo__Dao__QueryAllRedeemClaimResponse         *message)
+{
+  static const Planetmintgo__Dao__QueryAllRedeemClaimResponse init_value = PLANETMINTGO__DAO__QUERY_ALL_REDEEM_CLAIM_RESPONSE__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__dao__query_all_redeem_claim_response__get_packed_size
+                     (const Planetmintgo__Dao__QueryAllRedeemClaimResponse *message)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_response__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__dao__query_all_redeem_claim_response__pack
+                     (const Planetmintgo__Dao__QueryAllRedeemClaimResponse *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_response__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__dao__query_all_redeem_claim_response__pack_to_buffer
+                     (const Planetmintgo__Dao__QueryAllRedeemClaimResponse *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_response__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Dao__QueryAllRedeemClaimResponse *
+       planetmintgo__dao__query_all_redeem_claim_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Dao__QueryAllRedeemClaimResponse *)
+     protobuf_c_message_unpack (&planetmintgo__dao__query_all_redeem_claim_response__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__dao__query_all_redeem_claim_response__free_unpacked
+                     (Planetmintgo__Dao__QueryAllRedeemClaimResponse *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__dao__query_all_redeem_claim_response__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__init
+                     (Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest         *message)
+{
+  static const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest init_value = PLANETMINTGO__DAO__QUERY_REDEEM_CLAIM_BY_LIQUID_TX_HASH_REQUEST__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__get_packed_size
+                     (const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *message)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__pack
+                     (const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__pack_to_buffer
+                     (const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *
+       planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *)
+     protobuf_c_message_unpack (&planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__free_unpacked
+                     (Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__init
+                     (Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse         *message)
+{
+  static const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse init_value = PLANETMINTGO__DAO__QUERY_REDEEM_CLAIM_BY_LIQUID_TX_HASH_RESPONSE__INIT;
+  *message = init_value;
+}
+size_t planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__get_packed_size
+                     (const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse *message)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__pack
+                     (const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__pack_to_buffer
+                     (const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse *
+       planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse *)
+     protobuf_c_message_unpack (&planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor,
+                                allocator, len, data);
+}
+void   planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__free_unpacked
+                     (Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 #define planetmintgo__dao__query_params_request__field_descriptors NULL
 #define planetmintgo__dao__query_params_request__field_indices_by_name NULL
 #define planetmintgo__dao__query_params_request__number_ranges NULL
@@ -1268,12 +1538,12 @@ const ProtobufCMessageDescriptor planetmintgo__dao__query_challenges_response__d
 static const ProtobufCFieldDescriptor planetmintgo__dao__query_get_distribution_request__field_descriptors[1] =
 {
   {
-    "lastPopHeight",
+    "height",
     1,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_INT64,
     0,   /* quantifier_offset */
-    offsetof(Planetmintgo__Dao__QueryGetDistributionRequest, lastpopheight),
+    offsetof(Planetmintgo__Dao__QueryGetDistributionRequest, height),
     NULL,
     NULL,
     0,             /* flags */
@@ -1281,7 +1551,7 @@ static const ProtobufCFieldDescriptor planetmintgo__dao__query_get_distribution_
   },
 };
 static const unsigned planetmintgo__dao__query_get_distribution_request__field_indices_by_name[] = {
-  0,   /* field[0] = lastPopHeight */
+  0,   /* field[0] = height */
 };
 static const ProtobufCIntRange planetmintgo__dao__query_get_distribution_request__number_ranges[1 + 1] =
 {
@@ -1341,7 +1611,261 @@ const ProtobufCMessageDescriptor planetmintgo__dao__query_get_distribution_respo
   (ProtobufCMessageInit) planetmintgo__dao__query_get_distribution_response__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCMethodDescriptor planetmintgo__dao__query__method_descriptors[8] =
+static const ProtobufCFieldDescriptor planetmintgo__dao__query_get_redeem_claim_request__field_descriptors[2] =
+{
+  {
+    "beneficiary",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryGetRedeemClaimRequest, beneficiary),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "id",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT64,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryGetRedeemClaimRequest, id),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__dao__query_get_redeem_claim_request__field_indices_by_name[] = {
+  0,   /* field[0] = beneficiary */
+  1,   /* field[1] = id */
+};
+static const ProtobufCIntRange planetmintgo__dao__query_get_redeem_claim_request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor planetmintgo__dao__query_get_redeem_claim_request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.dao.QueryGetRedeemClaimRequest",
+  "QueryGetRedeemClaimRequest",
+  "Planetmintgo__Dao__QueryGetRedeemClaimRequest",
+  "planetmintgo.dao",
+  sizeof(Planetmintgo__Dao__QueryGetRedeemClaimRequest),
+  2,
+  planetmintgo__dao__query_get_redeem_claim_request__field_descriptors,
+  planetmintgo__dao__query_get_redeem_claim_request__field_indices_by_name,
+  1,  planetmintgo__dao__query_get_redeem_claim_request__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__dao__query_get_redeem_claim_request__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor planetmintgo__dao__query_get_redeem_claim_response__field_descriptors[1] =
+{
+  {
+    "redeemClaim",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryGetRedeemClaimResponse, redeemclaim),
+    &planetmintgo__dao__redeem_claim__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__dao__query_get_redeem_claim_response__field_indices_by_name[] = {
+  0,   /* field[0] = redeemClaim */
+};
+static const ProtobufCIntRange planetmintgo__dao__query_get_redeem_claim_response__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor planetmintgo__dao__query_get_redeem_claim_response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.dao.QueryGetRedeemClaimResponse",
+  "QueryGetRedeemClaimResponse",
+  "Planetmintgo__Dao__QueryGetRedeemClaimResponse",
+  "planetmintgo.dao",
+  sizeof(Planetmintgo__Dao__QueryGetRedeemClaimResponse),
+  1,
+  planetmintgo__dao__query_get_redeem_claim_response__field_descriptors,
+  planetmintgo__dao__query_get_redeem_claim_response__field_indices_by_name,
+  1,  planetmintgo__dao__query_get_redeem_claim_response__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__dao__query_get_redeem_claim_response__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor planetmintgo__dao__query_all_redeem_claim_request__field_descriptors[1] =
+{
+  {
+    "pagination",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryAllRedeemClaimRequest, pagination),
+    &cosmos__base__query__v1beta1__page_request__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__dao__query_all_redeem_claim_request__field_indices_by_name[] = {
+  0,   /* field[0] = pagination */
+};
+static const ProtobufCIntRange planetmintgo__dao__query_all_redeem_claim_request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor planetmintgo__dao__query_all_redeem_claim_request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.dao.QueryAllRedeemClaimRequest",
+  "QueryAllRedeemClaimRequest",
+  "Planetmintgo__Dao__QueryAllRedeemClaimRequest",
+  "planetmintgo.dao",
+  sizeof(Planetmintgo__Dao__QueryAllRedeemClaimRequest),
+  1,
+  planetmintgo__dao__query_all_redeem_claim_request__field_descriptors,
+  planetmintgo__dao__query_all_redeem_claim_request__field_indices_by_name,
+  1,  planetmintgo__dao__query_all_redeem_claim_request__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__dao__query_all_redeem_claim_request__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor planetmintgo__dao__query_all_redeem_claim_response__field_descriptors[2] =
+{
+  {
+    "redeemClaim",
+    1,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Planetmintgo__Dao__QueryAllRedeemClaimResponse, n_redeemclaim),
+    offsetof(Planetmintgo__Dao__QueryAllRedeemClaimResponse, redeemclaim),
+    &planetmintgo__dao__redeem_claim__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pagination",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryAllRedeemClaimResponse, pagination),
+    &cosmos__base__query__v1beta1__page_response__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__dao__query_all_redeem_claim_response__field_indices_by_name[] = {
+  1,   /* field[1] = pagination */
+  0,   /* field[0] = redeemClaim */
+};
+static const ProtobufCIntRange planetmintgo__dao__query_all_redeem_claim_response__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor planetmintgo__dao__query_all_redeem_claim_response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.dao.QueryAllRedeemClaimResponse",
+  "QueryAllRedeemClaimResponse",
+  "Planetmintgo__Dao__QueryAllRedeemClaimResponse",
+  "planetmintgo.dao",
+  sizeof(Planetmintgo__Dao__QueryAllRedeemClaimResponse),
+  2,
+  planetmintgo__dao__query_all_redeem_claim_response__field_descriptors,
+  planetmintgo__dao__query_all_redeem_claim_response__field_indices_by_name,
+  1,  planetmintgo__dao__query_all_redeem_claim_response__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__dao__query_all_redeem_claim_response__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__field_descriptors[1] =
+{
+  {
+    "liquidTxHash",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest, liquidtxhash),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__field_indices_by_name[] = {
+  0,   /* field[0] = liquidTxHash */
+};
+static const ProtobufCIntRange planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.dao.QueryRedeemClaimByLiquidTxHashRequest",
+  "QueryRedeemClaimByLiquidTxHashRequest",
+  "Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest",
+  "planetmintgo.dao",
+  sizeof(Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest),
+  1,
+  planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__field_descriptors,
+  planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__field_indices_by_name,
+  1,  planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__field_descriptors[1] =
+{
+  {
+    "redeemClaim",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse, redeemclaim),
+    &planetmintgo__dao__redeem_claim__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__field_indices_by_name[] = {
+  0,   /* field[0] = redeemClaim */
+};
+static const ProtobufCIntRange planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "planetmintgo.dao.QueryRedeemClaimByLiquidTxHashResponse",
+  "QueryRedeemClaimByLiquidTxHashResponse",
+  "Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse",
+  "planetmintgo.dao",
+  sizeof(Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse),
+  1,
+  planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__field_descriptors,
+  planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__field_indices_by_name,
+  1,  planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__number_ranges,
+  (ProtobufCMessageInit) planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCMethodDescriptor planetmintgo__dao__query__method_descriptors[11] =
 {
   { "Params", &planetmintgo__dao__query_params_request__descriptor, &planetmintgo__dao__query_params_response__descriptor },
   { "GetMintRequestsByHash", &planetmintgo__dao__query_get_mint_requests_by_hash_request__descriptor, &planetmintgo__dao__query_get_mint_requests_by_hash_response__descriptor },
@@ -1351,6 +1875,9 @@ static const ProtobufCMethodDescriptor planetmintgo__dao__query__method_descript
   { "GetChallenge", &planetmintgo__dao__query_get_challenge_request__descriptor, &planetmintgo__dao__query_get_challenge_response__descriptor },
   { "Challenges", &planetmintgo__dao__query_challenges_request__descriptor, &planetmintgo__dao__query_challenges_response__descriptor },
   { "GetDistribution", &planetmintgo__dao__query_get_distribution_request__descriptor, &planetmintgo__dao__query_get_distribution_response__descriptor },
+  { "RedeemClaim", &planetmintgo__dao__query_get_redeem_claim_request__descriptor, &planetmintgo__dao__query_get_redeem_claim_response__descriptor },
+  { "RedeemClaimAll", &planetmintgo__dao__query_all_redeem_claim_request__descriptor, &planetmintgo__dao__query_all_redeem_claim_response__descriptor },
+  { "RedeemClaimByLiquidTxHash", &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_request__descriptor, &planetmintgo__dao__query_redeem_claim_by_liquid_tx_hash_response__descriptor },
 };
 const unsigned planetmintgo__dao__query__method_indices_by_name[] = {
   6,        /* Challenges */
@@ -1360,6 +1887,9 @@ const unsigned planetmintgo__dao__query__method_indices_by_name[] = {
   3,        /* GetReissuance */
   2,        /* MintRequestsByAddress */
   0,        /* Params */
+  8,        /* RedeemClaim */
+  9,        /* RedeemClaimAll */
+  10,        /* RedeemClaimByLiquidTxHash */
   4         /* Reissuances */
 };
 const ProtobufCServiceDescriptor planetmintgo__dao__query__descriptor =
@@ -1369,7 +1899,7 @@ const ProtobufCServiceDescriptor planetmintgo__dao__query__descriptor =
   "Query",
   "Planetmintgo__Dao__Query",
   "planetmintgo.dao",
-  8,
+  11,
   planetmintgo__dao__query__method_descriptors,
   planetmintgo__dao__query__method_indices_by_name
 };
@@ -1436,6 +1966,30 @@ void planetmintgo__dao__query__get_distribution(ProtobufCService *service,
 {
   assert(service->descriptor == &planetmintgo__dao__query__descriptor);
   service->invoke(service, 7, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void planetmintgo__dao__query__redeem_claim(ProtobufCService *service,
+                                            const Planetmintgo__Dao__QueryGetRedeemClaimRequest *input,
+                                            Planetmintgo__Dao__QueryGetRedeemClaimResponse_Closure closure,
+                                            void *closure_data)
+{
+  assert(service->descriptor == &planetmintgo__dao__query__descriptor);
+  service->invoke(service, 8, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void planetmintgo__dao__query__redeem_claim_all(ProtobufCService *service,
+                                                const Planetmintgo__Dao__QueryAllRedeemClaimRequest *input,
+                                                Planetmintgo__Dao__QueryAllRedeemClaimResponse_Closure closure,
+                                                void *closure_data)
+{
+  assert(service->descriptor == &planetmintgo__dao__query__descriptor);
+  service->invoke(service, 9, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
+void planetmintgo__dao__query__redeem_claim_by_liquid_tx_hash(ProtobufCService *service,
+                                                              const Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashRequest *input,
+                                                              Planetmintgo__Dao__QueryRedeemClaimByLiquidTxHashResponse_Closure closure,
+                                                              void *closure_data)
+{
+  assert(service->descriptor == &planetmintgo__dao__query__descriptor);
+  service->invoke(service, 10, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
 void planetmintgo__dao__query__init (Planetmintgo__Dao__Query_Service *service,
                                      Planetmintgo__Dao__Query_ServiceDestroy destroy)

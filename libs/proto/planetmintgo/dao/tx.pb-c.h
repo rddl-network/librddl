@@ -22,6 +22,7 @@ PROTOBUF_C__BEGIN_DECLS
 #include "gogoproto/gogo.pb-c.h"
 #include "cosmos_proto/cosmos.pb-c.h"
 #include "cosmos/msg/v1/msg.pb-c.h"
+#include "planetmintgo/dao/redeem_claim.pb-c.h"
 
 typedef struct Planetmintgo__Dao__MsgReportPopResult Planetmintgo__Dao__MsgReportPopResult;
 typedef struct Planetmintgo__Dao__MsgReportPopResultResponse Planetmintgo__Dao__MsgReportPopResultResponse;
@@ -39,6 +40,12 @@ typedef struct Planetmintgo__Dao__MsgUpdateParams Planetmintgo__Dao__MsgUpdatePa
 typedef struct Planetmintgo__Dao__MsgUpdateParamsResponse Planetmintgo__Dao__MsgUpdateParamsResponse;
 typedef struct Planetmintgo__Dao__MsgInitPop Planetmintgo__Dao__MsgInitPop;
 typedef struct Planetmintgo__Dao__MsgInitPopResponse Planetmintgo__Dao__MsgInitPopResponse;
+typedef struct Planetmintgo__Dao__MsgCreateRedeemClaim Planetmintgo__Dao__MsgCreateRedeemClaim;
+typedef struct Planetmintgo__Dao__MsgCreateRedeemClaimResponse Planetmintgo__Dao__MsgCreateRedeemClaimResponse;
+typedef struct Planetmintgo__Dao__MsgUpdateRedeemClaim Planetmintgo__Dao__MsgUpdateRedeemClaim;
+typedef struct Planetmintgo__Dao__MsgUpdateRedeemClaimResponse Planetmintgo__Dao__MsgUpdateRedeemClaimResponse;
+typedef struct Planetmintgo__Dao__MsgConfirmRedeemClaim Planetmintgo__Dao__MsgConfirmRedeemClaim;
+typedef struct Planetmintgo__Dao__MsgConfirmRedeemClaimResponse Planetmintgo__Dao__MsgConfirmRedeemClaimResponse;
 
 
 /* --- enums --- */
@@ -71,7 +78,7 @@ struct  Planetmintgo__Dao__MsgReissueRDDLProposal
   ProtobufCMessage base;
   char *creator;
   char *proposer;
-  char *tx;
+  char *command;
   int64_t blockheight;
   int64_t firstincludedpop;
   int64_t lastincludedpop;
@@ -140,10 +147,12 @@ struct  Planetmintgo__Dao__MsgDistributionResult
   char *daotxid;
   char *investortxid;
   char *poptxid;
+  char *earlyinvestortxid;
+  char *strategictxid;
 };
 #define PLANETMINTGO__DAO__MSG_DISTRIBUTION_RESULT__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_distribution_result__descriptor) \
-    , (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string }
+    , (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string }
 
 
 struct  Planetmintgo__Dao__MsgDistributionResultResponse
@@ -221,6 +230,69 @@ struct  Planetmintgo__Dao__MsgInitPopResponse
 };
 #define PLANETMINTGO__DAO__MSG_INIT_POP_RESPONSE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_init_pop_response__descriptor) \
+     }
+
+
+struct  Planetmintgo__Dao__MsgCreateRedeemClaim
+{
+  ProtobufCMessage base;
+  char *creator;
+  char *beneficiary;
+};
+#define PLANETMINTGO__DAO__MSG_CREATE_REDEEM_CLAIM__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_create_redeem_claim__descriptor) \
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string }
+
+
+struct  Planetmintgo__Dao__MsgCreateRedeemClaimResponse
+{
+  ProtobufCMessage base;
+};
+#define PLANETMINTGO__DAO__MSG_CREATE_REDEEM_CLAIM_RESPONSE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_create_redeem_claim_response__descriptor) \
+     }
+
+
+struct  Planetmintgo__Dao__MsgUpdateRedeemClaim
+{
+  ProtobufCMessage base;
+  char *creator;
+  uint64_t id;
+  char *beneficiary;
+  char *liquidtxhash;
+};
+#define PLANETMINTGO__DAO__MSG_UPDATE_REDEEM_CLAIM__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_update_redeem_claim__descriptor) \
+    , (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string }
+
+
+struct  Planetmintgo__Dao__MsgUpdateRedeemClaimResponse
+{
+  ProtobufCMessage base;
+};
+#define PLANETMINTGO__DAO__MSG_UPDATE_REDEEM_CLAIM_RESPONSE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_update_redeem_claim_response__descriptor) \
+     }
+
+
+struct  Planetmintgo__Dao__MsgConfirmRedeemClaim
+{
+  ProtobufCMessage base;
+  char *creator;
+  uint64_t id;
+  char *beneficiary;
+};
+#define PLANETMINTGO__DAO__MSG_CONFIRM_REDEEM_CLAIM__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_confirm_redeem_claim__descriptor) \
+    , (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string }
+
+
+struct  Planetmintgo__Dao__MsgConfirmRedeemClaimResponse
+{
+  ProtobufCMessage base;
+};
+#define PLANETMINTGO__DAO__MSG_CONFIRM_REDEEM_CLAIM_RESPONSE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&planetmintgo__dao__msg_confirm_redeem_claim_response__descriptor) \
      }
 
 
@@ -528,6 +600,120 @@ Planetmintgo__Dao__MsgInitPopResponse *
 void   planetmintgo__dao__msg_init_pop_response__free_unpacked
                      (Planetmintgo__Dao__MsgInitPopResponse *message,
                       ProtobufCAllocator *allocator);
+/* Planetmintgo__Dao__MsgCreateRedeemClaim methods */
+void   planetmintgo__dao__msg_create_redeem_claim__init
+                     (Planetmintgo__Dao__MsgCreateRedeemClaim         *message);
+size_t planetmintgo__dao__msg_create_redeem_claim__get_packed_size
+                     (const Planetmintgo__Dao__MsgCreateRedeemClaim   *message);
+size_t planetmintgo__dao__msg_create_redeem_claim__pack
+                     (const Planetmintgo__Dao__MsgCreateRedeemClaim   *message,
+                      uint8_t             *out);
+size_t planetmintgo__dao__msg_create_redeem_claim__pack_to_buffer
+                     (const Planetmintgo__Dao__MsgCreateRedeemClaim   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Dao__MsgCreateRedeemClaim *
+       planetmintgo__dao__msg_create_redeem_claim__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__dao__msg_create_redeem_claim__free_unpacked
+                     (Planetmintgo__Dao__MsgCreateRedeemClaim *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Dao__MsgCreateRedeemClaimResponse methods */
+void   planetmintgo__dao__msg_create_redeem_claim_response__init
+                     (Planetmintgo__Dao__MsgCreateRedeemClaimResponse         *message);
+size_t planetmintgo__dao__msg_create_redeem_claim_response__get_packed_size
+                     (const Planetmintgo__Dao__MsgCreateRedeemClaimResponse   *message);
+size_t planetmintgo__dao__msg_create_redeem_claim_response__pack
+                     (const Planetmintgo__Dao__MsgCreateRedeemClaimResponse   *message,
+                      uint8_t             *out);
+size_t planetmintgo__dao__msg_create_redeem_claim_response__pack_to_buffer
+                     (const Planetmintgo__Dao__MsgCreateRedeemClaimResponse   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Dao__MsgCreateRedeemClaimResponse *
+       planetmintgo__dao__msg_create_redeem_claim_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__dao__msg_create_redeem_claim_response__free_unpacked
+                     (Planetmintgo__Dao__MsgCreateRedeemClaimResponse *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Dao__MsgUpdateRedeemClaim methods */
+void   planetmintgo__dao__msg_update_redeem_claim__init
+                     (Planetmintgo__Dao__MsgUpdateRedeemClaim         *message);
+size_t planetmintgo__dao__msg_update_redeem_claim__get_packed_size
+                     (const Planetmintgo__Dao__MsgUpdateRedeemClaim   *message);
+size_t planetmintgo__dao__msg_update_redeem_claim__pack
+                     (const Planetmintgo__Dao__MsgUpdateRedeemClaim   *message,
+                      uint8_t             *out);
+size_t planetmintgo__dao__msg_update_redeem_claim__pack_to_buffer
+                     (const Planetmintgo__Dao__MsgUpdateRedeemClaim   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Dao__MsgUpdateRedeemClaim *
+       planetmintgo__dao__msg_update_redeem_claim__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__dao__msg_update_redeem_claim__free_unpacked
+                     (Planetmintgo__Dao__MsgUpdateRedeemClaim *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Dao__MsgUpdateRedeemClaimResponse methods */
+void   planetmintgo__dao__msg_update_redeem_claim_response__init
+                     (Planetmintgo__Dao__MsgUpdateRedeemClaimResponse         *message);
+size_t planetmintgo__dao__msg_update_redeem_claim_response__get_packed_size
+                     (const Planetmintgo__Dao__MsgUpdateRedeemClaimResponse   *message);
+size_t planetmintgo__dao__msg_update_redeem_claim_response__pack
+                     (const Planetmintgo__Dao__MsgUpdateRedeemClaimResponse   *message,
+                      uint8_t             *out);
+size_t planetmintgo__dao__msg_update_redeem_claim_response__pack_to_buffer
+                     (const Planetmintgo__Dao__MsgUpdateRedeemClaimResponse   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Dao__MsgUpdateRedeemClaimResponse *
+       planetmintgo__dao__msg_update_redeem_claim_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__dao__msg_update_redeem_claim_response__free_unpacked
+                     (Planetmintgo__Dao__MsgUpdateRedeemClaimResponse *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Dao__MsgConfirmRedeemClaim methods */
+void   planetmintgo__dao__msg_confirm_redeem_claim__init
+                     (Planetmintgo__Dao__MsgConfirmRedeemClaim         *message);
+size_t planetmintgo__dao__msg_confirm_redeem_claim__get_packed_size
+                     (const Planetmintgo__Dao__MsgConfirmRedeemClaim   *message);
+size_t planetmintgo__dao__msg_confirm_redeem_claim__pack
+                     (const Planetmintgo__Dao__MsgConfirmRedeemClaim   *message,
+                      uint8_t             *out);
+size_t planetmintgo__dao__msg_confirm_redeem_claim__pack_to_buffer
+                     (const Planetmintgo__Dao__MsgConfirmRedeemClaim   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Dao__MsgConfirmRedeemClaim *
+       planetmintgo__dao__msg_confirm_redeem_claim__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__dao__msg_confirm_redeem_claim__free_unpacked
+                     (Planetmintgo__Dao__MsgConfirmRedeemClaim *message,
+                      ProtobufCAllocator *allocator);
+/* Planetmintgo__Dao__MsgConfirmRedeemClaimResponse methods */
+void   planetmintgo__dao__msg_confirm_redeem_claim_response__init
+                     (Planetmintgo__Dao__MsgConfirmRedeemClaimResponse         *message);
+size_t planetmintgo__dao__msg_confirm_redeem_claim_response__get_packed_size
+                     (const Planetmintgo__Dao__MsgConfirmRedeemClaimResponse   *message);
+size_t planetmintgo__dao__msg_confirm_redeem_claim_response__pack
+                     (const Planetmintgo__Dao__MsgConfirmRedeemClaimResponse   *message,
+                      uint8_t             *out);
+size_t planetmintgo__dao__msg_confirm_redeem_claim_response__pack_to_buffer
+                     (const Planetmintgo__Dao__MsgConfirmRedeemClaimResponse   *message,
+                      ProtobufCBuffer     *buffer);
+Planetmintgo__Dao__MsgConfirmRedeemClaimResponse *
+       planetmintgo__dao__msg_confirm_redeem_claim_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   planetmintgo__dao__msg_confirm_redeem_claim_response__free_unpacked
+                     (Planetmintgo__Dao__MsgConfirmRedeemClaimResponse *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*Planetmintgo__Dao__MsgReportPopResult_Closure)
@@ -578,6 +764,24 @@ typedef void (*Planetmintgo__Dao__MsgInitPop_Closure)
 typedef void (*Planetmintgo__Dao__MsgInitPopResponse_Closure)
                  (const Planetmintgo__Dao__MsgInitPopResponse *message,
                   void *closure_data);
+typedef void (*Planetmintgo__Dao__MsgCreateRedeemClaim_Closure)
+                 (const Planetmintgo__Dao__MsgCreateRedeemClaim *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Dao__MsgCreateRedeemClaimResponse_Closure)
+                 (const Planetmintgo__Dao__MsgCreateRedeemClaimResponse *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Dao__MsgUpdateRedeemClaim_Closure)
+                 (const Planetmintgo__Dao__MsgUpdateRedeemClaim *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Dao__MsgUpdateRedeemClaimResponse_Closure)
+                 (const Planetmintgo__Dao__MsgUpdateRedeemClaimResponse *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Dao__MsgConfirmRedeemClaim_Closure)
+                 (const Planetmintgo__Dao__MsgConfirmRedeemClaim *message,
+                  void *closure_data);
+typedef void (*Planetmintgo__Dao__MsgConfirmRedeemClaimResponse_Closure)
+                 (const Planetmintgo__Dao__MsgConfirmRedeemClaimResponse *message,
+                  void *closure_data);
 
 /* --- services --- */
 
@@ -617,6 +821,18 @@ struct Planetmintgo__Dao__Msg_Service
                    const Planetmintgo__Dao__MsgInitPop *input,
                    Planetmintgo__Dao__MsgInitPopResponse_Closure closure,
                    void *closure_data);
+  void (*create_redeem_claim)(Planetmintgo__Dao__Msg_Service *service,
+                              const Planetmintgo__Dao__MsgCreateRedeemClaim *input,
+                              Planetmintgo__Dao__MsgCreateRedeemClaimResponse_Closure closure,
+                              void *closure_data);
+  void (*update_redeem_claim)(Planetmintgo__Dao__Msg_Service *service,
+                              const Planetmintgo__Dao__MsgUpdateRedeemClaim *input,
+                              Planetmintgo__Dao__MsgUpdateRedeemClaimResponse_Closure closure,
+                              void *closure_data);
+  void (*confirm_redeem_claim)(Planetmintgo__Dao__Msg_Service *service,
+                               const Planetmintgo__Dao__MsgConfirmRedeemClaim *input,
+                               Planetmintgo__Dao__MsgConfirmRedeemClaimResponse_Closure closure,
+                               void *closure_data);
 };
 typedef void (*Planetmintgo__Dao__Msg_ServiceDestroy)(Planetmintgo__Dao__Msg_Service *);
 void planetmintgo__dao__msg__init (Planetmintgo__Dao__Msg_Service *service,
@@ -632,7 +848,10 @@ void planetmintgo__dao__msg__init (Planetmintgo__Dao__Msg_Service *service,
       function_prefix__ ## distribution_request,\
       function_prefix__ ## update_params,\
       function_prefix__ ## report_pop_result,\
-      function_prefix__ ## init_pop  }
+      function_prefix__ ## init_pop,\
+      function_prefix__ ## create_redeem_claim,\
+      function_prefix__ ## update_redeem_claim,\
+      function_prefix__ ## confirm_redeem_claim  }
 void planetmintgo__dao__msg__reissue_rddlproposal(ProtobufCService *service,
                                                   const Planetmintgo__Dao__MsgReissueRDDLProposal *input,
                                                   Planetmintgo__Dao__MsgReissueRDDLProposalResponse_Closure closure,
@@ -665,6 +884,18 @@ void planetmintgo__dao__msg__init_pop(ProtobufCService *service,
                                       const Planetmintgo__Dao__MsgInitPop *input,
                                       Planetmintgo__Dao__MsgInitPopResponse_Closure closure,
                                       void *closure_data);
+void planetmintgo__dao__msg__create_redeem_claim(ProtobufCService *service,
+                                                 const Planetmintgo__Dao__MsgCreateRedeemClaim *input,
+                                                 Planetmintgo__Dao__MsgCreateRedeemClaimResponse_Closure closure,
+                                                 void *closure_data);
+void planetmintgo__dao__msg__update_redeem_claim(ProtobufCService *service,
+                                                 const Planetmintgo__Dao__MsgUpdateRedeemClaim *input,
+                                                 Planetmintgo__Dao__MsgUpdateRedeemClaimResponse_Closure closure,
+                                                 void *closure_data);
+void planetmintgo__dao__msg__confirm_redeem_claim(ProtobufCService *service,
+                                                  const Planetmintgo__Dao__MsgConfirmRedeemClaim *input,
+                                                  Planetmintgo__Dao__MsgConfirmRedeemClaimResponse_Closure closure,
+                                                  void *closure_data);
 
 /* --- descriptors --- */
 
@@ -684,6 +915,12 @@ extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_update_params__de
 extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_update_params_response__descriptor;
 extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_init_pop__descriptor;
 extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_init_pop_response__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_create_redeem_claim__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_create_redeem_claim_response__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_update_redeem_claim__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_update_redeem_claim_response__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_confirm_redeem_claim__descriptor;
+extern const ProtobufCMessageDescriptor planetmintgo__dao__msg_confirm_redeem_claim_response__descriptor;
 extern const ProtobufCServiceDescriptor planetmintgo__dao__msg__descriptor;
 
 PROTOBUF_C__END_DECLS

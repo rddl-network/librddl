@@ -1,10 +1,13 @@
 import pytest
 import base64
+import hashlib
 
 from planetmintgo.machine import tx_pb2 as MachineTx
 from rddl import planetmint
 from rddl import signing
 from bitcoinaddress import segwit_addr
+from ecdsa import SigningKey, SECP256k1, NIST256p
+from ecdsa.util import sigencode_string
 chainID = "planetmintgo"
 sequence = 1
 accountID = 8
@@ -114,4 +117,30 @@ def test_getAnyAsset():
     assert encoded_string == expectedBytesNew
 
 
+def test_secp256k1_machineID():
+    exp_signature = 'b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aaa67852d8cd427a3dd5b90f0e4f9bda694e453ef624ff0cde254c3b7ccc7cdcd4'
+    exp_compressedKey = '02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470'
+    private_key = bytes(reference_private_key[-32:])
+    signing_key = SigningKey.from_string(private_key, curve=SECP256k1)
+    vk = signing_key.get_verifying_key()
+    compressedKey_hex = vk.to_string(encoding="compressed").hex()
+
+    #hash256 = signing.getHash( )
+    signature = signing_key.sign_deterministic(compressedKey_hex.encode('utf-8'), hashfunc=hashlib.sha256,sigencode=sigencode_string)
+    assert exp_compressedKey == compressedKey_hex 
+    assert exp_signature == signature.hex()
+ 
+
+
+def test_secp256r1_machineID():
+    exp_signature = '84f43efa663981302aada8776ac658ee12997d4a187a27dd753411afd766ef27a3f2edfdff3a08240fee6c3c864c73f220dedf5e0fd93bb0806b094f666c492d'
+    exp_compressedKey = '03d4c632e834e3e58058b6cc72f4dc6be1e80a8ebd397de09dbb8ac63acb7aff63'
+    private_key = bytes(reference_private_key[-32:])
+    signing_key = SigningKey.from_string(private_key, curve=NIST256p)
+    vk = signing_key.get_verifying_key()
+    compressedKey_hex = vk.to_string(encoding="compressed").hex()
+    signature = signing_key.sign_deterministic(compressedKey_hex.encode('utf-8'), hashfunc=hashlib.sha256,sigencode=sigencode_string)
+    assert exp_compressedKey == compressedKey_hex 
+    assert exp_signature == signature.hex()
     
+    return

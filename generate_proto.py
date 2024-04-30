@@ -40,7 +40,7 @@ def generate_proto(source, isPython = False):
             source,
         ]
         if isPython:
-            protoc_command[3] = "--python_out=./python/proto"
+            protoc_command[3] = "--python_out=./"
         
         if subprocess.call(protoc_command) != 0:
             sys.exit(-1)

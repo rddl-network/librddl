@@ -2,7 +2,7 @@ import hashlib
 #import base64
 #import base32_lib as base32
 
-from ecdsa import SigningKey, SECP256k1
+from ecdsa import SigningKey, SECP256k1, NIST256p
 from ecdsa.util import sigencode_string
 from ripemd.ripemd160 import ripemd160
 import bech32

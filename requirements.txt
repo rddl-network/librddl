@@ -1,0 +1,15 @@
+base58==2.1.1
+bech32==1.2.0
+bitcoinaddress==0.1.5
+cffi==1.16.0
+ecdsa==0.19.0
+iniconfig==2.0.0
+packaging==24.0
+pluggy==1.5.0
+protobuf==5.26.1
+pyasn1==0.6.0
+pycparser==2.22
+pytest==8.1.1
+ripemd-hash==1.0.1
+secp256k1==0.14.0
+six==1.16.0

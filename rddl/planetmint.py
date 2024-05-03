@@ -64,10 +64,10 @@ def getRawTx(anyMsg: any_pb2.Any, coin: coin_pb2.Coin, public_key: bytes, sequen
     # modeInfo.Single.mode = 1 #SIGN_MODE_DIRECT
 
     signerInfo = cosmosTx.SignerInfo()
-    #signerInfo.public_key = anyPubKey 
-    signerInfo.public_key.type_url = "/cosmos.crypto.secp256k1.PubKey"
-    signerInfo.public_key.value = pubKey.SerializeToString()
-    signerInfo.mode_info.Single.mode = 1 #SIGN_MODE_DIRECT
+    signerInfo.public_key.type_url = anyPubKey.type_url
+    signerInfo.public_key.value = anyPubKey.value
+    #signerInfo.mode_info.sum = 1 #SIGN_MODE_DIRECT
+    signerInfo.mode_info.single.mode = 1 #SIGN_MODE_DIRECT
     signerInfo.sequence = sequence
     
     #fees = cosmosTx.Fee()
@@ -75,7 +75,7 @@ def getRawTx(anyMsg: any_pb2.Any, coin: coin_pb2.Coin, public_key: bytes, sequen
     #fees.gas_limit = 200000
     
     coin2 = coin_pb2.Coin()
-    coin2.denom= "plmnt"
+    coin2.denom= "token"
     coin2.amount = "2"
     
     tx = cosmosTx.Tx()
@@ -84,8 +84,10 @@ def getRawTx(anyMsg: any_pb2.Any, coin: coin_pb2.Coin, public_key: bytes, sequen
     tx.auth_info.signer_infos.append( signerInfo )
     tx.auth_info.fee.gas_limit = 200000
     tx.auth_info.fee.amount.append( coin2 )
+    #tx.auth_info.tip.
     
     txRaw = cosmosTx.TxRaw()
+    
     txRaw.body_bytes = tx.body.SerializeToString()
     txRaw.auth_info_bytes = tx.auth_info.SerializeToString()
     return txRaw
@@ -98,3 +100,4 @@ def getSignDoc( rawTx: cosmosTx.TxRaw, chainID: str, accountID: int) -> cosmosTx
     signDoc.chain_id = chainID
     signDoc.account_number = accountID
     return signDoc
+

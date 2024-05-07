@@ -5,9 +5,10 @@ import hashlib
 from planetmintgo.machine import tx_pb2 as MachineTx
 from rddl import planetmint
 from rddl import signing
+import binascii
 from bitcoinaddress import segwit_addr
 from ecdsa import SigningKey, SECP256k1, NIST256p
-from ecdsa.util import sigencode_string
+from ecdsa.util import sigencode_string_canonize
 chainID = "planetmintgo"
 sequence = 0
 accountID = 9
@@ -130,28 +131,32 @@ def test_getAnyAsset():
     assert expectedBytesPythonNew == finalString
 
 def test_secp256k1_machineID():
-    exp_signature = 'b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aaa67852d8cd427a3dd5b90f0e4f9bda694e453ef624ff0cde254c3b7ccc7cdcd4'
-    exp_compressedKey = '02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470'
+    exp_signature = 'b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aa5987ad2732bd85c22a46f0f1b06425956c699df08a49935d9a86231003b9646d'
+    exp_compressedKey = b'02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470'
     private_key = bytes(reference_private_key[-32:])
     signing_key = SigningKey.from_string(private_key, curve=SECP256k1, hashfunc=hashlib.sha256)
     vk = signing_key.get_verifying_key()
-    compressedKey_hex = vk.to_string(encoding="compressed").hex()
+    compressedKey_hex = binascii.hexlify( vk.to_string(encoding="compressed"))
 
-    #hash256 = signing.getHash( )
-    signature = signing_key.sign_deterministic(compressedKey_hex.encode('utf-8'), hashfunc=hashlib.sha256,sigencode=sigencode_string)
+    signature = signing_key.sign_deterministic(compressedKey_hex, hashfunc=hashlib.sha256,sigencode=sigencode_string_canonize)
     assert exp_compressedKey == compressedKey_hex 
     assert exp_signature == signature.hex()
+    vk.verify(signature, compressedKey_hex)
+    
+
+    
  
 def test_secp256r1_machineID():
-    exp_signature = '84f43efa663981302aada8776ac658ee12997d4a187a27dd753411afd766ef27a3f2edfdff3a08240fee6c3c864c73f220dedf5e0fd93bb0806b094f666c492d'
-    exp_compressedKey = '03d4c632e834e3e58058b6cc72f4dc6be1e80a8ebd397de09dbb8ac63acb7aff63'
+    exp_signature = '84f43efa663981302aada8776ac658ee12997d4a187a27dd753411afd766ef275c0d120100c5f7dcf01193c379b38c0d9c081b4f973e62d4734ec17395f6dc24'
+    exp_compressedKey = b'03d4c632e834e3e58058b6cc72f4dc6be1e80a8ebd397de09dbb8ac63acb7aff63'
     private_key = bytes(reference_private_key[-32:])
     signing_key = SigningKey.from_string(private_key, curve=NIST256p, hashfunc=hashlib.sha256)
     vk = signing_key.get_verifying_key()
-    compressedKey_hex = vk.to_string(encoding="compressed").hex()
-    signature = signing_key.sign_deterministic(compressedKey_hex.encode('utf-8'), hashfunc=hashlib.sha256,sigencode=sigencode_string)
+    compressedKey_hex = binascii.hexlify( vk.to_string(encoding="compressed"))
+    signature = signing_key.sign_deterministic(compressedKey_hex, hashfunc=hashlib.sha256,sigencode=sigencode_string_canonize)
     assert exp_compressedKey == compressedKey_hex 
     assert exp_signature == signature.hex()
+    vk.verify(signature, compressedKey_hex)
 
 def test_auth_info_creation():
     from google.protobuf import any_pb2
@@ -211,24 +216,6 @@ ref_auth_info = bytearray([0x0a, 0x4e, 0x0a, 0x46, 0x0a, 0x1f, 0x2f, 0x63,\
 0x12, 0x10, 0x0a, 0x0a, 0x0a, 0x05, 0x74, 0x6f,\
 0x6b, 0x65, 0x6e, 0x12, 0x01, 0x32, 0x10, 0xc0,\
 0x9a, 0x0c ] )
-
-
-
-['0xa', '0x48', '0xa', '0x46', '0xa', '0x1f', '0x2f', '0x63',
- '0x6f', '0x73', '0x6d', '0x6f', '0x73', '0x2e', '0x63', '0x72',
- '0x79', '0x70', '0x74', '0x6f', '0x2e', '0x73', '0x65', '0x63',
- '0x70', '0x32', '0x35', '0x36', '0x6b', '0x31', '0x2e', '0x50',
- '0x75', '0x62', '0x4b', '0x65', '0x79', '0x12', '0x23', '0x0a',
- '0x21', '0x02', '0x32', '0x8d', '0xe8', '0x78', '0x96', '0xb9', 
- '0xcb', '0xb5', '0x10', '0x1c', '0x33', '0x5f', '0x40', '0x02', 
- '0x9e', '0x4b', '0xe8', '0x98', '0x98', '0x8b', '0x47', '0x0a', 
- '0xbb', '0xf6', '0x83', '0xf1', '0xa0', '0xb3', '0x18', '0xd7',
- 
- '0x34', '0x70', '0x12', '0x10', '0x0a', '0x0a', '0x0a', '0x05', 
- '0x74', '0x6f', '0x6b', '0x65', '0x6e', '0x12', '0x01', '0x32',
- '0x10', '0xc0', '0x9a', '0xc']
-
-
 
 ref_raw_tx = bytearray([ 0x0a, 0xb7, 0x05, 0x0a, 0x26, 0x2f, 0x70, 0x6c,\
 0x61, 0x6e, 0x65, 0x74, 0x6d, 0x69, 0x6e, 0x74,\

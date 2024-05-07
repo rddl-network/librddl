@@ -1,9 +1,7 @@
 import hashlib
-#import base64
-#import base32_lib as base32
 
 from ecdsa import SigningKey, SECP256k1, NIST256p
-from ecdsa.util import sigencode_string, sigencode_strings, sigencode_string_canonize, string_to_number, sigencode_der, sigencode_string_canonize
+from ecdsa.util import sigencode_string_canonize
 
 from ripemd.ripemd160 import ripemd160
 from bitcoinaddress import segwit_addr
@@ -116,17 +114,10 @@ def pubkey2address( pubkey: bytes ) -> bytes:
     ripemdhash = ripemd160(sha256hash)
     return ripemdhash
 
-
-
 def addressBytes2StringNew( address: bytes ) -> str:
     hrp = "plmnt"
-    #b32Address = base64.b32encode(address)
-    #byte_list = [b for b in b32Address]
-    #byte_list = [char(b) for b in b32Address]
     b32Address = base32_encode_unsafe( address)
     bech32AddressString =segwit_addr.bech32_encode( hrp, b32Address)
-    #bech32AddressString = bech32.bech32_encode(hrp, int_list)
-    #bech32AddressString=bech32_encode(hrp, int_list)
     return bech32AddressString
 
 def addressBytes2String( address: bytes ) -> str:
@@ -135,8 +126,6 @@ def addressBytes2String( address: bytes ) -> str:
     byte_list = [b for b in b32Address]
     byte_list = [char(b) for b in b32Address]
     bech32AddressString =segwit_addr.bech32_encode( hrp, byte_list)
-    #bech32AddressString = bech32.bech32_encode(hrp, int_list)
-    #bech32AddressString=bech32_encode(hrp, int_list)
     return bech32AddressString
 
 def getHash( data: bytes ) -> bytes:
@@ -146,37 +135,9 @@ def getHash( data: bytes ) -> bytes:
     return digest
 
 def signBytesWithKey( data: bytes, private_key: bytes ) -> bytes:
-    #digest = getHash( data )
-
-    # Decode the signing key bytes
-    #secret_int = string_to_number( private_key )
-
-    #signing_key = SigningKey.from_secret_exponent(secret_int, curve=SECP256k1, hashfunc=hashlib.sha256)
     signing_key = SigningKey.from_string(private_key, curve=SECP256k1, hashfunc=hashlib.sha256)
-    #signing_key = SigningKey.from_string(private_key, curve=SECP256k1)
-
-    # Sign the message with the private key
-    #signature = signing_key.sign_digest_deterministic(data)
     signature = signing_key.sign_deterministic(data, hashfunc=hashlib.sha256,sigencode=sigencode_string_canonize)
     return signature
-
-def signBytesWithNewLib( data: bytes, private_key: bytes ) -> bytes:
-    from ellipticcurve.ecdsa import Ecdsa
-    from ellipticcurve.privateKey import PrivateKey
-    from ellipticcurve.curve import secp256k1
-    import binascii
-
-    # Generate new Keys
-    hexstring = binascii.hexlify(private_key)
-    privateKey = PrivateKey.fromString(hexstring,curve=secp256k1)
-    publicKey = privateKey.publicKey()
-    
-
-    signature = Ecdsa.sign(data.hex(), privateKey)
-
-    # To verify if the signature is valid
-    print(Ecdsa.verify(data.hex(), signature, publicKey))
-    return binascii.unhexlify(signature._toString())
 
 
 

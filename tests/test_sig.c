@@ -83,6 +83,19 @@ void test_getMachineIDSignaturePublicKey()
   TEST_ASSERT_TRUE( ret );
 }
 
+void test_from_hex_to_hex()
+{
+  char input[] = "283092367c612c0ee81f0ff7bcdc38d03c45259236c62c45592f24000ba7f1db";
+  size_t inputLen = strlen((const char*)input);
+  const uint8_t * inputInBytes = rddl_fromhex(input);
+
+  uint8_t outStr [65] ={0};
+  size_t strLen = rddl_toHex(inputInBytes, inputLen/2, outStr, 65);
+
+  TEST_ASSERT_TRUE( strcmp( (const char*) input, (const char*)outStr) == 0 );
+
+}
+
 
 int main(void) {
 
@@ -93,5 +106,6 @@ int main(void) {
   RUN_TEST(test_getMachineIDSignaturePublicKey);
 
   RUN_TEST(test_b58tobin);
+  RUN_TEST(test_from_hex_to_hex);
   return UNITY_END();
 }

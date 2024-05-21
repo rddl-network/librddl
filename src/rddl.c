@@ -206,3 +206,60 @@ bool getMachineIDSignaturePublicKey( uint8_t* priv_key,  uint8_t* pub_key, uint8
   bool ret = getMachineIDSignature(  priv_key,  pub_key, signature, hash);
   return ret;
 }
+
+const uint8_t *rddl_fromhex(const char *str)
+{
+    static uint8_t buf[FROMHEX_MAXLEN];
+    int len = strlen(str) / 2;
+    if (len > FROMHEX_MAXLEN)
+        len = FROMHEX_MAXLEN;
+    for (int i = 0; i < len; i++)
+    {
+        uint8_t c = 0;
+        if (str[i * 2] >= '0' && str[i * 2] <= '9')
+            c += (str[i * 2] - '0') << 4;
+        if ((str[i * 2] ) >= 'A' && (str[i * 2] ) <= 'F')
+            c += (10 + (str[i * 2] ) - 'A') << 4;
+        if ((str[i * 2] ) >= 'a' && (str[i * 2] ) <= 'f')
+            c += (10 + (str[i * 2] ) - 'a') << 4;
+        if (str[i * 2 + 1] >= '0' && str[i * 2 + 1] <= '9')
+            c += (str[i * 2 + 1] - '0');
+        if ((str[i * 2 + 1]) >= 'A' && (str[i * 2 + 1] ) <= 'F')
+            c += (10 + (str[i * 2 + 1] ) - 'A');
+        if ((str[i * 2 + 1] ) >= 'a' && (str[i * 2 + 1] ) <= 'f')
+            c += (10 + (str[i * 2 + 1] ) - 'a');
+        buf[i] = c;
+    }
+    return buf;
+}
+
+
+size_t rddl_toHex(const uint8_t *array, size_t arraySize, char *output, size_t outputSize)
+{
+    if (array == NULL || output == NULL)
+    {
+        return 0;
+    }
+    // uint8_t * array = (uint8_t *) arr;
+    if (outputSize < 2 * arraySize)
+    {
+        return 0;
+    }
+    memzero(output, outputSize);
+
+    for (size_t i = 0; i < arraySize; i++)
+    {
+        output[2 * i] = (array[i] >> 4) + '0';
+        if (output[2 * i] > '9')
+        {
+            output[2 * i] += 'a' - '9' - 1;
+        }
+
+        output[2 * i + 1] = (array[i] & 0x0F) + '0';
+        if (output[2 * i + 1] > '9')
+        {
+            output[2 * i + 1] += 'a' - '9' - 1;
+        }
+    }
+    return 2 * arraySize;
+}

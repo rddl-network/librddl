@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "tests.h"
 #include "rddl.h"
 #include "planetmintgo.h"
 #include "rddl_types.h"
@@ -10,6 +11,7 @@
 #include "bip32.h"
 #include "curves.h"
 #include "base64.h"
+#include "secp256k1.h"
 
 const char *planetmint_service = "http://0.0.0.0:34331";
 
@@ -31,6 +33,133 @@ uint8_t expected_sig[64] = {35, 187, 131, 58, 5, 149, 242, 90, 22, 45, 245, 9, 1
 
 const char *expected_tx_b64_bytes = "CvcDCvQDCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLJAwotY29zbW9zMTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4cW1zdXl4EpcDCgdtYWNoaW5lEg5tYWNoaW5lX3RpY2tlchgBIOgHKAgyQjAyMzI4ZGU4Nzg5NmI5Y2JiNTEwMWMzMzVmNDAwMjllNGJlODk4OTg4YjQ3MGFiYmY2ODNmMWEwYjMxOGQ3MzQ3MDpveHB1YjY2MU15TXdBcVJiY0VpZ1JTR05qenFzVWJrb3hSSFREWVhEUTZvNWtxNkVRVFNZdVh4d0Q1ek5iRVhGakNHM2hEbVlacUNFNEhGdGNQQWkzVjNNVzl0VFl3cXpMRFV0OUJtSHY3ZlBjV2FCQkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBKfAozeyJMYXRpdHVkZSI6Ii00OC44NzY2NjciLCJMb25naXR1ZGUiOiItMTIzLjM5MzMzMyJ9Eix7Ik1hbnVmYWN0dXJlciI6ICJSRERMIiwiU2VyaWFsIjoiQWRuVDJ1eXQifRoSeyJWZXJzaW9uIjogIjAuMSJ9IgNDSUQSZApQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBGAESEAoKCgVzdGFrZRIBMhDAmgwaQCO7gzoFlfJaFi31CZTtbniFivgMYb4Crm23ct0rc73iQh8kgeFolWVkBJ7Nq0w2L5h5uvzR12K3SUfenyMw6dk=";
 
+#define PUB_KEY_SIZE 33
+#define ADDRESS_HASH_SIZE 20
+#define ADDRESS_TAIL 20
+
+#define EXT_PUB_KEY_SIZE 112 
+
+uint8_t sdk_priv_key_planetmint[32+1] = {0};
+uint8_t sdk_priv_key_liquid[32+1] = {0};
+uint8_t sdk_pub_key_planetmint[33+1] = {0};
+uint8_t sdk_pub_key_liquid[33+1] = {0};
+uint8_t sdk_machineid_public_key[33+1]={0}; 
+
+char sdk_address[64] = {0};
+char sdk_ext_pub_key_planetmint[EXT_PUB_KEY_SIZE+1] = {0};
+char sdk_ext_pub_key_liquid[EXT_PUB_KEY_SIZE+1] = {0};
+char sdk_machineid_public_key_hex[33*2+1] = {0};
+
+char sdk_periodicity[20] = {0};
+char sdk_planetmintapi[100] = {0};
+
+char sdk_chainid[30] = {0};
+char sdk_denom[20] = {0};
+
+void getPlntmntKeys(){
+  
+  /* Seedden Priv key ve diger seyleri elde et */
+  HDNode node_planetmint;
+  hdnode_from_seed( secret_seed, SEED_SIZE, SECP256K1_NAME, &node_planetmint);
+  hdnode_private_ckd_prime(&node_planetmint, 44);
+  hdnode_private_ckd_prime(&node_planetmint, 8680);
+  hdnode_private_ckd_prime(&node_planetmint, 0);
+  hdnode_private_ckd(&node_planetmint, 0);
+  hdnode_private_ckd(&node_planetmint, 0);
+  hdnode_fill_public_key(&node_planetmint);
+  /* Global e kopyaliyor pub ve priv keyi */
+  memcpy(sdk_priv_key_planetmint, node_planetmint.private_key, 32);
+  memcpy(sdk_pub_key_planetmint, node_planetmint.public_key, PUB_KEY_SIZE);
+
+
+  /* Seedden Priv key ve diger seyleri elde et */
+  HDNode node_rddl;
+  hdnode_from_seed( secret_seed, SEED_SIZE, SECP256K1_NAME, &node_rddl);
+  hdnode_private_ckd_prime(&node_rddl, 44);
+  hdnode_private_ckd_prime(&node_rddl, 1776);
+  hdnode_private_ckd_prime(&node_rddl, 0);
+  hdnode_private_ckd(&node_rddl, 0);
+  hdnode_private_ckd(&node_rddl, 0);
+  hdnode_fill_public_key(&node_rddl);
+  /* Global e kopyaliyor pub ve priv keyi */
+  memcpy(sdk_priv_key_liquid, node_rddl.private_key, 32);
+  memcpy(sdk_pub_key_liquid, node_rddl.public_key, PUB_KEY_SIZE);
+
+  uint8_t address_bytes[ADDRESS_TAIL] = {0};
+  pubkey2address( sdk_pub_key_planetmint, PUB_KEY_SIZE, address_bytes );
+  getAddressString( address_bytes, sdk_address);
+  uint32_t fingerprint = hdnode_fingerprint(&node_planetmint);
+  hdnode_serialize_public( &node_planetmint, fingerprint, PLANETMINT_PMPB, sdk_ext_pub_key_planetmint, EXT_PUB_KEY_SIZE);
+  hdnode_serialize_public( &node_rddl, fingerprint, VERSION_PUBLIC, sdk_ext_pub_key_liquid, EXT_PUB_KEY_SIZE);
+
+  ecdsa_get_public_key33(&secp256k1, private_key_machine_id, sdk_machineid_public_key);
+  toHexString( sdk_machineid_public_key_hex, sdk_machineid_public_key, 33*2);
+  
+}
+
+
+
+void test_attest_machine_generic_signed_by_mnemonic()
+{
+  char localMnemonic[] = "penalty police pool orphan snack faith educate syrup skill picnic prepare mystery dune control near nation report evolve ethics genius elite tool rigid crane";
+  const char* returnedMnemonic  = setSeed( localMnemonic, strlen(localMnemonic) );
+
+
+  getPlntmntKeys();
+  clearStack();
+  //char *expected_tx_b64_bytes_generic_old = "CokECoYECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLbAwoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSqgMKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAESYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkBIArsZaFJp/BUiIcETm3DRiY76XFy8P6CdrmAFg0UCtC3Q0f4NcSsNU1TcaD7GwzoBlSoAMe6JXpP6TseZcmQJ";
+  char *expected_tx_b64_bytes_generic = "CowGCokGCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLeBQoscGxtbnQxOTl6ZjB2a21laGhyMmhoZHQzZTQyNXI1ZHg0NzQ5ZG1lbm0zNXcSrQUKCk15TWFjaGluZTA6b3hwdWI2R2hKdG1zWjVUNnpGUEI5NjFZVlNwTUVrb0dRMk1jWUU1M0hRRGlxWXg1Yll3aUNtZ0FoZXdWSlNDVmtoMzhvVmVIdGFBVjlRSkoxYVNFSlpzemoxNGU4RzgzWkwzQ1ZTNWJkRHF1M25XbkJvcG1wYjd2VVRlQkdDRDVKdHo5enJyY3FXb01CWGRRVkVyMXFlYkpzWWdFVFhOZWJ1S21uek1pNFMyYk1xcEVzd0xVbUVhMnM2SGVYejhjZ1ZyZHNZVG5RVnRjeGJkNVZyN1pacHFtTUdYNlpUOHRRSoABNjAwM2QwYWI5YWY0ZWMxMTI2MjkxOTVhNzI2NmEyNDRhZWNmMWFjNzY5MWRhMDA4NGJlM2U3Y2VlYTJlZTcxNTcxYjA5NjNmZmZkOWM4MGE2NDAzMTc1MDlhNjgxYWM2NmMyZWQ3MGVjYzlmMzE3YTBkMmIxYTliZmY5NGZmNzRSdwozeyJMYXRpdHVkZSI6Ii00OC44NzY2NjciLCJMb25naXR1ZGUiOiItMTIzLjM5MzMzMyJ9Eix7Ik1hbnVmYWN0dXJlciI6ICJSRERMIiwiU2VyaWFsIjoiQWRuVDJ1eXQifRoSeyJWZXJzaW9uIjogIjAuMSJ9WAFikAEzMDQ2MDIyMTAwZTUxY2YwMmEwYjkwMGEzNmY3OGU4YzFmZjA1NjI4Nzk0NjkwOTRlNDJhYjQ0ZGIxMzcyOTdjNjg2YTFkOTI4ZTAyMjEwMGI4NDU4M2NlZGExNDVkMTBkMDE5YjMxYjg0YTRmNGQwZTYyNzAwYWUwOTQyMDRjOWRhYmVlMTcyNDRiNjI5MjZqLHBsbW50MTk5emYwdmttZWhocjJoaGR0M2U0MjVyNWR4NDc0OWRtZW5tMzV3EmIKTgpGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQLrk8HpZN1Y2GEZO/AVsHQ4HUQyKCGnnFSiC0VbTFfBxhIECgIIARIQCgoKBXBsbW50EgExEMCaDBpARkw+0nSaage+6g7wSsY4wdUanxG8pfjs51x5yLzulDRuBKJkUo8+zRFEvijctPBsXVx0wYzxZEsJgw9TMVUdUQ==";
+
+  Planetmintgo__Machine__Metadata metadata = PLANETMINTGO__MACHINE__METADATA__INIT;
+  metadata.additionaldatacid = "";
+  metadata.gps = "{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}";
+  metadata.assetdefinition = "{\"Version\": \"0.1\"}";
+  metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}";
+
+
+  Planetmintgo__Machine__Machine machine = PLANETMINTGO__MACHINE__MACHINE__INIT;
+  machine.name = "MyMachine0";
+  machine.ticker = "";
+  machine.domain = "";
+  machine.reissue = false;
+  machine.amount = 0;
+  machine.precision = 0;
+  machine.issuerplanetmint = "xpub6GhJtmsZ5T6zFPB961YVSpMEkoGQ2McYE53HQDiqYx5bYwiCmgAhewVJSCVkh38oVeHtaAV9QJJ1aSEJZszj14e8G83ZL3CVS5bdDqu3nWn";
+  machine.issuerliquid = "pmpb7vUTeBGCD5Jtz9zrrcqWoMBXdQVEr1qebJsYgETXNebuKmnzMi4S2bMqpEswLUmEa2s6HeXz8cgVrdsYTnQVtcxbd5Vr7ZZpqmMGX6ZT8tQ";
+  machine.machineid = "6003d0ab9af4ec112629195a7266a244aecf1ac7691da0084be3e7ceea2ee71571b0963fffd9c80a640317509a681ac66c2ed70ecc9f317a0d2b1a9bff94ff74";
+  machine.metadata = &metadata;
+  machine.type = RDDL_MACHINE_POWER_SWITCH;
+  machine.address = sdk_address;
+  machine.machineidsignature = "3046022100e51cf02a0b900a36f78e8c1ff0562879469094e42ab44db137297c686a1d928e022100b84583ceda145d10d019b31b84a4f4d0e62700ae094204c9dabee17244b62926";
+
+  Planetmintgo__Machine__MsgAttestMachine machineMsg = PLANETMINTGO__MACHINE__MSG_ATTEST_MACHINE__INIT;
+  machineMsg.creator = sdk_address;
+  machineMsg.machine = &machine;
+
+  Google__Protobuf__Any anyMsg = GOOGLE__PROTOBUF__ANY__INIT;
+  int ret = generateAnyAttestMachineMsg(&anyMsg, &machineMsg);
+  TEST_ASSERT_EQUAL_INT(0, ret);
+
+  Cosmos__Base__V1beta1__Coin coin = COSMOS__BASE__V1BETA1__COIN__INIT;
+  coin.denom = "plmnt";
+  coin.amount = "1";
+
+  uint8_t *txbytes = NULL;
+  size_t tx_size = 0;
+  uint64_t sequence = 0;
+  ret = prepareTx(&anyMsg, &coin, sdk_priv_key_planetmint, sdk_pub_key_planetmint,
+                  sequence, "planetmintgo", 15, &txbytes, &tx_size);
+  TEST_ASSERT_EQUAL_INT(0, ret);
+  // free(anyMsg.value.data);
+  char tx_bytes_b64[2000] = {0};
+  char *p = bintob64(tx_bytes_b64, txbytes, tx_size);
+  size_t length = p - tx_bytes_b64;
+
+  // free( txbytes );
+  TEST_ASSERT_EQUAL_MEMORY(expected_tx_b64_bytes_generic, tx_bytes_b64, length);
+}
+
+
 void test_attest_machine_generic()
 {
   clearStack();
@@ -44,7 +173,6 @@ void test_attest_machine_generic()
   metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}";
 
   const char *address = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc";
-  const char *pubKey = "AjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRw";
 
   Planetmintgo__Machine__Machine machine = PLANETMINTGO__MACHINE__MACHINE__INIT;
   machine.name = "machine";
@@ -212,8 +340,7 @@ void parse_account_info_invalid()
   char expected_result[] = "{ \\
     \"code\": 13, \\
     \"message\": \"Expecting non nil value to create a new Any: failed packing protobuf message to Any\", \\
-    \"details\": [] \\
-  }";
+    \"details\": [] }";
   int account_id = 0;
   int sequence = 0;
   bool f = get_account_info(expected_result, &account_id, &sequence);
@@ -240,8 +367,6 @@ void test_gps_string_parsing_adjustments()
   //{"Country":"AT","Region":"9","City":"vienna","CityLatLong":"48.208174,16.373819","User-IP":"84.112.103.218"}
   char *gps_json_string = "{\"Country\":\"AT\",\"Region\":\"9\",\"City\":\"vienna\",\"CityLatLong\":\"48.208174,16.373819\",\"User-IP\":\"84.112.103.218\"}";
   char *exp_gps_string = "{\"Country\":\"AT\",\"Region\":\"9\",\"City\":\"vienna\",\"CityLatLong\":\"48.208174,16.373819\"}";
-  char *search_string = ",\"User-IP\":";
-  char *substitution_str = "}";
   char *gps_data = malloc(strlen(gps_json_string) + 1);
   strcpy(gps_data, gps_json_string);
   bool ret = removeIPAddr(gps_data);
@@ -253,16 +378,18 @@ void test_gps_string_parsing_adjustments()
 int main(void)
 {
   UNITY_BEGIN();
+  
   RUN_TEST(test_persistence_lookup);
 
   RUN_TEST(parse_account_info);
   RUN_TEST(parse_account_info_invalid);
+  
   RUN_TEST(test_attest_asset_generic);
   RUN_TEST(test_attest_machine_generic);
   RUN_TEST(private2public_key);
   RUN_TEST(test_pubkey2address_convertion);
   RUN_TEST(test_from_address_to_address_string);
   RUN_TEST(test_gps_string_parsing_adjustments);
-
+  RUN_TEST( test_attest_machine_generic_signed_by_mnemonic);
   return UNITY_END();
 }

@@ -97,7 +97,17 @@ void getPlntmntKeys(){
   
 }
 
+void test_getPlntmntKeys()
+{
+  char localMnemonic[] = "penalty police pool orphan snack faith educate syrup skill picnic prepare mystery dune control near nation report evolve ethics genius elite tool rigid crane";
+  const char* returnedMnemonic  = setSeed( localMnemonic, strlen(localMnemonic) );
 
+  getPlntmntKeys();
+  TEST_ASSERT_EQUAL_STRING("plmnt199zf0vkmehhr2hhdt3e425r5dx4749dmenm35w", sdk_address);
+  TEST_ASSERT_EQUAL_STRING("pmpb7uVnQPmrApcxz8p1fKsbq1GugjP8ys6fT7RRiMG57hXRCZRo4zhDxD5WoS5EwaFnGdJCBKinZaqYzETY89yLDyVzKsMF8mZj8Wx1QEYam3Y", sdk_ext_pub_key_planetmint);
+  TEST_ASSERT_EQUAL_STRING("xpub6FidezPD3CR4ED2wVoDX4RJy95F9Bep11muvgmrGwZHdfhpcLzWdxm1ui5jLAAiekrKiAXng2LScATvTD2xfbaBdoBAFmf2kM2eWYWCTNxS", sdk_ext_pub_key_liquid);
+  TEST_ASSERT_EQUAL_STRING("03E58EC4AE9B60564EDF51A1C9BCF9759C63B276D236CD55F15B02FD226AC2CE3F", sdk_machineid_public_key_hex);
+}
 
 void test_attest_machine_generic_signed_by_mnemonic()
 {
@@ -378,7 +388,6 @@ void test_gps_string_parsing_adjustments()
 int main(void)
 {
   UNITY_BEGIN();
-  
   RUN_TEST(test_persistence_lookup);
 
   RUN_TEST(parse_account_info);
@@ -391,5 +400,6 @@ int main(void)
   RUN_TEST(test_from_address_to_address_string);
   RUN_TEST(test_gps_string_parsing_adjustments);
   RUN_TEST( test_attest_machine_generic_signed_by_mnemonic);
+  RUN_TEST(test_getPlntmntKeys);
   return UNITY_END();
 }

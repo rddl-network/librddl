@@ -50,6 +50,10 @@ bool getMachineIDSignature(  uint8_t* priv_key,  uint8_t* pub_key, uint8_t* sign
 
 bool getMachineIDSignaturePublicKey( uint8_t* priv_key,  uint8_t* pub_key, uint8_t* signature);
 
+const uint8_t * rddl_fromhex(const char *str);
+size_t rddl_toHex(const uint8_t *array, size_t arraySize, char *output, size_t outputSize);
+
+
 #ifdef __cplusplus
 }
 #endif

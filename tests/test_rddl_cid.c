@@ -34,10 +34,40 @@ void test_decode_cid_v1(void) {
 }
 
 
+void test_pop_failure_cid_valid(void) {
+    char expCIDRDDL [] = "bafkreiaxzxpf7aezpaqvzdxqvulpjclkh3gep4ji7g6fj6qm6mgxx3idna";
+    char orgData []= "{\"Time\":\"2024-05-27T11:06:34\"}";
+    uint8_t original_hash[SHA256_DIGEST_LENGTH];
+    sha256(orgData, strlen(orgData), original_hash);
+
+    char* cid = create_cid_v1_from_string( (const char*) orgData  );
+        // Call decode_from_string
+
+    TEST_ASSERT_EQUAL_STRING( expCIDRDDL, cid);
+
+    uint8_t* expected_hash = decode_cid_v1(expCIDRDDL);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(original_hash, expected_hash, SHA256_DIGEST_LENGTH);
+}
+
+void test_pop_failure_cid2_valid(void) {
+    char expCIDTasmota [] = "bafkreiau2g5f6svyy5jnqktmvbq547ovmzigkvjzg5mez6pwf3h3t5mf2m";
+    char orgData []= "{\"Time\":\"2024-05-27T15:47:18\"}";
+    uint8_t original_hash[SHA256_DIGEST_LENGTH];
+    sha256(orgData, strlen(orgData), original_hash);
+
+    char* cid = create_cid_v1_from_string( (const char*) orgData  );
+        // Call decode_from_string
+
+    TEST_ASSERT_EQUAL_STRING( expCIDTasmota, cid);
+}
+
+
 
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_cid_create_from_string);
     RUN_TEST(test_decode_cid_v1);
+    RUN_TEST(test_pop_failure_cid_valid);
+    RUN_TEST(test_pop_failure_cid2_valid);
     return UNITY_END();
 }

@@ -26,6 +26,7 @@ def test_pubKey2AddressConversion():
     ripemdHash = signing.pubkey2address(reference_pubkey[-33:])
     assert bytes(reference_addressbytes) == ripemdHash 
 
+@pytest.mark.skip(reason="hashlib ripemd160 is not implemented on the CI. The test is thus skipped.")
 def test_pubKey2AddressConversion2ndWay():
     ripemdHash = signing.hash160(reference_pubkey[-33:])
     digest = ripemdHash.digest()

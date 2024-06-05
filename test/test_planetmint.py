@@ -3,12 +3,14 @@ import base64
 import hashlib
 
 from planetmintgo.machine import tx_pb2 as MachineTx
+from planetmintgo.dao import tx_pb2 as DaoTx
 from rddl import planetmint
 from rddl import signing
 import binascii
 from bitcoinaddress import segwit_addr
 from ecdsa import SigningKey, SECP256k1, NIST256p
 from ecdsa.util import sigencode_string_canonize
+
 chainID = "planetmintgo"
 sequence = 0
 accountID = 9
@@ -19,12 +21,16 @@ reference_sha = bytearray([31, 236, 15, 94, 16, 55, 101, 147, 213, 70, 37, 62, 3
 expected_address = "plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc"
 
 
-reference_addressbytes = bytearray([46,62,250,9,104,89,242,77,48,250, 188,165,41,197,119,78,195,205,1,70])
+reference_addressbytes = bytearray(
+    [46, 62, 250, 9, 104, 89, 242, 77, 48, 250, 188, 165, 41, 197, 119, 78, 195, 205, 1, 70]
+)
 # Find the m
+
 
 def test_pubKey2AddressConversion():
     ripemdHash = signing.pubkey2address(reference_pubkey[-33:])
-    assert bytes(reference_addressbytes) == ripemdHash 
+    assert bytes(reference_addressbytes) == ripemdHash
+
 
 @pytest.mark.skip(reason="hashlib ripemd160 is not implemented on the CI. The test is thus skipped.")
 def test_pubKey2AddressConversion2ndWay():
@@ -32,22 +38,26 @@ def test_pubKey2AddressConversion2ndWay():
     digest = ripemdHash.digest()
     assert bytes(reference_addressbytes) == digest
 
+
 def test_base32encoding():
     exp_base32enc = bytes(bytearray([0x5, 0x18, 0x1f, 0xf, 0x14, 0x2, 0xb, 0x8, 0xb, 0x7, 0x19, 0x4, 0x1a, 0xc, 0x7, 0x1a, 0x17, 0x12, 0x12, 0x12, 0x13, 0x11, 0xb, 0x17, 0x9, 0x1b, 0x1, 0x1c, 0x1a, 0x0, 0xa, 0x6]))
     base23EncData = signing.base32_encode_unsafe(bytes(reference_addressbytes))
     assert len(exp_base32enc) == len(base23EncData)
     assert exp_base32enc == base23EncData
-    
+
+
 def test_getAddressString():
     base23EncData = signing.base32_encode_unsafe(bytes(reference_addressbytes))
     hrp = "plmnt"
     int_list = [byte for byte in base23EncData]
-    bech32AddressString =segwit_addr.bech32_encode( hrp, int_list)    
+    bech32AddressString = segwit_addr.bech32_encode(hrp, int_list)
     assert expected_address == bech32AddressString
 
+
 def test_getAddressStringFromAddressBytes():
-    bech32AddressString = signing.getAddressStringFromAddressBytes(bytes(reference_addressbytes)) 
+    bech32AddressString = signing.getAddressStringFromAddressBytes(bytes(reference_addressbytes))
     assert expected_address == bech32AddressString
+
 
 def test_getAddressStringFromPubKey():
     bech32AddressString = signing.getAddressStringFromPubKey(reference_pubkey[-33:])
@@ -56,12 +66,12 @@ def test_getAddressStringFromPubKey():
 
 def test_getAnyMachineAttestation():
     expected_tx_b64_bytes_generic_old = "CokECoYECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRLbAwoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSqgMKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAESYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkBIArsZaFJp/BUiIcETm3DRiY76XFy8P6CdrmAFg0UCtC3Q0f4NcSsNU1TcaD7GwzoBlSoAMe6JXpP6TseZcmQJ"
-    #expected_tx_b64_bytes_generic = "CrcECrQECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKJBAoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2AMKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFqLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjElwKSApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIQCgoKBXBsbW50EgEyEMCaDBpAKaK0ktRVgaUnjU1ca6Yy/4ep16IdiSy2sKkRnBZeQoy6kCBFDSfMC2k63TAwFBWpBVR0JwCpHsYCYu/u/0JlYg=="
+    # expected_tx_b64_bytes_generic = "CrcECrQECiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKJBAoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2AMKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFqLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjElwKSApGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQIyjeh4lrnLtRAcM19AAp5L6JiYi0cKu/aD8aCzGNc0cBIQCgoKBXBsbW50EgEyEMCaDBpAKaK0ktRVgaUnjU1ca6Yy/4ep16IdiSy2sKkRnBZeQoy6kCBFDSfMC2k63TAwFBWpBVR0JwCpHsYCYu/u/0JlYg=="
     expected_tx_b64_bytes_generic = "CroFCrcFCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKMBQoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2wQKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAJOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFigAFiNzQ3OWVkYmY1MjNjNTVmNzcxOTkxMzkzZmNlNmI0ODFlZGZhYjRjODVhZGY2MGViMTJiZWI1ZmRjOWMxM2FhYTY3ODUyZDhjZDQyN2EzZGQ1YjkwZjBlNGY5YmRhNjk0ZTQ1M2VmNjI0ZmYwY2RlMjU0YzNiN2NjYzdjZGNkNGoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkAJ927k1UrFEvl41jc0MmUbPOJQ+m7YHGKl0FSa6a3gZiUW1lNPv370E7FMmFPZsLnbahW8d0o67O7dCnS03+9O"
-    expected_tx_b64_bytes_python_generic= 'CroFCrcFCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKMBQoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2wQKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAJOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFigAFiNzQ3OWVkYmY1MjNjNTVmNzcxOTkxMzkzZmNlNmI0ODFlZGZhYjRjODVhZGY2MGViMTJiZWI1ZmRjOWMxM2FhYTY3ODUyZDhjZDQyN2EzZGQ1YjkwZjBlNGY5YmRhNjk0ZTQ1M2VmNjI0ZmYwY2RlMjU0YzNiN2NjYzdjZGNkNGoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkAJ927k1UrFEvl41jc0MmUbPOJQ+m7YHGKl0FSa6a3gZtrpKaywQIEL7E6zZ6wmT0TfRMcqN/5lTtD1VBgbVlHz'
-    #expected_tx_b64_bytes_generic = "CroFCrcFCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKMBQoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2wQKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFigAFiNzQ3OWVkYmY1MjNjNTVmNzcxOTkxMzkzZmNlNmI0ODFlZGZhYjRjODVhZGY2MGViMTJiZWI1ZmRjOWMxM2FhYTY3ODUyZDhjZDQyN2EzZGQ1YjkwZjBlNGY5YmRhNjk0ZTQ1M2VmNjI0ZmYwY2RlMjU0YzNiN2NjYzdjZGNkNGoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSXApICkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEhAKCgoFcGxtbnQSATIQwJoMGkCqur0NdUnNb0fndAl4H/CPD3P/6FvvrDm+DPWurjITstZ9KLdH+P9zUJ4ko+NY37CcsRecWF+XHZurdBf4OMkT"
-    ref_sig_new = b'\t\xf7n\xe4\xd5J\xc5\x12\xf9x\xd6742e\x1b<\xe2P\xfan\xd8\x1cb\xa5\xd0T\x9a\xe9\xad\xe0f\xda\xe9)\xac\xb0@\x81\x0b\xecN\xb3g\xac&OD\xdfD\xc7*7\xfeeN\xd0\xf5T\x18\x1bVQ\xf3'
-    ref_tx_bytes_before_base64 = "\n\272\005\n\267\005\n&/planetmintgo.machine.MsgAttestMachine\022\214\005\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\022\333\004\n\amachine\022\016machine_ticker\032\017lab.r3c.network \001(\350\a0\t:B02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470Boxpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaBJB02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470R|\n3{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}\022,{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}\032\022{\"Version\": \"0.1\"}\"\003CIDX\001b\200\001b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aaa67852d8cd427a3dd5b90f0e4f9bda694e453ef624ff0cde254c3b7ccc7cdcd4j,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\022b\nN\nF\n\037/cosmos.crypto.secp256k1.PubKey\022#\n!\0022\215\350x\226\271˵\020\0343_@\002\236K蘘\213G\n\273\366\203\361\240\263\030\3274p\022\004\n\002\b\001\022\020\n\n\n\005token\022\0012\020\300\232\f\032@\t\367n\344\325J\305\022\371x\326742e\033<\342P\372n\330\034b\245\320T\232\351\255\340f%\026\326SO\277~\364\023\261L\230Sٰ\271\333j\025\274wJ:\354\356\335\nt\264\337\357N"
+    expected_tx_b64_bytes_python_generic = "CroFCrcFCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKMBQoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2wQKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAJOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFigAFiNzQ3OWVkYmY1MjNjNTVmNzcxOTkxMzkzZmNlNmI0ODFlZGZhYjRjODVhZGY2MGViMTJiZWI1ZmRjOWMxM2FhYTY3ODUyZDhjZDQyN2EzZGQ1YjkwZjBlNGY5YmRhNjk0ZTQ1M2VmNjI0ZmYwY2RlMjU0YzNiN2NjYzdjZGNkNGoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkAJ927k1UrFEvl41jc0MmUbPOJQ+m7YHGKl0FSa6a3gZtrpKaywQIEL7E6zZ6wmT0TfRMcqN/5lTtD1VBgbVlHz"
+    # expected_tx_b64_bytes_generic = "CroFCrcFCiYvcGxhbmV0bWludGdvLm1hY2hpbmUuTXNnQXR0ZXN0TWFjaGluZRKMBQoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMS2wQKB21hY2hpbmUSDm1hY2hpbmVfdGlja2VyGg9sYWIucjNjLm5ldHdvcmsgASjoBzAIOkIwMjMyOGRlODc4OTZiOWNiYjUxMDFjMzM1ZjQwMDI5ZTRiZTg5ODk4OGI0NzBhYmJmNjgzZjFhMGIzMThkNzM0NzBCb3hwdWI2NjFNeU13QXFSYmNFaWdSU0dOanpxc1Via294UkhURFlYRFE2bzVrcTZFUVRTWXVYeHdENXpOYkVYRmpDRzNoRG1ZWnFDRTRIRnRjUEFpM1YzTVc5dFRZd3F6TERVdDlCbUh2N2ZQY1dhQkpCMDIzMjhkZTg3ODk2YjljYmI1MTAxYzMzNWY0MDAyOWU0YmU4OTg5ODhiNDcwYWJiZjY4M2YxYTBiMzE4ZDczNDcwUnwKM3siTGF0aXR1ZGUiOiItNDguODc2NjY3IiwiTG9uZ2l0dWRlIjoiLTEyMy4zOTMzMzMifRIseyJNYW51ZmFjdHVyZXIiOiAiUkRETCIsIlNlcmlhbCI6IkFkblQydXl0In0aEnsiVmVyc2lvbiI6ICIwLjEifSIDQ0lEWAFigAFiNzQ3OWVkYmY1MjNjNTVmNzcxOTkxMzkzZmNlNmI0ODFlZGZhYjRjODVhZGY2MGViMTJiZWI1ZmRjOWMxM2FhYTY3ODUyZDhjZDQyN2EzZGQ1YjkwZjBlNGY5YmRhNjk0ZTQ1M2VmNjI0ZmYwY2RlMjU0YzNiN2NjYzdjZGNkNGoscGxtbnQxOWNsMDV6dGd0OGV5NnY4NmhqampuM3RoZm1wdTZxMnh0dmVlaGMSXApICkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEhAKCgoFcGxtbnQSATIQwJoMGkCqur0NdUnNb0fndAl4H/CPD3P/6FvvrDm+DPWurjITstZ9KLdH+P9zUJ4ko+NY37CcsRecWF+XHZurdBf4OMkT"
+    ref_sig_new = b"\t\xf7n\xe4\xd5J\xc5\x12\xf9x\xd6742e\x1b<\xe2P\xfan\xd8\x1cb\xa5\xd0T\x9a\xe9\xad\xe0f\xda\xe9)\xac\xb0@\x81\x0b\xecN\xb3g\xac&OD\xdfD\xc7*7\xfeeN\xd0\xf5T\x18\x1bVQ\xf3"
+    ref_tx_bytes_before_base64 = '\n\272\005\n\267\005\n&/planetmintgo.machine.MsgAttestMachine\022\214\005\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\022\333\004\n\amachine\022\016machine_ticker\032\017lab.r3c.network \001(\350\a0\t:B02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470Boxpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaBJB02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470R|\n3{"Latitude":"-48.876667","Longitude":"-123.393333"}\022,{"Manufacturer": "RDDL","Serial":"AdnT2uyt"}\032\022{"Version": "0.1"}"\003CIDX\001b\200\001b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aaa67852d8cd427a3dd5b90f0e4f9bda694e453ef624ff0cde254c3b7ccc7cdcd4j,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\022b\nN\nF\n\037/cosmos.crypto.secp256k1.PubKey\022#\n!\0022\215\350x\226\271˵\020\0343_@\002\236K蘘\213G\n\273\366\203\361\240\263\030\3274p\022\004\n\002\b\001\022\020\n\n\n\005token\022\0012\020\300\232\f\032@\t\367n\344\325J\305\022\371x\326742e\033<\342P\372n\330\034b\245\320T\232\351\255\340f%\026\326SO\277~\364\023\261L\230Sٰ\271\333j\025\274wJ:\354\356\335\nt\264\337\357N'
     attestMachine = MachineTx.MsgAttestMachine()
     attestMachine.creator = expected_address
     attestMachine.machine.name = "machine"
@@ -74,97 +84,117 @@ def test_getAnyMachineAttestation():
     attestMachine.machine.issuerLiquid = "xpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB"
     attestMachine.machine.machineId = "02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470"
     attestMachine.machine.metadata.additionalDataCID = "CID"
-    attestMachine.machine.metadata.gps = "{\"Latitude\":\"-48.876667\",\"Longitude\":\"-123.393333\"}"
-    attestMachine.machine.metadata.assetDefinition = "{\"Version\": \"0.1\"}"
-    attestMachine.machine.metadata.device = "{\"Manufacturer\": \"RDDL\",\"Serial\":\"AdnT2uyt\"}"
-    attestMachine.machine.type = 1 #RDDL_MACHINE_POWER_SWITCH
+    attestMachine.machine.metadata.gps = '{"Latitude":"-48.876667","Longitude":"-123.393333"}'
+    attestMachine.machine.metadata.assetDefinition = '{"Version": "0.1"}'
+    attestMachine.machine.metadata.device = '{"Manufacturer": "RDDL","Serial":"AdnT2uyt"}'
+    attestMachine.machine.type = 1  # RDDL_MACHINE_POWER_SWITCH
     attestMachine.machine.machineIdSignature = "b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aaa67852d8cd427a3dd5b90f0e4f9bda694e453ef624ff0cde254c3b7ccc7cdcd4"
     attestMachine.machine.address = expected_address
-    
-    anyMsg = planetmint.getAnyMachineAttestation( attestMachine )
+
+    anyMsg = planetmint.getAnyMachineAttestation(attestMachine)
     coin4Fee = planetmint.getCoin("token", "2")
     localSequence = 0
-    rawTx = planetmint.getRawTx(anyMsg, coin4Fee, bytes(reference_pubkey[-33:]) , localSequence)
+    rawTx = planetmint.getRawTx(anyMsg, coin4Fee, bytes(reference_pubkey[-33:]), localSequence)
     assert bytes(ref_auth_info) == rawTx.auth_info_bytes
     assert bytes(ref_raw_tx) == rawTx.body_bytes
-    signDoc = planetmint.getSignDoc( rawTx, chainID, accountID )
+    signDoc = planetmint.getSignDoc(rawTx, chainID, accountID)
     signDocBytes = signDoc.SerializeToString()
     keybytes = bytes(reference_private_key[-32:])
-    shahash = signing.getHash(  signDocBytes)
+    shahash = signing.getHash(signDocBytes)
     assert bytes(ref_hash) == shahash
-    signature = signing.signBytesWithKey( signDocBytes, keybytes )
+    signature = signing.signBytesWithKey(signDocBytes, keybytes)
     assert bytes(ref_sig) == signature
     rawTx.signatures.append(signature)
     rawTxBytes = rawTx.SerializeToString()
     assert bytes(ref_before_b64) == rawTxBytes
     encoded_string = base64.b64encode(rawTxBytes)
-    finalString = encoded_string.decode('utf-8')
-    assert expected_tx_b64_bytes_generic == finalString 
+    finalString = encoded_string.decode("utf-8")
+    assert expected_tx_b64_bytes_generic == finalString
 
 
 def test_getAnyAsset():
     expectedBytes = "Cl0KWwokL3BsYW5ldG1pbnRnby5hc3NldC5Nc2dOb3Rhcml6ZUFzc2V0EjMKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQSZApQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBGAESEAoKCgV0b2tlbhIBMhDAmgwaQJeTV21jy8tDU34uavG30kqSvRz0rvPMOuVxws5Z4LD4fNBywacIMOdlUTRNo1Pwa5x7LNRNXG6cqk7q4i2JUhE="
-    expectedBytesNew = 'Cl0KWwokL3BsYW5ldG1pbnRnby5hc3NldC5Nc2dOb3Rhcml6ZUFzc2V0EjMKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQSXgpKCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwGAESEAoKCgVwbG1udBIBMhDAmgwaQPk5S8EqFntBJ6s1oyPhGxYAe11jW9pX5CR35QOtUE2UifYqhsMsbVpVOeu2Ofl1UFrkeRCFom/m0kURW89pO+8='
-    expectedBytesPythonNew = 'Cl0KWwokL3BsYW5ldG1pbnRnby5hc3NldC5Nc2dOb3Rhcml6ZUFzc2V0EjMKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQSYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkBtgY+T0/7MRWuv01aFE4IQQfHTbxa71uX/hH6c4DqKxH4TtDr1zs8+UIRjU97sHV/lcKQy/VllOXDVKG7hv27D'
-    expSig = b'\xcap\xd4%*V\x89\x9b\xfa\x155\x85\xe4g\x80l\xa2\x10\xef\xb6\xfd\x1c\xdd\xc7\xb1e\xdf\xbf\n\x96\xf4\xf2\x9b\xb2\xbbB*\x10a\xfcV|\xc1\x06\xfd\x9e|\xd0\x8dO\xe1l\x9b\x1a&\xce;d\x08\xf2\t.\xfd\x80'
-    expRawTx = b'\n\\\nZ\n#planetmintgo.asset.MsgNotarizeAsset\x123\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12\x03cid\x12^\nJ\nF\n\x1f/cosmos.crypto.secp256k1.PubKey\x12#\n!\x022\x8d\xe8x\x96\xb9\xcb\xb5\x10\x1c3_@\x02\x9eK\xe8\x98\x98\x8bG\n\xbb\xf6\x83\xf1\xa0\xb3\x18\xd74p\x18\x01\x12\x10\n\n\n\x05plmnt\x12\x012\x10\xc0\x9a\x0c'
-    expDigest = b'\xd4*\xac\x04\xac\x8e\xb26t\x0b`h\xab\xc6\x03\xc2\xc5W<-M\xed\rA\xf2\x81\xc0\xb4\xaf\x07\xc6E'
-    expSignDocBytes = b'\n\\\nZ\n#planetmintgo.asset.MsgNotarizeAsset\x123\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12\x03cid\x12^\nJ\nF\n\x1f/cosmos.crypto.secp256k1.PubKey\x12#\n!\x022\x8d\xe8x\x96\xb9\xcb\xb5\x10\x1c3_@\x02\x9eK\xe8\x98\x98\x8bG\n\xbb\xf6\x83\xf1\xa0\xb3\x18\xd74p\x18\x01\x12\x10\n\n\n\x05plmnt\x12\x012\x10\xc0\x9a\x0c\x1a\x0cplanetmintgo \x08'
-    anyMsg = planetmint.getAnyAsset( expected_address, "cid")
-    coin4Fee = planetmint.getCoin("token", "2") 
-    rawTx = planetmint.getRawTx(anyMsg, coin4Fee, bytes(reference_pubkey[-33:]) , sequence)
+    expectedBytesNew = "Cl0KWwokL3BsYW5ldG1pbnRnby5hc3NldC5Nc2dOb3Rhcml6ZUFzc2V0EjMKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQSXgpKCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwGAESEAoKCgVwbG1udBIBMhDAmgwaQPk5S8EqFntBJ6s1oyPhGxYAe11jW9pX5CR35QOtUE2UifYqhsMsbVpVOeu2Ofl1UFrkeRCFom/m0kURW89pO+8="
+    expectedBytesPythonNew = "Cl0KWwokL3BsYW5ldG1pbnRnby5hc3NldC5Nc2dOb3Rhcml6ZUFzc2V0EjMKLHBsbW50MTljbDA1enRndDhleTZ2ODZoampqbjN0aGZtcHU2cTJ4dHZlZWhjEgNjaWQSYgpOCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAjKN6HiWucu1EBwzX0ACnkvomJiLRwq79oPxoLMY1zRwEgQKAggBEhAKCgoFdG9rZW4SATIQwJoMGkBtgY+T0/7MRWuv01aFE4IQQfHTbxa71uX/hH6c4DqKxH4TtDr1zs8+UIRjU97sHV/lcKQy/VllOXDVKG7hv27D"
+    expSig = b"\xcap\xd4%*V\x89\x9b\xfa\x155\x85\xe4g\x80l\xa2\x10\xef\xb6\xfd\x1c\xdd\xc7\xb1e\xdf\xbf\n\x96\xf4\xf2\x9b\xb2\xbbB*\x10a\xfcV|\xc1\x06\xfd\x9e|\xd0\x8dO\xe1l\x9b\x1a&\xce;d\x08\xf2\t.\xfd\x80"
+    expRawTx = b"\n\\\nZ\n#planetmintgo.asset.MsgNotarizeAsset\x123\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12\x03cid\x12^\nJ\nF\n\x1f/cosmos.crypto.secp256k1.PubKey\x12#\n!\x022\x8d\xe8x\x96\xb9\xcb\xb5\x10\x1c3_@\x02\x9eK\xe8\x98\x98\x8bG\n\xbb\xf6\x83\xf1\xa0\xb3\x18\xd74p\x18\x01\x12\x10\n\n\n\x05plmnt\x12\x012\x10\xc0\x9a\x0c"
+    expDigest = b"\xd4*\xac\x04\xac\x8e\xb26t\x0b`h\xab\xc6\x03\xc2\xc5W<-M\xed\rA\xf2\x81\xc0\xb4\xaf\x07\xc6E"
+    expSignDocBytes = b"\n\\\nZ\n#planetmintgo.asset.MsgNotarizeAsset\x123\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12\x03cid\x12^\nJ\nF\n\x1f/cosmos.crypto.secp256k1.PubKey\x12#\n!\x022\x8d\xe8x\x96\xb9\xcb\xb5\x10\x1c3_@\x02\x9eK\xe8\x98\x98\x8bG\n\xbb\xf6\x83\xf1\xa0\xb3\x18\xd74p\x18\x01\x12\x10\n\n\n\x05plmnt\x12\x012\x10\xc0\x9a\x0c\x1a\x0cplanetmintgo \x08"
+    anyMsg = planetmint.getAnyAsset(expected_address, "cid")
+    coin4Fee = planetmint.getCoin("token", "2")
+    rawTx = planetmint.getRawTx(anyMsg, coin4Fee, bytes(reference_pubkey[-33:]), sequence)
     rawtxdata = rawTx.SerializeToString()
-    #assert rawtxdata == expRawTx
+    # assert rawtxdata == expRawTx
     accountID = 8
-    signDoc = planetmint.getSignDoc( rawTx, chainID, accountID )
+    signDoc = planetmint.getSignDoc(rawTx, chainID, accountID)
     signDocBytes = signDoc.SerializeToString()
-    #assert signDocBytes == expSignDocBytes
+    # assert signDocBytes == expSignDocBytes
     digest = signing.getHash(signDocBytes)
-    #assert digest == expDigest
+    # assert digest == expDigest
     keybytes = bytes(reference_private_key[-32:])
-    signature = signing.signBytesWithKey( signDocBytes,keybytes )
-    #assert signature == expSig 
-    
+    signature = signing.signBytesWithKey(signDocBytes, keybytes)
+    # assert signature == expSig
+
     rawTx.signatures.append(signature)
     rawTxBytes = rawTx.SerializeToString()
     encoded_string = base64.b64encode(rawTxBytes)
-    finalString = encoded_string.decode('utf-8')
+    finalString = encoded_string.decode("utf-8")
     assert expectedBytesPythonNew == finalString
 
+
 def test_secp256k1_machineID():
-    exp_signature = 'b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aa5987ad2732bd85c22a46f0f1b06425956c699df08a49935d9a86231003b9646d'
-    exp_compressedKey = b'02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470'
+    exp_signature = "b7479edbf523c55f771991393fce6b481edfab4c85adf60eb12beb5fdc9c13aa5987ad2732bd85c22a46f0f1b06425956c699df08a49935d9a86231003b9646d"
+    exp_compressedKey = b"02328de87896b9cbb5101c335f40029e4be898988b470abbf683f1a0b318d73470"
     private_key = bytes(reference_private_key[-32:])
     signing_key = SigningKey.from_string(private_key, curve=SECP256k1, hashfunc=hashlib.sha256)
     vk = signing_key.get_verifying_key()
-    compressedKey_hex = binascii.hexlify( vk.to_string(encoding="compressed"))
+    compressedKey_hex = binascii.hexlify(vk.to_string(encoding="compressed"))
 
-    signature = signing_key.sign_deterministic(compressedKey_hex, hashfunc=hashlib.sha256,sigencode=sigencode_string_canonize)
-    assert exp_compressedKey == compressedKey_hex 
+    signature = signing_key.sign_deterministic(
+        compressedKey_hex, hashfunc=hashlib.sha256, sigencode=sigencode_string_canonize
+    )
+    assert exp_compressedKey == compressedKey_hex
     assert exp_signature == signature.hex()
     vk.verify(signature, compressedKey_hex)
-    
 
-    
- 
+
+def test_getAnyPoPResult():
+    pop_result = DaoTx.MsgReportPopResult()
+    pop_result.creator = expected_address
+    pop_result.challenge.initiator = expected_address
+    pop_result.challenge.challenger = expected_address
+    pop_result.challenge.challengee = expected_address
+    pop_result.challenge.height = 20
+    pop_result.challenge.success = True
+    pop_result.challenge.finished = False
+    anyMsg = planetmint.getAnyPopResult(pop_result)
+    assert anyMsg.type_url == "/planetmintgo.dao.MsgReportPopResult"
+    assert (
+        anyMsg.value
+        == b"\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12\x8e\x01\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x1a,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc \x14(\x01"
+    )
+
+
 def test_secp256r1_machineID():
-    exp_signature = '84f43efa663981302aada8776ac658ee12997d4a187a27dd753411afd766ef275c0d120100c5f7dcf01193c379b38c0d9c081b4f973e62d4734ec17395f6dc24'
-    exp_compressedKey = b'03d4c632e834e3e58058b6cc72f4dc6be1e80a8ebd397de09dbb8ac63acb7aff63'
+    exp_signature = "84f43efa663981302aada8776ac658ee12997d4a187a27dd753411afd766ef275c0d120100c5f7dcf01193c379b38c0d9c081b4f973e62d4734ec17395f6dc24"
+    exp_compressedKey = b"03d4c632e834e3e58058b6cc72f4dc6be1e80a8ebd397de09dbb8ac63acb7aff63"
     private_key = bytes(reference_private_key[-32:])
     signing_key = SigningKey.from_string(private_key, curve=NIST256p, hashfunc=hashlib.sha256)
     vk = signing_key.get_verifying_key()
-    compressedKey_hex = binascii.hexlify( vk.to_string(encoding="compressed"))
-    signature = signing_key.sign_deterministic(compressedKey_hex, hashfunc=hashlib.sha256,sigencode=sigencode_string_canonize)
-    assert exp_compressedKey == compressedKey_hex 
+    compressedKey_hex = binascii.hexlify(vk.to_string(encoding="compressed"))
+    signature = signing_key.sign_deterministic(
+        compressedKey_hex, hashfunc=hashlib.sha256, sigencode=sigencode_string_canonize
+    )
+    assert exp_compressedKey == compressedKey_hex
     assert exp_signature == signature.hex()
     vk.verify(signature, compressedKey_hex)
+
 
 def test_auth_info_creation():
     from google.protobuf import any_pb2
     from cosmos.base.v1beta1 import coin_pb2
     from cosmos.tx.v1beta1 import tx_pb2 as cosmosTx
     from cosmos.crypto.secp256k1 import keys_pb2
-
 
     public_key = bytes(reference_pubkey[-33:])
     pubKey = keys_pb2.PubKey()
@@ -173,32 +203,24 @@ def test_auth_info_creation():
     anyPubKey.type_url = "/cosmos.crypto.secp256k1.PubKey"
     anyPubKey.value = pubKey.SerializeToString()
 
-    # modeInfo = cosmosTx.ModeInfo()
-    # modeInfo.Single.mode = 1 #SIGN_MODE_DIRECT
-
     signerInfo = cosmosTx.SignerInfo()
     signerInfo.public_key.type_url = anyPubKey.type_url
     signerInfo.public_key.value = anyPubKey.value
-    #signerInfo.mode_info.sum = 1 #SIGN_MODE_DIRECT
-    signerInfo.mode_info.single.mode = 1 #SIGN_MODE_DIRECT
+    signerInfo.mode_info.single.mode = 1  # SIGN_MODE_DIRECT
     signerInfo.sequence = sequence
-    
-    #fees = cosmosTx.Fee()
-    #fees.amount.append( coin )
-    #fees.gas_limit = 200000
-    
+
+
     coin2 = coin_pb2.Coin()
-    coin2.denom= "token"
+    coin2.denom = "token"
     coin2.amount = "2"
-    
-    auth_info =cosmosTx.AuthInfo()
-    auth_info.signer_infos.append( signerInfo )
+
+    auth_info = cosmosTx.AuthInfo()
+    auth_info.signer_infos.append(signerInfo)
     auth_info.fee.gas_limit = 200000
-    auth_info.fee.amount.append( coin2 )
-    auth_info.fee.payer=""
-    auth_info.fee.granter=""
-    
-    
+    auth_info.fee.amount.append(coin2)
+    auth_info.fee.payer = ""
+    auth_info.fee.granter = ""
+
     serialized = auth_info.SerializeToString()
     assert len(ref_auth_info) == len(serialized)
     assert bytes(ref_auth_info) == serialized
@@ -217,6 +239,7 @@ ref_auth_info = bytearray([0x0a, 0x4e, 0x0a, 0x46, 0x0a, 0x1f, 0x2f, 0x63,\
 0x12, 0x10, 0x0a, 0x0a, 0x0a, 0x05, 0x74, 0x6f,\
 0x6b, 0x65, 0x6e, 0x12, 0x01, 0x32, 0x10, 0xc0,\
 0x9a, 0x0c ] )
+
 
 ref_raw_tx = bytearray([ 0x0a, 0xb7, 0x05, 0x0a, 0x26, 0x2f, 0x70, 0x6c,\
 0x61, 0x6e, 0x65, 0x74, 0x6d, 0x69, 0x6e, 0x74,\
@@ -307,10 +330,12 @@ ref_raw_tx = bytearray([ 0x0a, 0xb7, 0x05, 0x0a, 0x26, 0x2f, 0x70, 0x6c,\
 0x36, 0x71, 0x32, 0x78, 0x74, 0x76, 0x65, 0x65,\
 0x68, 0x63] )
 
+
 ref_hash = bytearray([0xa9, 0x61, 0xbf, 0x96, 0x46, 0x44, 0x42, 0x1d,\
 0xc2, 0xe0, 0x7a, 0x2d, 0xee, 0xb5, 0x41, 0xf1,\
 0x9a, 0x18, 0x79, 0xff, 0x4f, 0x78, 0x14, 0xad,\
 0xdc, 0xa2, 0xea, 0xe2, 0x6c, 0xf2, 0x75, 0x27 ])
+
 
 ref_sig = bytearray([0x09, 0xf7, 0x6e, 0xe4, 0xd5, 0x4a, 0xc5, 0x12,\
 0xf9, 0x78, 0xd6, 0x37, 0x34, 0x32, 0x65, 0x1b,\
@@ -320,16 +345,6 @@ ref_sig = bytearray([0x09, 0xf7, 0x6e, 0xe4, 0xd5, 0x4a, 0xc5, 0x12,\
 0x13, 0xb1, 0x4c, 0x98, 0x53, 0xd9, 0xb0, 0xb9,\
 0xdb, 0x6a, 0x15, 0xbc, 0x77, 0x4a, 0x3a, 0xec,\
 0xee, 0xdd, 0x0a, 0x74, 0xb4, 0xdf, 0xef, 0x4e])
-
-
-#0x7ffff570a520:	0x09	0xf7	0x6e	0xe4	0xd5	0x4a	0xc5	0x12
-#0x7ffff570a528:	0xf9	0x78	0xd6	0x37	0x34	0x32	0x65	0x1b
-#0x7ffff570a530:	0x3c	0xe2	0x50	0xfa	0x6e	0xd8	0x1c	0x62
-#0x7ffff570a538:	0xa5	0xd0	0x54	0x9a	0xe9	0xad	0xe0	0x66
-#0x7ffff570a540:	0x25	0x16	0xd6	0x53	0x4f	0xbf	0x7e	0xf4
-#0x7ffff570a548:	0x13	0xb1	0x4c	0x98	0x53	0xd9	0xb0	0xb9
-#0x7ffff570a550:	0xdb	0x6a	0x15	0xbc	0x77	0x4a	0x3a	0xec
-#0x7ffff570a558:	0xee	0xdd	0x0a	0x74	0xb4	0xdf	0xef	0x4e
 
 
 ref_before_b64 = bytearray([0x0a, 0xba, 0x05, 0x0a, 0xb7, 0x05, 0x0a, 0x26,\

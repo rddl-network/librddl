@@ -30,3 +30,14 @@ jobs:
                   cmake ../
                   make
                   ctest
+
+            - name: Setup python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: 3.12
+
+            - name: Setup python
+              run: pip install -r requirements.txt
+
+            - name: Run python integration tests
+              run: pytest -vvv test

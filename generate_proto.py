@@ -13,7 +13,7 @@ protoc = shutil.which("protoc")
 protoc = "./protoc-linux-amd64"
 
 
-def generate_proto(source, isPython = False):
+def generate_proto(source, isPython=False):
     """
     Call the Protocol Compiler to generate a _pb2.py from the given
     .proto file.  Does nothing if the output already exists and is newer than
@@ -22,10 +22,7 @@ def generate_proto(source, isPython = False):
 
     output = source.replace(".proto", "").replace("./proto/", ".")
 
-    if not os.path.exists(output) or (
-        os.path.exists(source)
-        and os.path.getmtime(source) > os.path.getmtime(output)
-    ):
+    if not os.path.exists(output) or (os.path.exists(source) and os.path.getmtime(source) > os.path.getmtime(output)):
         print(" ~ Generating: %s..." % output)
 
         if not os.path.exists(source):
@@ -41,7 +38,7 @@ def generate_proto(source, isPython = False):
         ]
         if isPython:
             protoc_command[3] = "--python_out=./"
-        
+
         if subprocess.call(protoc_command) != 0:
             sys.exit(-1)
 

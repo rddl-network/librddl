@@ -174,6 +174,15 @@ def test_getAnyPoPResult():
         == b"\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12\x8e\x01\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x1a,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc \x14(\x01"
     )
 
+def test_getAnyRedeemClaimMsg():
+    liquid_address = "xpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB"
+    anyMsg = planetmint.getAnyRedeemClaimMsg(expected_address, liquid_address)
+    assert anyMsg.type_url == "/planetmintgo.dao.MsgCreateRedeemClaim"
+    assert (
+        anyMsg.value
+        == b"\n,plmnt19cl05ztgt8ey6v86hjjjn3thfmpu6q2xtveehc\x12oxpub661MyMwAqRbcEigRSGNjzqsUbkoxRHTDYXDQ6o5kq6EQTSYuXxwD5zNbEXFjCG3hDmYZqCE4HFtcPAi3V3MW9tTYwqzLDUt9BmHv7fPcWaB"
+    )
+
 
 def test_secp256r1_machineID():
     exp_signature = "84f43efa663981302aada8776ac658ee12997d4a187a27dd753411afd766ef275c0d120100c5f7dcf01193c379b38c0d9c081b4f973e62d4734ec17395f6dc24"

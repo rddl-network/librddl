@@ -33,7 +33,7 @@ int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg,
         Planetmintgo__Dao__MsgReportPopResult* popResultMsg);
 
 int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
-        const Planetmintgo__Dao__RedeemClaim* redeemClaimMsg);
+        const Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg);
 
 int prepareTx( Google__Protobuf__Any* anyMsg, 
         Cosmos__Base__V1beta1__Coin* coin,

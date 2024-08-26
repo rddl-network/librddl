@@ -82,6 +82,17 @@ const char* getMnemonic()
   return mnemonic_phrase;
 }
 
+void setRawSeed( char* seed64bytes )
+{
+  memcpy( secret_seed, seed64bytes, SEED_SIZE );
+}
+
+void wipeSeed()
+{
+  for( int i = 0; i< 10; ++i )
+    memset( secret_seed, 0, SEED_SIZE );
+}
+
 const char* setSeed( char* pMnemonic )
 {
   if( !mnemonic_check( pMnemonic ) )

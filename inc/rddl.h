@@ -34,6 +34,8 @@ const uint8_t *fromHexString(const char *str);
 void toHexString(char *hexbuf, uint8_t *str, int strlen);
 
 const char* getMnemonic();
+void setRawSeed( char* seed64bytes );
+void wipeSeed();
 const char* setSeed( char* pMnemonic );
 
 const char* getMnemonicFromSeed( const uint8_t* seed, size_t length );

@@ -27,9 +27,14 @@ char machineid_public_key_hex[33*2+1] = {0};
 const char* getRDDLAddress()          { return (const char*) plmnt_address; }
 const char* getExtPubKeyLiquid()      { return (const char*)ext_pub_key_liquid; }
 const char* getExtPubKeyPlanetmint()  { return (const char*)ext_pub_key_planetmint; }
+const char* getMachinePublicKeyHex()     { return (const char*) machineid_public_key_hex; }
+
 const uint8_t* getPrivKeyLiquid()     { return (const uint8_t*)priv_key_liquid; }
 const uint8_t* getPrivKeyPlanetmint() { return (const uint8_t*)priv_key_planetmint; }
-const char* getMachinePublicKey()     { return (const char*) machineid_public_key_hex; }
+const uint8_t* getPubKeyLiquid()     { return (const uint8_t*)pub_key_liquid; }
+const uint8_t* getPubKeyPlanetmint() { return (const uint8_t*)pub_key_planetmint; }
+const uint8_t* getMachinePublicKey()     { return (const uint8_t*) sdk_machineid_public_key; }
+
 
 
 

@@ -7,9 +7,14 @@
 const char* getRDDLAddress();
 const char* getExtPubKeyLiquid();
 const char* getExtPubKeyPlanetmint();
+const char* getMachinePublicKeyHex();
+
 const uint8_t* getPrivKeyLiquid();
 const uint8_t* getPrivKeyPlanetmint();
-const char* getMachinePublicKey();
+const uint8_t* getPubKeyLiquid();
+const uint8_t* getPubKeyPlanetmint();
+const uint8_t* getMachinePublicKey();
+
 
 bool getPlntmntKeys();
 

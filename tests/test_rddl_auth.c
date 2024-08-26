@@ -1,5 +1,6 @@
 #include "tests.h"
 #include "rddl.h"
+#include "bip39.h"
 
 char pubkey[]  = {'\x51', '\x7f', '\xb7', '\x3e', '\x19', '\x00', '\x85', '\x5e', '\xbd', '\xbc', '\x0d', '\xd8', '\xc9', '\x14', '\xa8', '\x60', '\xc0', '\xeb', '\x57', '\x2e', '\xf8', '\xd6', '\x66', '\x11', '\x38', '\xee', '\xe7', '\xaa', '\x70', '\xd8', '\xa1', '\x46'};
 char base58_pubkey[] = "6V8ycJdv7kPiXpAhCgk6YPrmc35yMnCCvxP4YnGzvhp9";
@@ -21,8 +22,8 @@ void test_key_derivation(){
   char obj[200] = {0};
   size_t len = 200;
   bool result = b58enc( obj, &len, pub_key, 33);
-  //printf("Public key: %s\n",obj);
 
+  TEST_ASSERT( result );
   TEST_ASSERT_EQUAL_MEMORY( "MxEUHGGRdM4Q94xSM8HDwUayuE4hQz3NboY29cDkk5mV", obj, 45);
 
 }
@@ -31,8 +32,8 @@ void test_b58_encode_decode(){
   char obj[200] = {0};
   size_t len = 200;
   bool result = b58enc( obj, &len, pubkey, 32);
-  //printf("PUBKEY: %lu - %s\n", len, obj);
-  //printf("PUBKEY: %s\n", base58_pubkey);
+
+  TEST_ASSERT( result );
   TEST_ASSERT_EQUAL_MEMORY( base58_pubkey, obj, 45);
 }
 
@@ -93,30 +94,27 @@ void rddl_auth_test(){
   mnemonic_to_seed(mnemonic, "TREZOR", seed, 0);
   TEST_ASSERT_TRUE( getKeyFromSeed(seed, priv_key, pub_key, ED25519_NAME) );
   
-  //printf("Public key: %s\n",pub_key);
   size_t len = 200;
   char obj[200] = {0};
   bool result = b58enc( obj, &len, pub_key+1, 32);
-  //printf("Public key: %s\n",obj);
+  TEST_ASSERT( result );
+  
   char pubkey_buf[200] = {0};
   tohexstring( pubkey_buf,(uint8_t*)pub_key+1, 64 );
-  //printf("Public key in hex: %s\n", (char*)pubkey_buf );
+  
 
   len = 200;
   char obj2[200] = {0};
   result = b58enc( obj2, &len, priv_key, 32);
-  //printf("Private key: %s\n",priv_key);
-  //printf("Private key: %s\n",obj2);
+
   char privkey_buf[200] = {0};
   tohexstring( privkey_buf,(uint8_t*)priv_key, 64 );
-  //printf("Private key in hex: %s\n", (char*)privkey_buf );
-
 
   TEST_ASSERT_EQUAL_MEMORY( "3L5Pb63iWF4ifjNohoU6oFcanFRc1jLm5NXKj5ZXf7C6", obj, 45);
 
   const char * challenge = "5f965e52b20ec3ea2be4caf27e5c69b0aa62e94c69f005d157236c027c0f37b09178753aa85472ad62cd856bce33afc7b622e208710e4339608494f988a57801b244fdfe1ab5289d8e53434a355013a83066517b750a4b2b3bb82492f2aed94703c7d36258770b955adfa8549b35ba93452835adc451ff35d146335bb1e760f";
   len = strlen( challenge );
-  //printf("challenge : %s\n", (char*)challenge );
+
   SHA256_CTX ctx;
   char hexbuf[68]={0};
 
@@ -186,12 +184,8 @@ void test_derivation(){
 }
 
 void test_mnemonic_creation(){
-
-  #define SEED_SIZE 64
-  #define SEED_SIZE_MNEMONIC_TO_SEED 32
   uint8_t secret_seed[SEED_SIZE] = {0};
 
-  //esp_fill_random( secret_seed, SEED_SIZE_MNEMONIC_TO_SEED);
   for( int i = 0; i< 16; i++)
     secret_seed[i]= (uint8_t)random();
   // Generate a 12-word mnemonic phrase from the master seed

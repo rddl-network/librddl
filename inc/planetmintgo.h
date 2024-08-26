@@ -23,9 +23,8 @@ bool get_account_info( const char* json_obj, int* account_id, int* sequence );
 void pubkey2address( const uint8_t* pubkey, size_t key_length, uint8_t* address);
 int getAddressString( const uint8_t* address, char* stringbuffer);
 
-int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, const char* cid, 
-        uint8_t* priv_key, uint8_t* pub_key,
-        char *public_address, const char* ext_pub_key);
+int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, const char* cid,
+        const char *public_address);
 
 int generateAnyAttestMachineMsg(Google__Protobuf__Any* anyMsg, 
         Planetmintgo__Machine__MsgAttestMachine* machineMsg);
@@ -34,7 +33,7 @@ int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg,
         Planetmintgo__Dao__MsgReportPopResult* popResultMsg);
 
 int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
-        Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg);
+        const Planetmintgo__Dao__RedeemClaim* redeemClaimMsg);
 
 int prepareTx( Google__Protobuf__Any* anyMsg, 
         Cosmos__Base__V1beta1__Coin* coin,

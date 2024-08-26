@@ -82,7 +82,7 @@ const char* getMnemonic()
   return mnemonic_phrase;
 }
 
-const char* setSeed( char* pMnemonic, size_t len )
+const char* setSeed( char* pMnemonic )
 {
   if( !mnemonic_check( pMnemonic ) )
     return "";
@@ -100,7 +100,7 @@ const char* getMnemonicFromSeed( const uint8_t* seed, size_t length )
   return mnemonic_phrase;
 }
 
-bool getSeedFromMnemonic( const char* pMnemonic, size_t len, uint8_t* seedbuffer )
+bool getSeedFromMnemonic( const char* pMnemonic, uint8_t* seedbuffer )
 {
   if( !mnemonic_check( pMnemonic ) )
     return false;
@@ -128,7 +128,6 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
   uint8_t priv_key[32] = {0};
   uint8_t pub_key[33] = {0};
   uint8_t signature[64] = {0};
-  HDNode node2;
   SHA256_CTX ctx;
   const ecdsa_curve *curve = &secp256k1;
 
@@ -142,6 +141,8 @@ bool SignDataHash(const char* data_str, size_t data_length, char* pubkey_out, ch
   sha256_Final(&ctx, hash);
 
   int res = ecdsa_sign_digest(curve, priv_key, hash, signature, NULL, NULL);
+  if( res != 0 )
+    return res;
   int verified = ecdsa_verify_digest(curve, pub_key, signature, hash);
 
   // prepare and convert outputs to hex-strings

@@ -34,10 +34,10 @@ const uint8_t *fromHexString(const char *str);
 void toHexString(char *hexbuf, uint8_t *str, int strlen);
 
 const char* getMnemonic();
-const char* setSeed( char* pMnemonic, size_t len );
+const char* setSeed( char* pMnemonic );
 
 const char* getMnemonicFromSeed( const uint8_t* seed, size_t length );
-bool getSeedFromMnemonic( const char* pMnemonic, size_t len, uint8_t* seedbuffer );
+bool getSeedFromMnemonic( const char* pMnemonic, uint8_t* seedbuffer );
 
 bool getKeyFromSeed( const uint8_t* seed, uint8_t* priv_key, uint8_t* pub_key, const char* curve_name);
 

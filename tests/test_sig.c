@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "rand.h"
 #include "hmac_drbg.h"
 #include "secp256k1.h"
 #include "rddl.h"
@@ -12,7 +13,7 @@ void test_b58tobin() {
   size_t binsz = 32 ;
   uint8_t pubkey_test[32] = {0};
   b58tobin( pubkey_test, &binsz, base58_pubkey);
-  memcmp( pubkey, pubkey_test, 32 );
+
   //TEST_ASSERT_EQUAL( 0, memcmp( pubkey , pubkey_test , 32 ) );
   TEST_ASSERT_EQUAL_INT8_ARRAY( pubkey, pubkey_test, 32 );
 }
@@ -89,9 +90,8 @@ void test_from_hex_to_hex()
   size_t inputLen = strlen((const char*)input);
   const uint8_t * inputInBytes = rddl_fromhex(input);
 
-  uint8_t outStr [65] ={0};
-  size_t strLen = rddl_toHex(inputInBytes, inputLen/2, outStr, 65);
-
+  char outStr [65] ={0};
+  rddl_toHex(inputInBytes, inputLen/2, outStr, 65);
   TEST_ASSERT_TRUE( strcmp( (const char*) input, (const char*)outStr) == 0 );
 
 }

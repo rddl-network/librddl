@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "sha2.h"
 #include "ripemd160.h"
@@ -38,11 +39,9 @@ int getAddressString(const uint8_t *address, char *stringbuffer)
 {
     const char *hrp = "plmnt";
     size_t data_len = 32;
-    uint8_t paddingbuffer[32] = {0};
     uint8_t base32_enc[100] = {0};
     base32_encode_unsafe(address, 20, base32_enc);
 
-    size_t len = strlen((const char*)base32_enc);
     return bech32_encode(stringbuffer, hrp, base32_enc, data_len);
 }
 
@@ -177,6 +176,8 @@ int prepareTx( Google__Protobuf__Any* anyMsg, Cosmos__Base__V1beta1__Coin* coin,
     unsigned char signature[64] = {0};
     const ecdsa_curve *curve = &secp256k1;
     int res = ecdsa_sign_digest(curve, (const unsigned char *)priv_key, (const unsigned char *)digest, signature, NULL, NULL);
+    if( res != 0)
+        return res;
 
     ProtobufCBinaryData sig;
     sig.len=64;
@@ -216,7 +217,7 @@ int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__Ms
 }
 
 int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
-    Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg){
+    const Planetmintgo__Dao__RedeemClaim* redeemClaimMsg){
     anyMsg->type_url = "/planetmintgo.dao.MsgCreateRedeemClaim";
     anyMsg->value.len = planetmintgo__dao__redeem_claim__get_packed_size( redeemClaimMsg );
     anyMsg->value.data = (uint8_t*)getStack(anyMsg->value.len);
@@ -227,12 +228,12 @@ int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg,
     return 0;
 }
 
-int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, const char* cid, uint8_t* priv_key, uint8_t* pub_key, char* public_address, const char* ext_pub_key)
+int generateAnyCIDAttestMsg( Google__Protobuf__Any* anyMsg, const char* cid, const char* public_address)
 {
 
     Planetmintgo__Asset__MsgNotarizeAsset msg = PLANETMINTGO__ASSET__MSG_NOTARIZE_ASSET__INIT;
 
-    msg.creator = public_address;
+    msg.creator = (char*)public_address;
     msg.cid = (char*)cid;
 
 

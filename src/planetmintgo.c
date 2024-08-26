@@ -217,14 +217,14 @@ int generateAnyPoPResultMsg(Google__Protobuf__Any* anyMsg, Planetmintgo__Dao__Ms
 }
 
 int generateAnyRedeemClaimMsg(Google__Protobuf__Any* anyMsg, 
-    const Planetmintgo__Dao__RedeemClaim* redeemClaimMsg){
+    const Planetmintgo__Dao__MsgCreateRedeemClaim* redeemClaimMsg){
     anyMsg->type_url = "/planetmintgo.dao.MsgCreateRedeemClaim";
-    anyMsg->value.len = planetmintgo__dao__redeem_claim__get_packed_size( redeemClaimMsg );
+    anyMsg->value.len = planetmintgo__dao__msg_create_redeem_claim__get_packed_size( redeemClaimMsg );
     anyMsg->value.data = (uint8_t*)getStack(anyMsg->value.len);
     if( !anyMsg->value.data )
         return -1;
 
-    planetmintgo__dao__redeem_claim__pack(redeemClaimMsg,anyMsg->value.data);
+    planetmintgo__dao__msg_create_redeem_claim__pack(redeemClaimMsg,anyMsg->value.data);
     return 0;
 }
 

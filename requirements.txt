@@ -6,7 +6,7 @@ ecdsa==0.19.0
 iniconfig==2.0.0
 packaging==24.0
 pluggy==1.5.0
-protobuf==5.26.1
+protobuf==5.29.6
 pyasn1==0.6.0
 pycparser==2.22
 pytest==8.1.1

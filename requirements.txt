@@ -2,7 +2,7 @@ base58==2.1.1
 bech32==1.2.0
 bitcoinaddress==0.1.5
 cffi==1.16.0
-ecdsa==0.19.0
+ecdsa==0.19.2
 iniconfig==2.0.0
 packaging==24.0
 pluggy==1.5.0
